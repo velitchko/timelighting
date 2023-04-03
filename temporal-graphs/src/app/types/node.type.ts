@@ -1,9 +1,8 @@
 type Node = {
     id: string | number;
     label: string;
-    x: number;
-    y: number;
-    t: number;
+    time: Array<number>;
+    coordinates: Array<{ x: number, y: number }>;
 };
 
 export default Node;
