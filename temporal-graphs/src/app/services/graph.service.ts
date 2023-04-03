@@ -46,19 +46,19 @@ export class GraphService {
 
         // if node exists, add coordinates and time
         if (found) {
-          found.coordinates.push({ x: coords[0], y: coords[1] });
-          found.coordinates.push({ x: coords[2], y: coords[3] });
+          found.coordinates.push({ x: +coords[0], y: +coords[1] });
+          found.coordinates.push({ x: +coords[2], y: +coords[3] });
 
-          found.time.push(times[0]);
-          found.time.push(times[1]);
+          found.time.push(+times[0]);
+          found.time.push(+times[1]);
         } 
         // else create new node
         else {
           const newNode: Node = {
             id: id,
             label: `node-${node.id}`,
-            time: [times[0], times[1]],
-            coordinates: [{ x: coords[0], y: coords[1] }, { x: coords[2], y: coords[3] }]
+            time: [+times[0], +times[1]],
+            coordinates: [{ x: +coords[0], y: +coords[1] }, { x: +coords[2], y: +coords[3] }]
           };
           this.graph.nodes.push(newNode);
         }
