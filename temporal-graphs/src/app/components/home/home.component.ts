@@ -128,18 +128,10 @@ export class HomeComponent implements AfterViewInit {
       (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom)) / 2
     ]);
 
-    const densityXExtent = d3.extent([
-      -(this.graphWidth - (this.graphMargin.left + this.graphMargin.right)) / 2, 
-      (this.graphWidth - (this.graphMargin.left + this.graphMargin.right)) / 2
-    ]);
+    
 
-    const densityYExtent = d3.extent([
-      -(this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom)) / 2,
-      (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom)) / 2
-    ]);
-
-    this.densityXScale.domain(densityXExtent as Array<number>).range([0, this.graphWidth]);
-    this.densityYScale.domain(densityYExtent as Array<number>).range([0, this.graphHeight]);
+    this.densityXScale.domain(xExtent as Array<number>).range([0, (this.graphWidth - (this.graphMargin.left + this.graphMargin.right))]);
+    this.densityYScale.domain(yExtent as Array<number>).range([0, (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))]);
 
     const timeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.time)));
     
@@ -266,16 +258,14 @@ export class HomeComponent implements AfterViewInit {
     });
 
     const densityData = d3.contourDensity()
-      .x((d: any) => this.coordinateXScale(d.x)) // FIXME: scales need to be reworked according to size
-      .y((d: any) => this.coordinateYScale(d.y))
-      .size([ // FIXME: size cannot have negative values
-        this.graphWidth, 
-        this.graphHeight
+      .x((d: any) => this.densityXScale(d.x))
+      .y((d: any) => this.densityYScale(d.y))
+      .size([
+        (this.graphWidth - (this.graphMargin.left + this.graphMargin.right)), 
+        (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))
       ])
       .bandwidth(20)
-      (zipped.map((z: any) => z.coordinates))
-
-    console.log(densityData);
+      (zipped.map((z: any) => z.coordinates));
 
     // draw density
     this.graphSVG?.select('#graph-wrapper')
@@ -287,7 +277,17 @@ export class HomeComponent implements AfterViewInit {
       .append('path')
       .attr('class', 'density')
       .attr('d', d3.geoPath())
-      .attr('fill', (d: any) => this.colorScale(d.value*10000));
+      .attr('fill', (d: any) => this.colorScale(d.value*10000))
+      .attr('stroke', 'black')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 1)
+      .attr('opacity', 0.25)
+      .attr('transform', `translate
+        (
+          ${-1*(this.graphWidth - (this.graphMargin.left + this.graphMargin.right))/2}, 
+          ${-1*(this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))/2}
+        )
+      `);
   }
 
   private drawTimeline() {
