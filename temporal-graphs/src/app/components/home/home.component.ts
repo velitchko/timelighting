@@ -1,8 +1,7 @@
-import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
 import Graph from '../../types/graph.type';
 import { GraphService } from '../../services/graph.service';
-import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +17,10 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild('timelineContainer', { static: true }) timelineContainer: ElementRef | null;
   private timelineSVG: d3.Selection<SVGSVGElement, unknown, null, any> | null;
 
-  constructor(private data: GraphService) {
+  constructor(private graphService: GraphService) {
     this.graph = null;
+
+    this.graphService.loadData();
 
     this.graphContainer = null;
     this.graphSVG = null;
@@ -29,7 +30,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.data.getGraph().subscribe((data: Graph) => {
+    this.graphService.getGraph().subscribe((data: Graph) => {
       this.graph = data;
 
       this.setup();
@@ -59,6 +60,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   private drawGraph() {
+    
   }
 
   private drawTimeline() {
