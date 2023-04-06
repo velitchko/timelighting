@@ -51,6 +51,16 @@ export class GraphService {
 
           found.time.push(+times[0]);
           found.time.push(+times[1]);
+
+          // calculate difference between first and last time
+          found.age = found.time[found.time.length - 1] - found.time[0];
+
+          // calculate differences between each times and add to array
+          if (!found.ages) found.ages = [];
+
+          for (let i = 0; i < found.time.length - 1; i++) {
+            found.ages.push(found.time[i + 1] - found.time[i]);
+          }
         } 
         // else create new node
         else {
@@ -58,7 +68,9 @@ export class GraphService {
             id: id,
             label: `node-${node.id}`,
             time: [+times[0], +times[1]],
-            coordinates: [{ x: +coords[0], y: +coords[1] }, { x: +coords[2], y: +coords[3] }]
+            coordinates: [{ x: +coords[0], y: +coords[1] }, { x: +coords[2], y: +coords[3] }],
+            age: 0,
+            ages: [0]
           };
           this.graph.nodes.push(newNode);
         }
