@@ -11,7 +11,7 @@ export class GraphService {
 
   private graph: Graph;
 
-  constructor() { 
+  constructor() {
     this.graph = {
       nodes: [],
       edges: []
@@ -37,7 +37,7 @@ export class GraphService {
         const parsedPosition = position.string.replace(/[\])}[{(]/g, '');
 
         const parts = parsedPosition.split(':');
-        
+
         const times = parts[0].split(',');
         const coords = parts[1].split(',');
 
@@ -51,17 +51,7 @@ export class GraphService {
 
           found.time.push(+times[0]);
           found.time.push(+times[1]);
-
-          // calculate difference between first and last time
-          found.age = found.time[found.time.length - 1] - found.time[0];
-
-          // calculate differences between each times and add to array
-          if (!found.ages) found.ages = [];
-
-          for (let i = 0; i < found.time.length - 1; i++) {
-            found.ages.push(found.time[i + 1] - found.time[0]);
-          }
-        } 
+        }
         // else create new node
         else {
           const newNode: Node = {
@@ -75,6 +65,18 @@ export class GraphService {
           this.graph.nodes.push(newNode);
         }
       });
+    });
+
+    this.graph.nodes.forEach((node: Node) => {
+      // calculate difference between first and last time
+      node.age = node.time[node.time.length - 1] - node.time[0];
+
+      // calculate differences between each times and add to array
+      if (node.ages) {
+        for (let i = 0; i < node.time.length - 1; i++) {
+          node.ages.push(node.time[i + 1] - node.time[0]);
+        }
+      }
     });
   }
 
