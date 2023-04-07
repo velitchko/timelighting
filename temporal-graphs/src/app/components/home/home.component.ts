@@ -37,7 +37,7 @@ export class HomeComponent implements AfterViewInit {
   // continous viridis color scale
   private colorScale: d3.ScaleSequential<string>;
 
-  private timeScale: d3.ScaleLinear<number, number> | null;
+  private timeScale: d3.ScaleLinear<number, number>;
 
   private absoluteAgeScale: d3.ScaleLinear<number, number>;
   private relativeAgeScale: d3.ScaleLinear<number, number>;
@@ -74,7 +74,7 @@ export class HomeComponent implements AfterViewInit {
 
     this.colorScale = d3.scaleSequential(d3.interpolateViridis);
 
-    this.timeScale = null;
+    this.timeScale = d3.scaleLinear();
 
     this.absoluteAgeScale = d3.scaleLinear();
     this.relativeAgeScale = d3.scaleLinear();
@@ -308,6 +308,58 @@ export class HomeComponent implements AfterViewInit {
 
   // TODO: implement this
   private drawTimeline() {
-    this.timelineSVG?.select('.timeline-wrapper');
+    // check if graph is loaded
+    if (!this.graph) {
+      // try again in 1 second
+      setTimeout(() => this.drawGraph(), 1000);
+      return;
+    };
+
+    // get node intervals and sort them
+    const intervals = new Array<{ id: string | number, start: number, end: number }>();
+    this.graph.nodes.forEach((node: Node) => {
+
+      node.time.forEach((time: number, index: number) => {
+        if(index === node.time.length - 1) return;
+
+        intervals.push({
+          id: node.id,
+          start: time,
+          end: node.time[index + 1]
+        })
+      });
+    });
+
+    console.log(this.graph.nodes);
+    console.log(intervals);
+
+    let yCoordMap = new Map<string | number, number>();
+    let yCounter = 0;
+    this.timelineSVG?.select('.timeline-wrapper')
+      .append('g')
+      .attr('id', 'intervals-wrapper')
+      .selectAll('rect')
+      .data(intervals)
+      .enter()
+      .append('rect')
+      .attr('class', 'interval')
+      .attr('x', (d: { id: string | number, start: number, end: number }) => this.timeScale(d.start))
+      .attr('y', (d: { id: string | number, start: number, end: number }) => {
+        if(!yCoordMap.has(d.id)) {
+          yCoordMap.set(d.id, yCounter);
+          yCounter += 5;
+        }
+
+        return yCoordMap.get(d.id) || 0;
+      })
+      .attr('width', (d: { id: string | number, start: number, end: number }) => this.timeScale(d.end) - this.timeScale(d.start))
+      .attr('height', 4)
+      .attr('fill', () => {
+        // return random hex color
+        return '#' + Math.floor(Math.random()*16777215).toString(16);
+      })
+      .attr('opacity', 0.5);
+
+      console.log(yCoordMap);
   }
 }
