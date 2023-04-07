@@ -59,7 +59,7 @@ export class GraphService {
           if (!found.ages) found.ages = [];
 
           for (let i = 0; i < found.time.length - 1; i++) {
-            found.ages.push(found.time[i + 1] - found.time[i]);
+            found.ages.push(found.time[i + 1] - found.time[0]);
           }
         } 
         // else create new node

@@ -39,6 +39,9 @@ export class HomeComponent implements AfterViewInit {
 
   private timeScale: d3.ScaleLinear<number, number> | null;
 
+  private absoluteAgeScale: d3.ScaleLinear<number, number>;
+  private relativeAgeScale: d3.ScaleLinear<number, number>;
+
   constructor(private graphService: GraphService) {
     this.graph = null;
 
@@ -72,6 +75,9 @@ export class HomeComponent implements AfterViewInit {
     this.colorScale = d3.scaleSequential(d3.interpolateViridis);
 
     this.timeScale = null;
+
+    this.absoluteAgeScale = d3.scaleLinear();
+    this.relativeAgeScale = d3.scaleLinear();
   }
 
   ngAfterViewInit() {
@@ -79,8 +85,8 @@ export class HomeComponent implements AfterViewInit {
       this.graph = data;
 
       this.setup();
-      this.drawGraph();
       this.drawDensity();
+      this.drawGraph();
       this.drawTimeline();
     });
   }
@@ -126,9 +132,7 @@ export class HomeComponent implements AfterViewInit {
     this.coordinateYScale.domain(yExtent as Array<number>).range([
       -(this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom)) / 2, 
       (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom)) / 2
-    ]);
-
-    
+    ]); 
 
     this.densityXScale.domain(xExtent as Array<number>).range([0, (this.graphWidth - (this.graphMargin.left + this.graphMargin.right))]);
     this.densityYScale.domain(yExtent as Array<number>).range([0, (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))]);
@@ -136,10 +140,19 @@ export class HomeComponent implements AfterViewInit {
     const timeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.time)));
     
     this.colorScale.domain(timeExtent as Array<number>);
+
     this.timeScale = d3.scaleLinear().domain(timeExtent as Array<number>).range([
       0 + this.graphMargin.left, 
       this.timelineWidth - this.graphMargin.right
     ]);
+
+    const absoluteAgeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.age ? node.age : 0)));
+
+    this.absoluteAgeScale = d3.scaleLinear().domain(absoluteAgeExtent as Array<number>).range([0.1, 1]);
+
+    const relativeAgeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.ages ? node.ages : 0)));
+  
+    this.relativeAgeScale = d3.scaleLinear().domain(relativeAgeExtent as Array<number>).range([0.1, 1]);
   }
 
   private drawGraph() {
@@ -192,12 +205,16 @@ export class HomeComponent implements AfterViewInit {
         label: string
       }) => this.coordinateYScale(d.coordinates.y))
       .attr('r', 5)
-      .attr('fill', (d: {
-        time: number,
-        coordinates: { x: number, y: number },
-        id: string | number,
-        label: string
-      }) => d3.interpolateRainbow(d.time));
+      .attr('fill', 'transparent')
+      .attr('stroke', 'black')
+      .attr('stroke-width', 2)
+      .attr('opacity', 1);
+      // .attr('fill', (d: {
+      //   time: number,
+      //   coordinates: { x: number, y: number },
+      //   id: string | number,
+      //   label: string
+      // }) => d3.interpolateRainbow(d.time));
 
 
     // draw labels
@@ -238,34 +255,33 @@ export class HomeComponent implements AfterViewInit {
     };
 
     // zip time and coordinates
-    let zipped = new Array<{
-      time: number,
-      coordinates: { x: number, y: number }
-      id: string | number,
-      label: string
-    }>();
-
+    const zipped = new Array<{ id: string | number, x: number, y: number, time: number, age: number }>();
     this.graph.nodes.forEach((node: Node) => {
-      const zip = _.zip(node.time, node.coordinates);
-      zip.forEach((z: any) => {
+  
+      node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
         zipped.push({
-          time: z[0],
-          coordinates: z[1],
           id: node.id,
-          label: node.label
+          x: coordinate.x,
+          y: coordinate.y,
+          time: node.time[index],
+          age: node.ages ? node.ages[index] : 0
         });
       });
     });
 
-    const densityData = d3.contourDensity()
-      .x((d: any) => this.densityXScale(d.x))
-      .y((d: any) => this.densityYScale(d.y))
+    const densityData = d3.contourDensity<{ id: string | number, x: number, y: number, time: number, age: number }>()
+      .x((d: { id: string | number, x: number, y: number, time: number, age: number }) => this.densityXScale(d.x))
+      .y((d: { id: string | number, x: number, y: number, time: number, age: number }) => this.densityYScale(d.y))
       .size([
         (this.graphWidth - (this.graphMargin.left + this.graphMargin.right)), 
         (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))
       ])
       .bandwidth(20)
-      (zipped.map((z: any) => z.coordinates));
+      .weight((d: { id: string | number, x: number, y: number, time: number, age: number }) => {
+        //return this.relativeAgeScale(d.age); 
+        return 1;
+      })
+      (zipped);
 
     // draw density
     this.graphSVG?.select('#graph-wrapper')
@@ -290,6 +306,7 @@ export class HomeComponent implements AfterViewInit {
       `);
   }
 
+  // TODO: implement this
   private drawTimeline() {
     this.timelineSVG?.select('.timeline-wrapper');
   }
