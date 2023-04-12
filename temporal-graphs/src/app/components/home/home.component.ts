@@ -107,6 +107,8 @@ export class HomeComponent implements AfterViewInit {
       this.setup();
       this.drawDensity();
       this.drawNodes();
+      this.drawLinks();
+      this.drawTrajectories();
       this.drawTimeline();
     });
   }
@@ -373,6 +375,13 @@ export class HomeComponent implements AfterViewInit {
       .attr('opacity', (d: { id: string | number, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); });
   }
 
+  
+  private drawLinks() {
+
+  }
+
+  private drawTrajectories() {
+  }
 
   private drawDensity() {
     // check if graph is loaded
