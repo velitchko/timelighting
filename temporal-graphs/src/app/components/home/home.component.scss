@@ -1,6 +1,6 @@
 #graph-container {
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,7 +10,7 @@
 #timeline-container {
     width: 100vw;
     height: 20vh;
-    display: flex;
+    display: absolute;
     flex-direction: column;
     align-items: center;
     justify-content: center;
