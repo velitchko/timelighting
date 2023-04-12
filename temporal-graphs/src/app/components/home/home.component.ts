@@ -42,7 +42,9 @@ export class HomeComponent implements AfterViewInit {
   private absoluteAgeScale: d3.ScaleLinear<number, number>;
   private relativeAgeScale: d3.ScaleLinear<number, number>;
 
-  constructor(private graphService: GraphService) {
+  private showNodes: boolean = true;
+  private showDensities: boolean = true;
+  private showLabels: boolean = true;
     this.graph = null;
 
     this.graphWidth = 0;
@@ -89,6 +91,29 @@ export class HomeComponent implements AfterViewInit {
       this.drawGraph();
       this.drawTimeline();
     });
+  }
+
+  private toggleVisibility(group: string, show: boolean) {
+    d3.select(`#${group}`)
+      .attr('display', show ? 'block' : 'none');
+  }
+
+  public toggleGroup(group: string) {
+    // toggle svg group visibility based on passed string
+    switch(group) {
+      case 'nodes':
+        this.showNodes = !this.showNodes;
+        this.toggleVisibility('nodes-wrapper', this.showNodes);
+        break;
+      case 'densities':
+        this.showDensities = !this.showDensities;
+        this.toggleVisibility('densities-wrapper', this.showDensities);
+        break;
+      case 'labels': 
+        this.showLabels = !this.showLabels;
+        this.toggleVisibility('labels-wrapper', this.showLabels);
+        break;
+    }
   }
 
   private setup() {

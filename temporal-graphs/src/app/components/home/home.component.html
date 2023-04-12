@@ -1,2 +1,9 @@
+<!-- buttons to toggle svg groups with tailwindcss-->
+<div class="flex flex-row justify-center">
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="toggleGroup('nodes')">Nodes</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="toggleGroup('densities')">Density</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="toggleGroup('labels')">Labels</button>
+</div>
+
 <div id="graph-container" #graphContainer></div>
 <div id="timeline-container" #timelineContainer></div>
