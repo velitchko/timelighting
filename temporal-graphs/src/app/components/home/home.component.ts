@@ -224,6 +224,24 @@ export class HomeComponent implements AfterViewInit {
     this.updateDensity(t0, t1);
   }
 
+  private nodeMouseOver($event: MouseEvent) {
+    // select and highlight node
+    if(!$event) return;
+
+    const id = ($event.target as Element).id;
+    this.graphSVG?.select(`#${id}`)
+      .attr('fill', 'red');
+  }
+
+  private nodeMouseOut($event: MouseEvent) {
+    // unselect and unhighlight node
+    if(!$event) return;
+
+    const id = ($event.target as Element).id;
+    this.graphSVG?.select("#nodes-wrapper")
+      .selectAll('circle')
+      .attr('fill', 'gray');
+  }
 
   private zoomGraph($event: d3.D3ZoomEvent<SVGGElement, any>) {
     console.log($event);
