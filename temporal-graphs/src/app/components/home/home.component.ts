@@ -45,22 +45,29 @@ export class HomeComponent implements AfterViewInit {
   private showNodes: boolean = true;
   private showDensities: boolean = true;
   private showLabels: boolean = true;
-    this.graph = null;
 
+  constructor(private graphService: GraphService, private route: ActivatedRoute) {
+    
+    this.graph = null;
+    
     this.graphWidth = 0;
     this.graphHeight = 0;
-
+    
     this.graphMargin = {
       top: 20,
       right: 20,
       bottom: 20,
       left: 20
     };
-
+    
     this.timelineWidth = 0;
     this.timelineHeight = 0;
-
-    this.graphService.loadData();
+    
+    // get parameter from url
+    this.route.queryParams
+    .subscribe((params: Params) => {
+      params['graph'] ? this.graphService.loadData(params['graph']) : this.graphService.loadData();
+    });
 
     this.graphContainer = null;
     this.graphSVG = null;
