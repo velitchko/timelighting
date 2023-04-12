@@ -290,7 +290,7 @@ export class HomeComponent implements AfterViewInit {
 
     // zip time and coordinates
       // zip time and coordinates
-      const zipped = new Array<{ id: string | number, x: number, y: number, time: number, age: number }>();
+      const zipped = new Array<{ id: string | number, x: number, y: number, time: number, age: number, index: number }>();
       this.graph.nodes.forEach((node: Node) => {
     
         node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
@@ -299,7 +299,8 @@ export class HomeComponent implements AfterViewInit {
             x: coordinate.x,
             y: coordinate.y,
             time: node.time[index],
-            age: node.ages ? node.ages[index] : 0
+            age: node.ages ? node.ages[index] : 0,
+            index: index
           });
         });
       });
@@ -315,18 +316,21 @@ export class HomeComponent implements AfterViewInit {
       .enter()
       .append('circle')
       .attr('class', 'node')
-      .attr('cx', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateXScale(d.x))
-      .attr('cy', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y))
+      .attr('cx', (d: { id: string | number, x: number, y: number, time: number, age: number, index: number }) => this.coordinateXScale(d.x))
+      .attr('cy', (d: { id: string | number, x: number, y: number, time: number, age: number, index: number }) => this.coordinateYScale(d.y))
       .attr('r', 8)
       .attr('fill', 'gray')
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
-      .attr('stroke-opacity', (d: { id: string | number, x: number, y: number, time: number, age: number }) => {
+      .attr('stroke-opacity', (d: { id: string | number, x: number, y: number, time: number, age: number, index: number }) => {
         return this.relativeAgeScale(d.age);
       })
-      .attr('opacity', (d: { id: string | number, x: number, y: number, time: number, age: number }) => {
+      .attr('opacity', (d: { id: string | number, x: number, y: number, time: number, age: number, index: number }) => {
         return this.relativeAgeScale(d.age);
-      });
+      })
+      .attr('id', (d: { id: string | number, x: number, y: number, time: number, age: number, index: number }) => `node-${d.id}-${d.index}`)
+      .on('mouseover', this.nodeMouseOver.bind(this))
+      .on('mouseout', this.nodeMouseOut.bind(this));
       // .attr('fill', (d: {
       //   time: number,
       //   coordinates: { x: number, y: number },
