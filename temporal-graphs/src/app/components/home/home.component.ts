@@ -46,6 +46,8 @@ export class HomeComponent implements AfterViewInit {
   private timeBrush: d3.BrushBehavior<unknown>;
   private timeXAxis: d3.Axis<number | { valueOf(): number; }>;
 
+  private graphZoom: d3.ZoomBehavior<SVGGElement, unknown>;
+
   private showNodes: boolean = true;
   private showDensities: boolean = true;
   private showLabels: boolean = true;
@@ -94,6 +96,8 @@ export class HomeComponent implements AfterViewInit {
 
     this.timeBrush = d3.brushX();
     this.timeXAxis = d3.axisBottom(this.timeScale);
+
+    this.graphZoom = d3.zoom();
   }
 
   ngAfterViewInit() {
@@ -197,6 +201,12 @@ export class HomeComponent implements AfterViewInit {
     const relativeAgeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.ages ? node.ages : 0)));
   
     this.relativeAgeScale = d3.scaleLinear().domain(relativeAgeExtent as Array<number>).range([0.1, 1]);
+
+    this.graphZoom
+      .extent([[0, 0], [this.graphWidth, this.graphHeight]])
+      .scaleExtent([0.1, 10])
+      .on('zoom', this.zoomGraph.bind(this));
+
   }
 
   private brushed($event: d3.D3BrushEvent<unknown>) {
@@ -212,6 +222,13 @@ export class HomeComponent implements AfterViewInit {
     this.updateGraph(t0, t1);
     // update density
     this.updateDensity(t0, t1);
+  }
+
+
+  private zoomGraph($event: d3.D3ZoomEvent<SVGGElement, any>) {
+    console.log($event);
+    this.graphSVG?.select('#graph-wrapper')
+      .attr('transform', `${$event.transform}`);
   }
 
   private updateGraph(start: number, end: number) {
@@ -286,6 +303,8 @@ export class HomeComponent implements AfterViewInit {
           });
         });
       });
+
+    this.graphSVG?.call(<any>this.graphZoom);
 
     // draw nodes
     this.graphSVG?.select('#graph-wrapper')
