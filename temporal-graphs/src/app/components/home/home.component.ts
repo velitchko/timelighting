@@ -424,7 +424,7 @@ export class HomeComponent implements AfterViewInit {
     // check if graph is loaded
     if (!this.graph) {
       // try again in 1 second
-      setTimeout(() => this.drawGraph(), 1000);
+      setTimeout(() => this.drawTimeline(), 1000);
       return;
     };
 
