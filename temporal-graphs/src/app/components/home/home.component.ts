@@ -6,7 +6,6 @@ import Node from '../../types/node.type';
 import Edge from '../../types/edge.type';
 import { GraphService } from '../../services/graph.service';
 import * as _ from 'lodash';
-import { NumberSymbol } from '@angular/common';
 
 @Component({
   selector: 'app-home',
