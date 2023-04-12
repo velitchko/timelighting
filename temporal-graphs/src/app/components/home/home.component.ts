@@ -106,7 +106,7 @@ export class HomeComponent implements AfterViewInit {
 
       this.setup();
       this.drawDensity();
-      this.drawGraph();
+      this.drawNodes();
       this.drawTimeline();
     });
   }
@@ -297,12 +297,12 @@ export class HomeComponent implements AfterViewInit {
             return 0;
       }});
   }
-
-  private drawGraph() {
+  
+  private drawNodes() {
     // check if graph is loaded
     if (!this.graph) {
       // try again in 1 second
-      setTimeout(() => this.drawGraph(), 1000);
+      setTimeout(() => this.drawNodes(), 1000);
       return;
     };
 
