@@ -348,9 +348,11 @@ export class HomeComponent implements AfterViewInit {
       .enter()
       .append('text')
       .attr('class', 'node-label')
+      .attr('pointer-events', 'none')
       .text((d: { id: string | number, x: number, y: number, time: number, age: number }) => `node-${d.id}`)
       .attr('x', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateXScale(d.x))
-      .attr('y', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y));
+      .attr('y', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y))
+      .attr('opacity', (d: { id: string | number, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); });
   }
 
   private drawDensity() {
