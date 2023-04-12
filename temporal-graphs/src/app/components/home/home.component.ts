@@ -1,10 +1,12 @@
 import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import * as d3 from 'd3';
 import Graph from '../../types/graph.type';
 import Node from '../../types/node.type';
 import Edge from '../../types/edge.type';
 import { GraphService } from '../../services/graph.service';
 import * as _ from 'lodash';
+import { NumberSymbol } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +44,9 @@ export class HomeComponent implements AfterViewInit {
   private absoluteAgeScale: d3.ScaleLinear<number, number>;
   private relativeAgeScale: d3.ScaleLinear<number, number>;
 
+  private timeBrush: d3.BrushBehavior<unknown>;
+  private timeXAxis: d3.Axis<number | { valueOf(): number; }>;
+
   private showNodes: boolean = true;
   private showDensities: boolean = true;
   private showLabels: boolean = true;
@@ -54,10 +59,10 @@ export class HomeComponent implements AfterViewInit {
     this.graphHeight = 0;
     
     this.graphMargin = {
-      top: 20,
-      right: 20,
-      bottom: 20,
-      left: 20
+      top: 10,
+      right: 10,
+      bottom: 10,
+      left: 10
     };
     
     this.timelineWidth = 0;
@@ -87,6 +92,9 @@ export class HomeComponent implements AfterViewInit {
 
     this.absoluteAgeScale = d3.scaleLinear();
     this.relativeAgeScale = d3.scaleLinear();
+
+    this.timeBrush = d3.brushX();
+    this.timeXAxis = d3.axisBottom(this.timeScale);
   }
 
   ngAfterViewInit() {
@@ -149,7 +157,12 @@ export class HomeComponent implements AfterViewInit {
     this.timelineSVG
       .attr('width', this.timelineWidth)
       .attr('height', this.timelineHeight)
-      .append('g').attr('class', 'timeline-wrapper');
+      .append('g')
+      .attr('id', 'timeline-wrapper');
+
+    this.timeBrush.extent([[this.graphMargin.left, this.graphMargin.top], [this.timelineWidth - this.graphMargin.right, this.timelineHeight - (this.graphMargin.top + this.graphMargin.bottom)]])
+      .on('end', this.brushed.bind(this));
+
 
     const coords = _.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.coordinates));
 
@@ -185,6 +198,70 @@ export class HomeComponent implements AfterViewInit {
     const relativeAgeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.ages ? node.ages : 0)));
   
     this.relativeAgeScale = d3.scaleLinear().domain(relativeAgeExtent as Array<number>).range([0.1, 1]);
+  }
+
+  private brushed($event: d3.D3BrushEvent<unknown>) {
+    // get brush extent
+    if(!$event.selection) return;
+
+    const extent = $event.selection;
+
+    const t0 = this.timeScale.invert(<number>extent[0]);
+    const t1 = this.timeScale.invert(<number>extent[1]);
+
+    // update graph
+    this.updateGraph(t0, t1);
+    // update density
+    this.updateDensity(t0, t1);
+  }
+
+  private updateGraph(start: number, end: number) {
+    // update graph nodes
+    this.graphSVG?.select('#graph-wrapper')
+      .selectAll('circle')
+      .attr('fill', (d: any) => {
+        if (d.time >= start && d.time <= end) {
+          return 'gray';
+        } else {
+          return 'transparent';
+        }
+      })
+      .attr('stroke-opacity', (d: any) => {
+        if (d.time >= start && d.time <= end) {
+          return 1;
+          } else {
+            return 0;
+      }});
+    // update graph labels
+    this.graphSVG?.select('#graph-wrapper')
+      .selectAll('text')
+      .attr('fill', (d: any) => {
+        if (d.time >= start && d.time <= end) {
+          return 'black';
+        } else {
+          return 'transparent';
+        }
+      });
+  }
+
+  private updateDensity(start: number, end: number) {
+    // update density
+    this.graphSVG?.select('#density-wrapper')
+      .selectAll('rect')
+      // .attr('d', d3.geoPath())
+      .attr('opacity', (d: any) => {
+        if (d.time >= start && d.time <= end) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+      .attr('stroke-opacity', (d: any) => {
+        if (d.time >= start && d.time <= end) {
+          return 1;
+          } else {
+            return 0;
+      }});
   }
 
   private drawGraph() {
@@ -284,7 +361,7 @@ export class HomeComponent implements AfterViewInit {
         (this.graphWidth - (this.graphMargin.left + this.graphMargin.right)), 
         (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))
       ])
-      .bandwidth(20)
+      .bandwidth(50)
       .weight((d: { id: string | number, x: number, y: number, time: number, age: number }) => {
         return this.relativeAgeScale(d.age); 
         // return 1;
@@ -327,50 +404,71 @@ export class HomeComponent implements AfterViewInit {
     };
 
     // get node intervals and sort them
-    const intervals = new Array<{ id: string | number, start: number, end: number }>();
+    // const intervals = new Array<{ id: string | number, start: number, end: number }>();
+    // this.graph.nodes.forEach((node: Node) => {
+
+    //   node.time.forEach((time: number, index: number) => {
+    //     if(index === node.time.length - 1) return;
+
+    //     intervals.push({
+    //       id: node.id,
+    //       start: time,
+    //       end: node.time[index + 1]
+    //     })
+    //   });
+    // });
+
+    const points = new Array<{ id: string | number, time: number }>();
+    const radius = 2
+
     this.graph.nodes.forEach((node: Node) => {
-
-      node.time.forEach((time: number, index: number) => {
-        if(index === node.time.length - 1) return;
-
-        intervals.push({
+      node.time.forEach((time: number) => {
+        points.push({
           id: node.id,
-          start: time,
-          end: node.time[index + 1]
-        })
+          time: time
+        });
       });
     });
 
-    console.log(this.graph.nodes);
-    console.log(intervals);
-
-    let yCoordMap = new Map<string | number, number>();
-    let yCounter = 0;
-    this.timelineSVG?.select('.timeline-wrapper')
+    this.timelineSVG?.select('#timeline-wrapper')
       .append('g')
-      .attr('id', 'intervals-wrapper')
-      .selectAll('rect')
-      .data(intervals)
+      .call(this.timeBrush)
+      .call(this.timeBrush.move, [this.graphMargin.left, this.timelineWidth - this.graphMargin.right]);
+
+    // append axis
+    this.timelineSVG?.select('#timeline-wrapper')
+      .append('g')
+      .attr('id', 'axis-wrapper')
+      .attr('transform', `translate(0, ${this.timelineHeight - (this.graphMargin.bottom + this.graphMargin.top)})`)
+      .call(d3.axisBottom(this.timeScale));
+
+    // append points as circles that dont overlap
+    let yCoordMap = new Map<string | number, number>();
+    let yCounter = this.graphMargin.top + radius*2;
+
+    this.timelineSVG?.select('#timeline-wrapper')
+      .append('g')
+      .attr('id', 'points-wrapper')
+      .selectAll('circle')
+      .data(points)
       .enter()
-      .append('rect')
-      .attr('class', 'interval')
-      .attr('x', (d: { id: string | number, start: number, end: number }) => this.timeScale(d.start))
-      .attr('y', (d: { id: string | number, start: number, end: number }) => {
+      .append('circle')
+      .attr('class', 'points')
+      .attr('cx', (d: { id: string | number, time: number }) => radius + this.timeScale(d.time))
+      .attr('cy', (d: { id: string | number, time: number }) => {
         if(!yCoordMap.has(d.id)) {
           yCoordMap.set(d.id, yCounter);
-          yCounter += 5;
+          yCounter += radius*2.5;
         }
 
         return yCoordMap.get(d.id) || 0;
       })
-      .attr('width', (d: { id: string | number, start: number, end: number }) => this.timeScale(d.end) - this.timeScale(d.start))
-      .attr('height', 4)
+      .attr('r', radius)
+      // .attr('width', (d: { id: string | number, start: number, end: number }) => this.timeScale(d.end) - this.timeScale(d.start))
+      // .attr('height', 4)
       .attr('fill', () => {
         // return random hex color
-        return '#' + Math.floor(Math.random()*16777215).toString(16);
+        return '#e6ab02';
       })
-      .attr('opacity', 0.5);
-
-      console.log(yCoordMap);
   }
 }
