@@ -355,11 +355,12 @@ export class HomeComponent implements AfterViewInit {
       .attr('opacity', (d: { id: string | number, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); });
   }
 
+
   private drawDensity() {
     // check if graph is loaded
     if (!this.graph) {
       // try again in 1 second
-      setTimeout(() => this.drawGraph(), 1000);
+      setTimeout(() => this.drawDensity(), 1000);
       return;
     };
 
