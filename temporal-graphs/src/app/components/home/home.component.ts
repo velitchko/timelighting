@@ -286,8 +286,8 @@ export class HomeComponent implements AfterViewInit {
       ])
       .bandwidth(20)
       .weight((d: { id: string | number, x: number, y: number, time: number, age: number }) => {
-        //return this.relativeAgeScale(d.age); 
-        return 1;
+        return this.relativeAgeScale(d.age); 
+        // return 1;
       })
       (zipped);
 
@@ -305,7 +305,10 @@ export class HomeComponent implements AfterViewInit {
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
       .attr('stroke-opacity', 1)
-      .attr('opacity', 0.25)
+      .attr('opacity', (d: any) => {
+        // return 1;
+        return d.value*1000;
+      })
       .attr('transform', `translate
         (
           ${-1*(this.graphWidth - (this.graphMargin.left + this.graphMargin.right))/2}, 
