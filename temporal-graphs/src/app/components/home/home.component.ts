@@ -112,7 +112,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   private toggleVisibility(group: string, show: boolean) {
-    d3.select(`#${group}`)
+    this.graphSVG?.select(`#${group}`)
       .attr('display', show ? 'block' : 'none');
   }
 
