@@ -196,24 +196,20 @@ export class HomeComponent implements AfterViewInit {
     };
 
     // zip time and coordinates
-    let zipped = new Array<{
-      time: number,
-      coordinates: { x: number, y: number }
-      id: string | number,
-      label: string
-    }>();
-
-    this.graph.nodes.forEach((node: Node) => {
-      const zip = _.zip(node.time, node.coordinates);
-      zip.forEach((z: any) => {
-        zipped.push({
-          time: z[0],
-          coordinates: z[1],
-          id: node.id,
-          label: node.label
+      // zip time and coordinates
+      const zipped = new Array<{ id: string | number, x: number, y: number, time: number, age: number }>();
+      this.graph.nodes.forEach((node: Node) => {
+    
+        node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
+          zipped.push({
+            id: node.id,
+            x: coordinate.x,
+            y: coordinate.y,
+            time: node.time[index],
+            age: node.ages ? node.ages[index] : 0
+          });
         });
       });
-    });
 
     // draw nodes
     this.graphSVG?.select('#graph-wrapper')
@@ -224,23 +220,18 @@ export class HomeComponent implements AfterViewInit {
       .enter()
       .append('circle')
       .attr('class', 'node')
-      .attr('cx', (d: {
-        time: number,
-        coordinates: { x: number, y: number }
-        id: string | number,
-        label: string
-      }) => this.coordinateXScale(d.coordinates.x))
-      .attr('cy', (d: {
-        time: number,
-        coordinates: { x: number, y: number }
-        id: string | number,
-        label: string
-      }) => this.coordinateYScale(d.coordinates.y))
-      .attr('r', 5)
-      .attr('fill', 'transparent')
+      .attr('cx', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateXScale(d.x))
+      .attr('cy', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y))
+      .attr('r', 8)
+      .attr('fill', 'gray')
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
-      .attr('opacity', 1);
+      .attr('stroke-opacity', (d: { id: string | number, x: number, y: number, time: number, age: number }) => {
+        return this.relativeAgeScale(d.age);
+      })
+      .attr('opacity', (d: { id: string | number, x: number, y: number, time: number, age: number }) => {
+        return this.relativeAgeScale(d.age);
+      });
       // .attr('fill', (d: {
       //   time: number,
       //   coordinates: { x: number, y: number },
@@ -258,24 +249,9 @@ export class HomeComponent implements AfterViewInit {
       .enter()
       .append('text')
       .attr('class', 'node-label')
-      .text((d: {
-        time: number,
-        coordinates: { x: number, y: number },
-        id: string | number,
-        label: string
-      }) => d.label)
-      .attr('x', (d: {
-        time: number,
-        coordinates: { x: number, y: number },
-        id: string | number,
-        label: string
-      }) => this.coordinateXScale(d.coordinates.x))
-      .attr('y', (d: {
-        time: number,
-        coordinates: { x: number, y: number },
-        id: string | number,
-        label: string
-      }) => this.coordinateYScale(d.coordinates.y));
+      .text((d: { id: string | number, x: number, y: number, time: number, age: number }) => `node-${d.id}`)
+      .attr('x', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateXScale(d.x))
+      .attr('y', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y));
   }
 
   private drawDensity() {
