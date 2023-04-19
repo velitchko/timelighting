@@ -35,6 +35,9 @@ export class HomeComponent implements AfterViewInit {
   private densityXScale: d3.ScaleLinear<number, number>;
   private densityYScale: d3.ScaleLinear<number, number>;
 
+  private areaChartXScale: d3.ScaleLinear<number, number>;
+  private areaChartYScale: d3.ScaleLinear<number, number>;
+
   // continous viridis color scale
   private colorScale: d3.ScaleSequential<string>;
 
@@ -89,6 +92,9 @@ export class HomeComponent implements AfterViewInit {
     this.densityXScale = d3.scaleLinear();
     this.densityYScale = d3.scaleLinear();
 
+    this.areaChartXScale = d3.scaleLinear();
+    this.areaChartYScale = d3.scaleLinear();
+
     this.colorScale = d3.scaleSequential(d3.interpolateViridis);
 
     this.timeScale = d3.scaleLinear();
@@ -111,7 +117,8 @@ export class HomeComponent implements AfterViewInit {
       this.drawNodes();
       this.drawLinks();
       this.drawTrajectories();
-      this.drawTimeline();
+      this.drawAreaChart();
+      // this.drawTimeline();
     });
   }
 
@@ -193,8 +200,32 @@ export class HomeComponent implements AfterViewInit {
     this.densityXScale.domain(xExtent as Array<number>).range([0, (this.graphWidth - (this.graphMargin.left + this.graphMargin.right))]);
     this.densityYScale.domain(yExtent as Array<number>).range([0, (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))]);
 
+  
+    // reduce node time array and sum up the amount of nodes per time convert toy array and sort by time
+    const timeCount = _.reduce(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.time)), (acc: any, time: number) => {
+      acc[time] = (acc[time] || 0) + 1;
+      return acc;
+    }, {});
+
+    const times = _.sortBy(_.map(timeCount, (count: number, time: string) => {
+      return {
+        time: parseFloat(time),
+        count: count
+      }
+    }), 'time');
+
     const timeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.time)));
-    
+
+    this.areaChartXScale.domain(timeExtent as Array<number>).range([ 
+      0 + this.graphMargin.left, 
+      this.timelineWidth - this.graphMargin.right
+    ]);
+
+    this.areaChartYScale.domain([0, d3.max(times, (d: any ) => d.count)]).range([
+      this.timelineHeight - (this.graphMargin.bottom + this.graphMargin.top),
+      0 + this.graphMargin.top
+    ]);
+
     this.colorScale.domain(timeExtent as Array<number>);
 
     this.timeScale = d3.scaleLinear().domain(timeExtent as Array<number>).range([
@@ -538,7 +569,90 @@ export class HomeComponent implements AfterViewInit {
       `);
   }
 
-  // TODO: implement this
+  private drawAreaChart() {
+     // check if graph is loaded
+    if (!this.graph) {
+      // try again in 1 second
+      setTimeout(() => this.drawAreaChart(), 1000);
+      return;
+    };
+
+    // calculate number of nodes per time
+    const nodesPerTime = new Array<{ time: number, count: number }>();
+
+    this.graph.nodes.forEach((node: Node) => {
+      node.time.forEach((time: number, index: number) => {
+        const nodePerTime = nodesPerTime.find((npt: { time: number, count: number }) => npt.time === time);
+        if (nodePerTime) {
+          nodePerTime.count += 1;
+        } else {
+          nodesPerTime.push({
+            time: time,
+            count: 1
+          });
+        }
+      });
+    });
+
+    nodesPerTime.sort((a: { time: number, count: number }, b: { time: number, count: number }) => a.time - b.time);
+
+    this.timelineSVG?.select('#timeline-wrapper')
+    .append('g')
+    .call(this.timeBrush)
+    .call(this.timeBrush.move, [this.graphMargin.left, this.timelineWidth - this.graphMargin.right]);
+
+  // append axis
+  this.timelineSVG?.select('#timeline-wrapper')
+    .append('g')
+    .attr('id', 'axis-wrapper')
+    .attr('transform', `translate(0, ${this.timelineHeight - (this.graphMargin.bottom + this.graphMargin.top)})`)
+    .call(d3.axisBottom(this.timeScale));
+
+    // draw area chart
+    this.timelineSVG?.select('#timeline-wrapper')
+      .append('g')
+      .attr('id', 'area-wrapper')
+      .append('path')
+      .attr('d', (d: any) => { 
+        return d3.area<any>()
+                .curve(d3.curveMonotoneX)
+                .x((d: any) => {
+                  return this.areaChartXScale(d.time)
+                })
+                .y0(this.areaChartYScale(0))
+                .y1((d: any) => {
+                  return this.areaChartYScale(d.count)
+                })
+                .bind(this)(nodesPerTime);
+      })
+      .attr('fill', 'gray')
+      .attr('fill-opacity', 0.5);
+
+      // draw line on top of area chart
+      this.timelineSVG?.select('#timeline-wrapper')
+      .append('g')
+      .attr('id', 'line-wrapper')
+      .append('path')
+      .attr('d', (d: any) => {
+        return d3.line<any>()
+                .curve(d3.curveMonotoneX)
+                .x((d: any) => {
+                  return this.areaChartXScale(d.time)
+                })
+                .y((d: any) => {
+                  return this.areaChartYScale(d.count)
+                })
+                .bind(this)(nodesPerTime);
+      }
+      )
+      .attr('fill', 'none')
+      .attr('stroke', 'black')
+      .attr('stroke-width', 2);
+    
+
+  }
+
+  // OLD CODE
   private drawTimeline() {
     // check if graph is loaded
     if (!this.graph) {
