@@ -327,7 +327,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   private zoomGraph($event: d3.D3ZoomEvent<SVGGElement, any>) {
-    console.log($event);
+    if(!$event) return;
     this.graphSVG?.select('#graph-wrapper')
       .attr('transform', `${$event.transform}`);
   }
