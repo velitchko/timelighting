@@ -48,9 +48,11 @@ export class HomeComponent implements AfterViewInit {
 
   private graphZoom: d3.ZoomBehavior<SVGGElement, unknown>;
 
-  private showNodes: boolean = true;
-  private showDensities: boolean = true;
-  private showLabels: boolean = true;
+  protected showNodes: boolean = true;
+  protected showDensities: boolean = true;
+  protected showLabels: boolean = true;
+
+  protected showTrajectories: boolean = true;
 
   constructor(private graphService: GraphService, private route: ActivatedRoute) {
     
@@ -134,6 +136,10 @@ export class HomeComponent implements AfterViewInit {
         this.toggleVisibility('labels-wrapper', this.showLabels);
         break;
     }
+  }
+
+  public toggleMouseOver() {
+    this.showTrajectories = !this.showTrajectories;
   }
 
   private setup() {
@@ -233,6 +239,38 @@ export class HomeComponent implements AfterViewInit {
     const id = ($event.target as Element).id;
     this.graphSVG?.select(`#${id}`)
       .attr('fill', 'red');
+
+    const trajectoryId = `trajectory-${id.split('-')[1]}`;
+    // show trajectories of the current node id else show neighboring edges
+    if(this.showTrajectories) {
+      this.graphSVG?.select('#trajectories-wrapper')
+        .selectAll('path')
+        .attr('stroke-opacity', (d: any) => {
+          if (d.id === trajectoryId) {
+            return 1;
+            } else {
+              return 0;
+            }
+        })
+        .attr('stroke', 'red');
+    } else {
+      this.graphSVG?.select('#edges-wrapper')
+        .selectAll('line')
+        .attr('stroke', (d: any) => {
+          if (d.source.id === id || d.target.id === id) {
+            return 'red';
+          } else {
+            return 'transparent';
+          }
+        })
+        .attr('stroke-opacity', (d: any) => {
+          if (d.source.id === id || d.target.id === id) {
+            return 'red';
+          } else {
+            return 'transparent';
+          }
+        });
+    }
   }
 
   private nodeMouseOut($event: MouseEvent) {
@@ -243,6 +281,18 @@ export class HomeComponent implements AfterViewInit {
     this.graphSVG?.select("#nodes-wrapper")
       .selectAll('circle')
       .attr('fill', 'gray');
+
+    // hide trajectories of the current node id else hide neighboring edges
+    if(this.showTrajectories) {
+      this.graphSVG?.select('#trajectories-wrapper')
+        .selectAll('path')
+        .attr('stroke-opacity', 0);
+    } else {
+      this.graphSVG?.select('#edges-wrapper')
+        .selectAll('line')
+        .attr('stroke', 'gray')
+        .attr('stroke-opacity', 1);
+    }
   }
 
   private zoomGraph($event: d3.D3ZoomEvent<SVGGElement, any>) {
@@ -381,6 +431,48 @@ export class HomeComponent implements AfterViewInit {
   }
 
   private drawTrajectories() {
+    if(!this.graph) {
+      setTimeout(() => this.drawTrajectories(), 1000);
+      return;
+    }
+
+    // create trajectories from pairs of nodes
+    const trajectories = new Array<{ x0: number, y0: number, x1: number, y1: number, id: string}>();
+    this.graph.nodes.forEach((node: Node) => {
+      // iterate over coordinates and create trajectories
+      node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
+        if (index < node.coordinates.length - 1) {
+          trajectories.push({
+            x0: coordinate.x,
+            y0: coordinate.y,
+            x1: node.coordinates[index + 1].x,
+            y1: node.coordinates[index + 1].y,
+            id: `trajectory-${node.id}`
+          });
+        }
+      });
+    });
+
+    // draw trajectories between pairs of nodes
+    this.graphSVG?.select('#graph-wrapper')
+      .append('g')
+      .attr('id', 'trajectories-wrapper')
+      .selectAll('path')
+      .data(trajectories)
+      .enter()
+      .append('path')
+      .attr('class', 'trajectory')
+      .attr('d', (d: { x0: number, y0: number, x1: number, y1: number, id: string}) => {
+          return d3.line()([
+            [this.coordinateXScale(d.x0), this.coordinateYScale(d.y0)],
+            [this.coordinateXScale(d.x1), this.coordinateYScale(d.y1)]
+          ]);
+      })
+      .attr('id', (d: { x0: number, y0: number, x1: number, y1: number, id: string}) => d.id)
+      .attr('stroke', 'black')
+      .attr('stroke-width', 2)
+      .attr('fill', 'none')
+      .attr('stroke-opacity', 0);  
   }
 
   private drawDensity() {

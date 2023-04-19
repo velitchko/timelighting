@@ -1,14 +1,30 @@
 <div id="graph-container" #graphContainer></div>
 <div id="timeline-container" #timelineContainer></div>
 
-<div class="inline-flex rounded-md shadow-sm z-100 absolute" role="group">
-    <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700" (click)="toggleGroup('nodes')">
-        Nodes
-    </button>
-    <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700" (click)="toggleGroup('densities')">
-        Density
-    </button>
-    <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700" (click)="toggleGroup('labels')">
-        Labels
-    </button>
+<div class="inline-flex rounded-md shadow-sm z-100 absolute m-2" role="group">
+            <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
+                (click)="toggleGroup('nodes')"
+                [ngClass]="{ 'text-white bg-blue-600'  : showNodes, 'text-gray-900 bg-white' : !showNodes}">
+                Nodes
+            </button>
+            <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
+                (click)="toggleGroup('densities')"
+                [ngClass]="{ 'text-white bg-blue-600'  : showDensities, 'text-gray-900 bg-white' : !showDensities}">
+                Density
+            </button>
+            <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
+                (click)="toggleGroup('labels')"
+                [ngClass]="{ 'text-white bg-blue-600'  : showLabels, 'text-gray-900 bg-white' : !showLabels}">
+                Labels
+            </button>
+            <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
+                (click)="toggleMouseOver()"
+                [ngClass]="{ 'text-white bg-blue-600'  : showTrajectories, 'text-gray-900 bg-white' : !showTrajectories}">
+                Trajectories
+            </button>
+            <button class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
+                (click)="toggleMouseOver()"
+                [ngClass]="{ 'text-white bg-blue-600'  : !showTrajectories, 'text-gray-900 bg-white' : showTrajectories}">
+                Edges
+            </button>
 </div>
