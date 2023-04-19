@@ -455,7 +455,6 @@ export class HomeComponent implements AfterViewInit {
       .attr('y', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y))
       .attr('opacity', (d: { id: string | number, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); });
   }
-
   
   private drawLinks() {
 
