@@ -116,10 +116,10 @@ export class HomeComponent implements AfterViewInit {
       this.graph = data;
 
       this.setup();
-      this.drawDensity();
       this.drawLinks();
       this.drawTrajectories();
       this.drawNodes();
+      this.drawDensity();
       this.drawAreaChart();
       // this.drawTimeline();
     });
@@ -166,9 +166,34 @@ export class HomeComponent implements AfterViewInit {
       .attr('height', this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))
       .append('g')
       .attr('id', 'graph-wrapper')
+    
+
+    this.graphSVG.append('g')
+      .attr('id', 'links-wrapper')
       .attr('transform', `translate(
         ${this.graphWidth / 2}, ${this.graphHeight / 2})
-      `);
+      `);;
+
+    this.graphSVG.append('g')
+      .attr('id', 'trajectories-wrapper')
+      .attr('transform', `translate(
+        ${this.graphWidth / 2}, ${this.graphHeight / 2})
+      `);;
+
+    this.graphSVG.append('g')
+      .attr('id', 'densities-wrapper');
+
+    this.graphSVG.append('g')
+      .attr('id', 'nodes-wrapper')
+      .attr('transform', `translate(
+        ${this.graphWidth / 2}, ${this.graphHeight / 2})
+      `);;
+
+    this.graphSVG.append('g')
+      .attr('id', 'labels-wrapper')
+      .attr('transform', `translate(
+        ${this.graphWidth / 2}, ${this.graphHeight / 2})
+      `);;
 
     this.timelineSVG = d3.select(this.timelineContainer?.nativeElement).append('svg');
 
@@ -251,7 +276,6 @@ export class HomeComponent implements AfterViewInit {
       .extent([[0, 0], [this.graphWidth, this.graphHeight]])
       .scaleExtent([0.1, 10])
       .on('zoom', this.zoomGraph.bind(this));
-
   }
 
   private brushed($event: d3.D3BrushEvent<unknown>) {
@@ -287,7 +311,7 @@ export class HomeComponent implements AfterViewInit {
       this.graphSVG?.select('#trajectories-wrapper')
         .selectAll('path')
         .attr('stroke-opacity', (d: any) => {
-          if(d.t0 < this.start || d.t1 > this.end) return 0;
+          if (d.t0 < this.start || d.t1 > this.end) return 0;
           if (d.id === trajectoryId) {
             return this.relativeAgeScale(d.age);
           } else {
@@ -318,7 +342,7 @@ export class HomeComponent implements AfterViewInit {
     // unselect and unhighlight node
     if (!$event) return;
 
-    const id = ($event.target as Element).id;
+    // const id = ($event.target as Element).id;
     this.graphSVG?.select("#nodes-wrapper")
       .selectAll('circle')
       .attr('fill', 'gray');
@@ -389,24 +413,9 @@ export class HomeComponent implements AfterViewInit {
   }
 
   private updateDensity(start: number, end: number) {
-    // update density
-    this.graphSVG?.select('#density-wrapper')
-      .selectAll('rect')
-      // .attr('d', d3.geoPath())
-      .attr('opacity', (d: any) => {
-        if (d.time >= start && d.time <= end) {
-          return 1;
-        } else {
-          return 0;
-        }
-      })
-      .attr('stroke-opacity', (d: any) => {
-        if (d.time >= start && d.time <= end) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+    if (!this.graph) return;
+
+    this.drawDensity(start, end);
   }
 
   private drawNodes() {
@@ -437,9 +446,7 @@ export class HomeComponent implements AfterViewInit {
     this.graphSVG?.call(<any>this.graphZoom);
 
     // draw nodes
-    this.graphSVG?.select('#graph-wrapper')
-      .append('g')
-      .attr('id', 'nodes-wrapper')
+    this.graphSVG?.select('#nodes-wrapper')
       .selectAll('circle')
       .data(zipped)
       .enter()
@@ -469,9 +476,7 @@ export class HomeComponent implements AfterViewInit {
 
 
     // draw labels
-    this.graphSVG?.select('#graph-wrapper')
-      .append('g')
-      .attr('id', 'labels-wrapper')
+    this.graphSVG?.select('#labels-wrapper')
       .selectAll('text')
       .data(zipped)
       .enter()
@@ -515,9 +520,7 @@ export class HomeComponent implements AfterViewInit {
     });
 
     // draw trajectories between pairs of nodes
-    this.graphSVG?.select('#graph-wrapper')
-      .append('g')
-      .attr('id', 'trajectories-wrapper')
+    this.graphSVG?.select('#trajectories-wrapper')
       .selectAll('path')
       .data(trajectories)
       .enter()
@@ -536,7 +539,7 @@ export class HomeComponent implements AfterViewInit {
       .attr('stroke-opacity', 0);
   }
 
-  private drawDensity() {
+  private drawDensity(start?: number, end?: number) {
     // check if graph is loaded
     if (!this.graph) {
       // try again in 1 second
@@ -546,9 +549,10 @@ export class HomeComponent implements AfterViewInit {
 
     // zip time and coordinates
     const zipped = new Array<{ id: string | number, x: number, y: number, time: number, age: number }>();
-    this.graph.nodes.forEach((node: Node) => {
 
+    this.graph.nodes.forEach((node: Node) => {
       node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
+        if ((start && end) && (node.time[index] < start || node.time[index] > end)) return;
         zipped.push({
           id: node.id,
           x: coordinate.x,
@@ -574,29 +578,27 @@ export class HomeComponent implements AfterViewInit {
       (zipped);
 
     // draw density
-    this.graphSVG?.select('#graph-wrapper')
-      .append('g')
-      .attr('id', 'densities-wrapper')
+    const density = this.graphSVG?.select('#densities-wrapper')
+
+    if (!density) return;
+
+    density
       .selectAll('path')
       .data(densityData)
-      .enter()
-      .append('path')
+      .join('path')
+      // enter => enter.append('path')
       .attr('class', 'density')
-      .attr('d', d3.geoPath())
-      .attr('fill', (d: any) => this.colorScale(d.value * 10000))
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
       .attr('stroke-opacity', 1)
+      .attr('d', d3.geoPath())
+      .attr('fill', (d: any) => this.colorScale(d.value))
       .attr('opacity', (d: any) => {
         // return 1;
         return d.value * 1000;
-      })
-      .attr('transform', `translate
-        (
-          ${-1 * (this.graphWidth - (this.graphMargin.left + this.graphMargin.right)) / 2}, 
-          ${-1 * (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom)) / 2}
-        )
-      `);
+      });
+
+    density.exit().remove();
   }
 
   private drawAreaChart() {
