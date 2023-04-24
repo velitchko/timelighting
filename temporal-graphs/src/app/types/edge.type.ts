@@ -4,7 +4,7 @@ type Edge = {
     id: string | number;
     source: Node;
     target: Node;
-    t: number;
+    time: Array<number>;
 };
 
 export default Edge;
