@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import Graph from '../types/graph.type';
 import Node from '../types/node.type';
 import { DATASETS } from './datasets';
+import Edge from 'app/types/edge.type';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +78,37 @@ export class GraphService {
           node.ages.push(node.time[i + 1] - node.time[0]);
         }
       }
+    });
+
+    // parse edges
+    data.graphedges.forEach((edge: any) => {
+      const source = this.graph.nodes.find((node: Node) => node.id === edge.source);
+      const target = this.graph.nodes.find((node: Node) => node.id === edge.target);
+
+      if(!source || !target) return;
+
+      const newEdge: Edge = {
+        id: edge.id,
+        source: source,
+        target: target,
+        time: []
+      };
+
+      // iterate over each edges position array
+      edge.presence.forEach((presence: any) => {
+
+        // remove brackets and split on comma
+        const parsedPresence = presence.string.replace(/[\])}[{(]/g, '');
+
+        const parts = parsedPresence.split(':');
+
+        const times = parts[0].split(',');
+
+        newEdge.time.push(+times[0]);
+        newEdge.time.push(+times[1]);
+      });
+
+      this.graph.edges.push(newEdge);
     });
   }
 
