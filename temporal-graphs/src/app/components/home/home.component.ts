@@ -162,10 +162,10 @@ export class HomeComponent implements AfterViewInit {
     this.graphHeight = this.graphContainer?.nativeElement.offsetHeight;
 
     this.graphZoom
-    .extent([[0, 0], [this.graphWidth, this.graphHeight]])
-    .scaleExtent([0.1, 10])
-    .on('zoom', this.zoomGraph.bind(this))
-    
+      .extent([[0, 0], [this.graphWidth, this.graphHeight]])
+      .scaleExtent([0.1, 10])
+      .on('zoom', this.zoomGraph.bind(this))
+
 
     this.graphSVG
       .attr('width', this.graphWidth - (this.graphMargin.left + this.graphMargin.right))
@@ -204,7 +204,7 @@ export class HomeComponent implements AfterViewInit {
       .attr('transform', `translate(
         ${this.graphWidth / 2}, ${this.graphHeight / 2})
       `);
-      
+
     this.graphSVG?.call(this.graphZoom);
 
     this.timelineSVG = d3.select(this.timelineContainer?.nativeElement).append('svg');
