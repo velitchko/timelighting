@@ -91,7 +91,8 @@ export class GraphService {
         id: edge.id,
         source: source,
         target: target,
-        time: []
+        time: [],
+        ages: [0]
       };
 
       // iterate over each edges position array
@@ -109,6 +110,13 @@ export class GraphService {
       });
 
       this.graph.edges.push(newEdge);
+    });
+
+    this.graph.edges.forEach((edge: Edge) => {
+      // calculate differences between each times and add to array
+      for (let i = 0; i < edge.time.length - 1; i++) {
+        edge.ages.push(edge.time[i + 1] - edge.time[0]);
+      }
     });
   }
 
