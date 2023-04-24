@@ -49,7 +49,7 @@ export class HomeComponent implements AfterViewInit {
   private timeBrush: d3.BrushBehavior<unknown>;
   private timeXAxis: d3.Axis<number | { valueOf(): number; }>;
 
-  private graphZoom: d3.ZoomBehavior<SVGGElement, unknown>;
+  private graphZoom: d3.ZoomBehavior<SVGSVGElement, unknown>;
 
   protected showNodes: boolean = true;
   protected showDensities: boolean = true;
@@ -108,7 +108,7 @@ export class HomeComponent implements AfterViewInit {
     this.timeBrush = d3.brushX();
     this.timeXAxis = d3.axisBottom(this.timeScale);
 
-    this.graphZoom = d3.zoom();
+    this.graphZoom = d3.zoom<SVGSVGElement, unknown>();
   }
 
   ngAfterViewInit() {
@@ -161,39 +161,51 @@ export class HomeComponent implements AfterViewInit {
     this.graphWidth = this.graphContainer?.nativeElement.offsetWidth;
     this.graphHeight = this.graphContainer?.nativeElement.offsetHeight;
 
+    this.graphZoom
+    .extent([[0, 0], [this.graphWidth, this.graphHeight]])
+    .scaleExtent([0.1, 10])
+    .on('zoom', this.zoomGraph.bind(this))
+    
+
     this.graphSVG
       .attr('width', this.graphWidth - (this.graphMargin.left + this.graphMargin.right))
       .attr('height', this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))
       .append('g')
-      .attr('id', 'graph-wrapper')
-    
+      .attr('id', 'graph-wrapper');
 
-    this.graphSVG.append('g')
+    this.graphSVG.select('#graph-wrapper')
+      .append('g')
       .attr('id', 'links-wrapper')
       .attr('transform', `translate(
         ${this.graphWidth / 2}, ${this.graphHeight / 2})
-      `);;
+      `);
 
-    this.graphSVG.append('g')
+    this.graphSVG.select('#graph-wrapper')
+      .append('g')
       .attr('id', 'trajectories-wrapper')
       .attr('transform', `translate(
         ${this.graphWidth / 2}, ${this.graphHeight / 2})
-      `);;
+      `);
 
-    this.graphSVG.append('g')
+    this.graphSVG.select('#graph-wrapper')
+      .append('g')
       .attr('id', 'densities-wrapper');
 
-    this.graphSVG.append('g')
+    this.graphSVG.select('#graph-wrapper')
+      .append('g')
       .attr('id', 'nodes-wrapper')
       .attr('transform', `translate(
         ${this.graphWidth / 2}, ${this.graphHeight / 2})
-      `);;
+      `);
 
-    this.graphSVG.append('g')
+    this.graphSVG.select('#graph-wrapper')
+      .append('g')
       .attr('id', 'labels-wrapper')
       .attr('transform', `translate(
         ${this.graphWidth / 2}, ${this.graphHeight / 2})
-      `);;
+      `);
+      
+    this.graphSVG?.call(this.graphZoom);
 
     this.timelineSVG = d3.select(this.timelineContainer?.nativeElement).append('svg');
 
@@ -271,11 +283,6 @@ export class HomeComponent implements AfterViewInit {
     const relativeAgeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.ages ? node.ages : 0)));
 
     this.relativeAgeScale = d3.scaleLinear().domain(relativeAgeExtent as Array<number>).range([0.1, 1]);
-
-    this.graphZoom
-      .extent([[0, 0], [this.graphWidth, this.graphHeight]])
-      .scaleExtent([0.1, 10])
-      .on('zoom', this.zoomGraph.bind(this));
   }
 
   private brushed($event: d3.D3BrushEvent<unknown>) {
@@ -360,10 +367,10 @@ export class HomeComponent implements AfterViewInit {
     }
   }
 
-  private zoomGraph($event: d3.D3ZoomEvent<SVGGElement, any>) {
-    if (!$event) return;
-    this.graphSVG?.select('#graph-wrapper')
-      .attr('transform', `${$event.transform}`);
+  private zoomGraph($event: d3.D3ZoomEvent<SVGSVGElement, unknown>) {
+    if (!$event.transform) return;
+
+    this.graphSVG?.select('#graph-wrapper').attr('transform', `${$event.transform}`);
   }
 
   private updateGraph(start: number, end: number) {
@@ -442,9 +449,7 @@ export class HomeComponent implements AfterViewInit {
         });
       });
     });
-
-    this.graphSVG?.call(<any>this.graphZoom);
-
+    
     // draw nodes
     this.graphSVG?.select('#nodes-wrapper')
       .selectAll('circle')
