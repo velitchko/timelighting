@@ -1,5 +1,5 @@
 {"graphnodes" : [
-	{"id" :"ulsterrugby",
+	{"id" : "ulsterrugby",
 	"position" : [
 		{"string" :
 		"[1.410236633E9,1.4105456508651674E9] : (47.822257159646405, 52.94589642543169),(47.75783080993303, 52.99823774469244)"}
@@ -28,7 +28,7 @@
 		,{"string" :
 		"(1.4427152324308774E9,1.445645242E9] : (50.08928178827803, 52.500911427758396),(49.599611949481314, 52.09791772660485)"}
 	]},
-	{"id" :"leinsterrugby",
+	{"id" : "leinsterrugby",
 	"position" : [
 		{"string" :
 		"[1.412572156E9,1.4142278322640955E9] : (49.85738468494131, 60.73905444790152),(49.85245330179474, 62.590110465579045)"}
@@ -55,7 +55,7 @@
 		,{"string" :
 		"(1.44564496819562E9,1.445645242E9] : (49.48576215599453, 58.84309512559371),(49.488840879097786, 58.84900596224349)"}
 	]},
-	{"id" :"glasgowwarriors",
+	{"id" : "glasgowwarriors",
 	"position" : [
 		{"string" :
 		"[1.410743047E9,1.4120385965112853E9] : (63.46345644133598, 43.30107646731834),(63.96882534017216, 43.2577126901538)"}
@@ -80,7 +80,7 @@
 		,{"string" :
 		"(1.4436551791987417E9,1.445645242E9] : (59.515372351478575, 45.70279615245111),(58.287981055484984, 46.253502083318004)"}
 	]},
-	{"id" :"dragonsrugby",
+	{"id" : "dragonsrugby",
 	"position" : [
 		{"string" :
 		"[1.411437853E9,1.41273951021547E9] : (41.39388041584911, 49.39255890586332),(39.71137460713115, 49.4271365650742)"}
@@ -107,7 +107,7 @@
 		,{"string" :
 		"(1.4441293999978015E9,1.445645242E9] : (43.63836198802838, 49.4857049188125),(44.457981375129194, 49.30623491660485)"}
 	]},
-	{"id" :"ospreys",
+	{"id" : "ospreys",
 	"position" : [
 		{"string" :
 		"[1.409619004E9,1.411248988707858E9] : (54.14908150380204, 52.36827464335175),(54.32133836980319, 52.549635462512995)"}
@@ -136,7 +136,7 @@
 		,{"string" :
 		"(1.4432546925101902E9,1.445645242E9] : (54.21308733654071, 48.80649506066077),(53.97079099980265, 49.618136365680016)"}
 	]},
-	{"id" :"scarlets_rugby",
+	{"id" : "scarlets_rugby",
 	"position" : [
 		{"string" :
 		"[1.410831324E9,1.4127616138765335E9] : (48.6926490023476, 38.863531097509274),(47.7530679441522, 38.34646947856709)"}
@@ -161,7 +161,7 @@
 		,{"string" :
 		"(1.445150541269052E9,1.445645242E9] : (49.132702376131974, 46.492453120105104),(49.096219314468485, 45.950621457193826)"}
 	]},
-	{"id" :"zebrerugby",
+	{"id" : "zebrerugby",
 	"position" : [
 		{"string" :
 		"[1.409539046E9,1.4095390577713053E9] : (48.35714918228152, 45.41646747025079),(48.313841497642905, 45.49607163429144)"}
@@ -190,7 +190,7 @@
 		,{"string" :
 		"(1.4437471625213003E9,1.445645242E9] : (49.49268327071778, 41.11953381984264),(48.96332323708886, 41.02897771233441)"}
 	]},
-	{"id" :"connachtrugby",
+	{"id" : "connachtrugby",
 	"position" : [
 		{"string" :
 		"[1.412024564E9,1.413236158995335E9] : (43.43243543209018, 57.409871624274444),(43.09673582675014, 57.874734834482695)"}
@@ -217,7 +217,7 @@
 		,{"string" :
 		"(1.4443664815624712E9,1.445645242E9] : (42.99695615335941, 55.13791785107882),(42.98753695839961, 54.57390107024464)"}
 	]},
-	{"id" :"edinburghrugby",
+	{"id" : "edinburghrugby",
 	"position" : [
 		{"string" :
 		"[1.414129484E9,1.416545867354639E9] : (56.193244885278936, 37.26680685592547),(55.857072729032375, 37.55684523362815)"}
@@ -240,7 +240,7 @@
 		,{"string" :
 		"(1.4446942272160501E9,1.445645242E9] : (55.9572883504476, 40.624690397281626),(56.041284819816646, 39.736909348236566)"}
 	]},
-	{"id" :"cardiff_blues",
+	{"id" : "cardiff_blues",
 	"position" : [
 		{"string" :
 		"[1.409539046E9,1.4100409413683822E9] : (40.24624222077904, 41.51016553412111),(39.845351098164855, 41.26933180550637)"}
@@ -267,7 +267,7 @@
 		,{"string" :
 		"(1.4451345553065171E9,1.445645242E9] : (41.35139033192674, 44.22758551932103),(40.7616495239407, 43.835816343510864)"}
 	]},
-	{"id" :"benettonrugby",
+	{"id" : "benettonrugby",
 	"position" : [
 		{"string" :
 		"[1.409619004E9,1.4100231495518734E9] : (59.89703508792016, 50.2720018548058),(59.56207033837361, 49.85888874357881)"}
@@ -294,7 +294,7 @@
 		,{"string" :
 		"(1.4448548063686206E9,1.445645242E9] : (60.9907015178234, 52.17640212234289),(60.23776527953602, 52.270978845403164)"}
 	]},
-	{"id" :"munsterrugby",
+	{"id" : "munsterrugby",
 	"position" : [
 		{"string" :
 		"[1.410245079E9,1.4121959703545659E9] : (57.49692102677318, 58.8624874124716),(58.23829669485953, 59.91243699112474)"}
@@ -318,5 +318,2112 @@
 		"(1.441408915654603E9,1.4443580360660279E9] : (56.231583145482226, 57.29496221805788),(55.50923455988477, 56.694559672093526)"}
 		,{"string" :
 		"(1.4443580360660279E9,1.445645242E9] : (55.50923455988477, 56.694559672093526),(55.084872311633696, 55.981682177688995)"}
+	]}
+], "graphedges" : [
+	{"id" : "49e",
+	"source" : "munsterrugby",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.424303053E9,1.424389453E9] : true,true"}
+		,{"string" :
+		"(1.424468033E9,1.424579997E9] : true,true"}
+		,{"string" :
+		"(1.43297423E9,1.43306063E9] : true,true"}
+		,{"string" :
+		"(1.442113262E9,1.442264713E9] : true,true"}
+		,{"string" :
+		"(1.442524579E9,1.442610981E9] : true,true"}
+		,{"string" :
+		"(1.443135729E9,1.443222259E9] : true,true"}
+		,{"string" :
+		"(1.44329283E9,1.44337923E9] : true,true"}
+		,{"string" :
+		"(1.443388752E9,1.44347519E9] : true,true"}
+		,{"string" :
+		"(1.443508566E9,1.443595033E9] : true,true"}
+		,{"string" :
+		"(1.444784981E9,1.444871381E9] : true,true"}
+		,{"string" :
+		"(1.44503203E9,1.4451515E9] : true,true"}
+		,{"string" :
+		"(1.445197153E9,1.445388049E9] : true,true"}
+		,{"string" :
+		"(1.445398071E9,1.4456368E9] : true,true"}
+	]},
+	{"id" : "37e",
+	"source" : "ulsterrugby",
+	"target" : "cardiff_blues",
+	"presence" : [
+		{"string" :
+		"(1.421638515E9,1.421724915E9] : true,true"}
+		,{"string" :
+		"(1.422231398E9,1.422317798E9] : true,true"}
+		,{"string" :
+		"(1.426827504E9,1.426913904E9] : true,true"}
+		,{"string" :
+		"(1.427329994E9,1.427416394E9] : true,true"}
+		,{"string" :
+		"(1.42743389E9,1.427535247E9] : true,true"}
+		,{"string" :
+		"(1.443669431E9,1.443755831E9] : true,true"}
+		,{"string" :
+		"(1.443776381E9,1.443862781E9] : true,true"}
+		,{"string" :
+		"(1.445221562E9,1.445385065E9] : true,true"}
+		,{"string" :
+		"(1.445416207E9,1.445578729E9] : true,true"}
+	]},
+	{"id" : "25e",
+	"source" : "ulsterrugby",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.416562284E9,1.416648684E9] : true,true"}
+		,{"string" :
+		"(1.417410361E9,1.417496761E9] : true,true"}
+		,{"string" :
+		"(1.41774191E9,1.41782831E9] : true,true"}
+		,{"string" :
+		"(1.41784688E9,1.417952707E9] : true,true"}
+		,{"string" :
+		"(1.418343199E9,1.418429599E9] : true,true"}
+		,{"string" :
+		"(1.418442259E9,1.41861182E9] : true,true"}
+		,{"string" :
+		"(1.424233668E9,1.424320068E9] : true,true"}
+		,{"string" :
+		"(1.42432083E9,1.42440723E9] : true,true"}
+		,{"string" :
+		"(1.424661947E9,1.424748347E9] : true,true"}
+		,{"string" :
+		"(1.424751384E9,1.424847043E9] : true,true"}
+		,{"string" :
+		"(1.424847617E9,1.424934017E9] : true,true"}
+		,{"string" :
+		"(1.42499835E9,1.425120081E9] : true,true"}
+		,{"string" :
+		"(1.437007089E9,1.437093489E9] : true,true"}
+		,{"string" :
+		"(1.439942787E9,1.440107228E9] : true,true"}
+		,{"string" :
+		"(1.440112387E9,1.440200072E9] : true,true"}
+		,{"string" :
+		"(1.440633965E9,1.440720366E9] : true,true"}
+		,{"string" :
+		"(1.440967766E9,1.441054166E9] : true,true"}
+		,{"string" :
+		"(1.441437825E9,1.441528965E9] : true,true"}
+		,{"string" :
+		"(1.44159421E9,1.441680726E9] : true,true"}
+		,{"string" :
+		"(1.441710873E9,1.442128079E9] : true,true"}
+		,{"string" :
+		"(1.442136022E9,1.442222422E9] : true,true"}
+		,{"string" :
+		"(1.444784981E9,1.444871381E9] : true,true"}
+	]},
+	{"id" : "13e",
+	"source" : "zebrerugby",
+	"target" : "leinsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.412572156E9,1.412734045E9] : true,true"}
+		,{"string" :
+		"(1.412802849E9,1.413096833E9] : true,true"}
+		,{"string" :
+		"(1.41315086E9,1.413245117E9] : true,true"}
+		,{"string" :
+		"(1.424134238E9,1.424560639E9] : true,true"}
+		,{"string" :
+		"(1.42463932E9,1.42472572E9] : true,true"}
+	]},
+	{"id" : "57e",
+	"source" : "cardiff_blues",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.428648408E9,1.428740615E9] : true,true"}
+		,{"string" :
+		"(1.441770372E9,1.441856772E9] : true,true"}
+		,{"string" :
+		"(1.444881227E9,1.444967627E9] : true,true"}
+	]},
+	{"id" : "45e",
+	"source" : "dragonsrugby",
+	"target" : "connachtrugby",
+	"presence" : [
+		{"string" :
+		"(1.42352647E9,1.42361287E9] : true,true"}
+		,{"string" :
+		"(1.424062362E9,1.424380637E9] : true,true"}
+		,{"string" :
+		"(1.424390432E9,1.42456263E9] : true,true"}
+		,{"string" :
+		"(1.424583049E9,1.424669449E9] : true,true"}
+		,{"string" :
+		"(1.436925796E9,1.437012196E9] : true,true"}
+		,{"string" :
+		"(1.437102281E9,1.437189029E9] : true,true"}
+		,{"string" :
+		"(1.437340923E9,1.437427323E9] : true,true"}
+		,{"string" :
+		"(1.440719432E9,1.440805972E9] : true,true"}
+		,{"string" :
+		"(1.440988742E9,1.441075142E9] : true,true"}
+		,{"string" :
+		"(1.441238743E9,1.441325143E9] : true,true"}
+		,{"string" :
+		"(1.441328545E9,1.441440985E9] : true,true"}
+	]},
+	{"id" : "33e",
+	"source" : "dragonsrugby",
+	"target" : "ospreys",
+	"presence" : [
+		{"string" :
+		"(1.420763673E9,1.420850073E9] : true,true"}
+		,{"string" :
+		"(1.420945672E9,1.421032072E9] : true,true"}
+		,{"string" :
+		"(1.421702345E9,1.421797603E9] : true,true"}
+		,{"string" :
+		"(1.425328791E9,1.425415191E9] : true,true"}
+		,{"string" :
+		"(1.428822379E9,1.428908867E9] : true,true"}
+		,{"string" :
+		"(1.429050072E9,1.429136472E9] : true,true"}
+		,{"string" :
+		"(1.429255864E9,1.429342264E9] : true,true"}
+		,{"string" :
+		"(1.429761468E9,1.430034351E9] : true,true"}
+		,{"string" :
+		"(1.431056734E9,1.431143189E9] : true,true"}
+		,{"string" :
+		"(1.437102311E9,1.437188711E9] : true,true"}
+		,{"string" :
+		"(1.439273244E9,1.439359644E9] : true,true"}
+		,{"string" :
+		"(1.439611806E9,1.439703128E9] : true,true"}
+		,{"string" :
+		"(1.439854381E9,1.439940781E9] : true,true"}
+		,{"string" :
+		"(1.439962809E9,1.440112764E9] : true,true"}
+		,{"string" :
+		"(1.440373578E9,1.440500211E9] : true,true"}
+		,{"string" :
+		"(1.440718565E9,1.440849218E9] : true,true"}
+		,{"string" :
+		"(1.441144198E9,1.441265101E9] : true,true"}
+		,{"string" :
+		"(1.445553616E9,1.445640016E9] : true,true"}
+	]},
+	{"id" : "21e",
+	"source" : "connachtrugby",
+	"target" : "ospreys",
+	"presence" : [
+		{"string" :
+		"(1.414627399E9,1.414713799E9] : true,true"}
+		,{"string" :
+		"(1.427242321E9,1.427328721E9] : true,true"}
+		,{"string" :
+		"(1.429518028E9,1.429604428E9] : true,true"}
+		,{"string" :
+		"(1.431401928E9,1.431829504E9] : true,true"}
+		,{"string" :
+		"(1.431857324E9,1.431943724E9] : true,true"}
+		,{"string" :
+		"(1.437102205E9,1.437188605E9] : true,true"}
+		,{"string" :
+		"(1.439273244E9,1.439359644E9] : true,true"}
+		,{"string" :
+		"(1.441350674E9,1.441437074E9] : true,true"}
+		,{"string" :
+		"(1.442878362E9,1.442964762E9] : true,true"}
+		,{"string" :
+		"(1.444618364E9,1.444704764E9] : true,true"}
+		,{"string" :
+		"(1.445043685E9,1.445130085E9] : true,true"}
+		,{"string" :
+		"(1.445387072E9,1.445490674E9] : true,true"}
+		,{"string" :
+		"(1.445555812E9,1.445645242E9] : true,true"}
+	]},
+	{"id" : "65e",
+	"source" : "leinsterrugby",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.439287763E9,1.439374163E9] : true,true"}
+		,{"string" :
+		"(1.442178309E9,1.442264713E9] : true,true"}
+		,{"string" :
+		"(1.442524579E9,1.442610981E9] : true,true"}
+		,{"string" :
+		"(1.443135729E9,1.443222259E9] : true,true"}
+		,{"string" :
+		"(1.44329283E9,1.44337923E9] : true,true"}
+		,{"string" :
+		"(1.443388752E9,1.44347519E9] : true,true"}
+		,{"string" :
+		"(1.443508566E9,1.443595033E9] : true,true"}
+		,{"string" :
+		"(1.444083075E9,1.444169531E9] : true,true"}
+		,{"string" :
+		"(1.444684832E9,1.445077453E9] : true,true"}
+		,{"string" :
+		"(1.445149685E9,1.445236085E9] : true,true"}
+	]},
+	{"id" : "53e",
+	"source" : "edinburghrugby",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.427151583E9,1.427237983E9] : true,true"}
+		,{"string" :
+		"(1.427281094E9,1.427486034E9] : true,true"}
+		,{"string" :
+		"(1.427504319E9,1.4276288E9] : true,true"}
+		,{"string" :
+		"(1.431849959E9,1.431936359E9] : true,true"}
+		,{"string" :
+		"(1.439930247E9,1.440016647E9] : true,true"}
+		,{"string" :
+		"(1.440386509E9,1.440472909E9] : true,true"}
+	]},
+	{"id" : "41e",
+	"source" : "cardiff_blues",
+	"target" : "edinburghrugby",
+	"presence" : [
+		{"string" :
+		"(1.42209175E9,1.422249893E9] : true,true"}
+		,{"string" :
+		"(1.425151825E9,1.425238225E9] : true,true"}
+		,{"string" :
+		"(1.425275771E9,1.425437624E9] : true,true"}
+		,{"string" :
+		"(1.428111472E9,1.428197872E9] : true,true"}
+	]},
+	{"id" : "61e",
+	"source" : "connachtrugby",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.428902436E9,1.428988836E9] : true,true"}
+		,{"string" :
+		"(1.429479715E9,1.429566115E9] : true,true"}
+		,{"string" :
+		"(1.429767083E9,1.430001132E9] : true,true"}
+		,{"string" :
+		"(1.431857324E9,1.431943724E9] : true,true"}
+		,{"string" :
+		"(1.441339204E9,1.441445695E9] : true,true"}
+		,{"string" :
+		"(1.441531094E9,1.442053358E9] : true,true"}
+	]},
+	{"id" : "7e",
+	"source" : "benettonrugby",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.410831324E9,1.410917724E9] : true,true"}
+		,{"string" :
+		"(1.411191048E9,1.411285356E9] : true,true"}
+		,{"string" :
+		"(1.42724948E9,1.42733588E9] : true,true"}
+		,{"string" :
+		"(1.431290971E9,1.431377371E9] : true,true"}
+		,{"string" :
+		"(1.43140554E9,1.43149194E9] : true,true"}
+		,{"string" :
+		"(1.431726061E9,1.431839284E9] : true,true"}
+	]},
+	{"id" : "3e",
+	"source" : "zebrerugby",
+	"target" : "benettonrugby",
+	"presence" : [
+		{"string" :
+		"(1.409813083E9,1.409899518E9] : true,true"}
+		,{"string" :
+		"(1.410548854E9,1.410635254E9] : true,true"}
+		,{"string" :
+		"(1.411696671E9,1.411783071E9] : true,true"}
+		,{"string" :
+		"(1.412043599E9,1.412129999E9] : true,true"}
+		,{"string" :
+		"(1.41227626E9,1.41236266E9] : true,true"}
+		,{"string" :
+		"(1.412544765E9,1.41265061E9] : true,true"}
+		,{"string" :
+		"(1.416878679E9,1.417038062E9] : true,true"}
+		,{"string" :
+		"(1.417491628E9,1.417578028E9] : true,true"}
+		,{"string" :
+		"(1.41860512E9,1.41869591E9] : true,true"}
+		,{"string" :
+		"(1.418776975E9,1.418864798E9] : true,true"}
+		,{"string" :
+		"(1.419204928E9,1.41946137E9] : true,true"}
+		,{"string" :
+		"(1.41955348E9,1.419979385E9] : true,true"}
+		,{"string" :
+		"(1.420063676E9,1.420421492E9] : true,true"}
+		,{"string" :
+		"(1.420602375E9,1.420688775E9] : true,true"}
+		,{"string" :
+		"(1.42086595E9,1.42095235E9] : true,true"}
+		,{"string" :
+		"(1.423105855E9,1.423192255E9] : true,true"}
+		,{"string" :
+		"(1.423263816E9,1.423350216E9] : true,true"}
+		,{"string" :
+		"(1.423511562E9,1.423597962E9] : true,true"}
+		,{"string" :
+		"(1.423619423E9,1.423707063E9] : true,true"}
+		,{"string" :
+		"(1.424053824E9,1.424141993E9] : true,true"}
+		,{"string" :
+		"(1.424404602E9,1.424491002E9] : true,true"}
+		,{"string" :
+		"(1.425326716E9,1.425438519E9] : true,true"}
+		,{"string" :
+		"(1.426210448E9,1.426296848E9] : true,true"}
+		,{"string" :
+		"(1.426387443E9,1.426473843E9] : true,true"}
+		,{"string" :
+		"(1.42706762E9,1.42715402E9] : true,true"}
+		,{"string" :
+		"(1.427239395E9,1.427325795E9] : true,true"}
+		,{"string" :
+		"(1.427950042E9,1.428036442E9] : true,true"}
+		,{"string" :
+		"(1.428281217E9,1.428367617E9] : true,true"}
+		,{"string" :
+		"(1.429487495E9,1.429573895E9] : true,true"}
+		,{"string" :
+		"(1.430103714E9,1.430267241E9] : true,true"}
+		,{"string" :
+		"(1.430872528E9,1.431044118E9] : true,true"}
+		,{"string" :
+		"(1.431311044E9,1.431397444E9] : true,true"}
+		,{"string" :
+		"(1.431755318E9,1.431841718E9] : true,true"}
+		,{"string" :
+		"(1.431844523E9,1.432073765E9] : true,true"}
+		,{"string" :
+		"(1.436306772E9,1.436393172E9] : true,true"}
+		,{"string" :
+		"(1.437427327E9,1.437557913E9] : true,true"}
+		,{"string" :
+		"(1.439076969E9,1.439163369E9] : true,true"}
+		,{"string" :
+		"(1.439716626E9,1.439803026E9] : true,true"}
+		,{"string" :
+		"(1.440027037E9,1.440247388E9] : true,true"}
+		,{"string" :
+		"(1.440365515E9,1.440540695E9] : true,true"}
+		,{"string" :
+		"(1.441403809E9,1.441490209E9] : true,true"}
+		,{"string" :
+		"(1.441862481E9,1.441950262E9] : true,true"}
+		,{"string" :
+		"(1.443498792E9,1.443595292E9] : true,true"}
+		,{"string" :
+		"(1.44367306E9,1.44375946E9] : true,true"}
+	]},
+	{"id" : "18e",
+	"source" : "zebrerugby",
+	"target" : "edinburghrugby",
+	"presence" : [
+		{"string" :
+		"(1.414129484E9,1.414215884E9] : true,true"}
+		,{"string" :
+		"(1.415743211E9,1.415829611E9] : true,true"}
+		,{"string" :
+		"(1.416526192E9,1.416612592E9] : true,true"}
+		,{"string" :
+		"(1.416778947E9,1.416865347E9] : true,true"}
+		,{"string" :
+		"(1.416869458E9,1.417328008E9] : true,true"}
+		,{"string" :
+		"(1.417382243E9,1.417481181E9] : true,true"}
+		,{"string" :
+		"(1.429423986E9,1.429953486E9] : true,true"}
+		,{"string" :
+		"(1.430092235E9,1.430183202E9] : true,true"}
+		,{"string" :
+		"(1.431827383E9,1.431913783E9] : true,true"}
+		,{"string" :
+		"(1.437102718E9,1.437189118E9] : true,true"}
+		,{"string" :
+		"(1.439097975E9,1.439188303E9] : true,true"}
+		,{"string" :
+		"(1.44471677E9,1.44480317E9] : true,true"}
+		,{"string" :
+		"(1.44541301E9,1.44549941E9] : true,true"}
+	]},
+	{"id" : "38e",
+	"source" : "dragonsrugby",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.421702345E9,1.421788745E9] : true,true"}
+		,{"string" :
+		"(1.425328791E9,1.425415191E9] : true,true"}
+		,{"string" :
+		"(1.428097975E9,1.428184375E9] : true,true"}
+		,{"string" :
+		"(1.428879921E9,1.428966355E9] : true,true"}
+		,{"string" :
+		"(1.429050072E9,1.429136472E9] : true,true"}
+		,{"string" :
+		"(1.429239451E9,1.429326015E9] : true,true"}
+		,{"string" :
+		"(1.429493766E9,1.429580166E9] : true,true"}
+		,{"string" :
+		"(1.429772016E9,1.43003101E9] : true,true"}
+		,{"string" :
+		"(1.431056789E9,1.431143189E9] : true,true"}
+		,{"string" :
+		"(1.432370695E9,1.432457095E9] : true,true"}
+		,{"string" :
+		"(1.434413044E9,1.434499645E9] : true,true"}
+		,{"string" :
+		"(1.437167164E9,1.437253566E9] : true,true"}
+		,{"string" :
+		"(1.439610005E9,1.439702115E9] : true,true"}
+		,{"string" :
+		"(1.439871118E9,1.440232857E9] : true,true"}
+		,{"string" :
+		"(1.440460925E9,1.440547327E9] : true,true"}
+		,{"string" :
+		"(1.440548909E9,1.440842847E9] : true,true"}
+		,{"string" :
+		"(1.442178309E9,1.442264713E9] : true,true"}
+		,{"string" :
+		"(1.442524579E9,1.442610981E9] : true,true"}
+		,{"string" :
+		"(1.443135729E9,1.443222259E9] : true,true"}
+		,{"string" :
+		"(1.44329283E9,1.44337923E9] : true,true"}
+		,{"string" :
+		"(1.443388752E9,1.44347519E9] : true,true"}
+		,{"string" :
+		"(1.443508566E9,1.443595033E9] : true,true"}
+		,{"string" :
+		"(1.444787651E9,1.444878201E9] : true,true"}
+		,{"string" :
+		"(1.445061732E9,1.445148674E9] : true,true"}
+		,{"string" :
+		"(1.445197153E9,1.445283555E9] : true,true"}
+		,{"string" :
+		"(1.445553616E9,1.445640016E9] : true,true"}
+	]},
+	{"id" : "26e",
+	"source" : "ulsterrugby",
+	"target" : "leinsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.416562644E9,1.416723654E9] : true,true"}
+		,{"string" :
+		"(1.417244516E9,1.417330916E9] : true,true"}
+		,{"string" :
+		"(1.418609415E9,1.418695815E9] : true,true"}
+		,{"string" :
+		"(1.419908139E9,1.420004312E9] : true,true"}
+		,{"string" :
+		"(1.420073846E9,1.420160246E9] : true,true"}
+		,{"string" :
+		"(1.420187746E9,1.420350528E9] : true,true"}
+		,{"string" :
+		"(1.421366121E9,1.421452521E9] : true,true"}
+		,{"string" :
+		"(1.421456534E9,1.421542934E9] : true,true"}
+		,{"string" :
+		"(1.421638515E9,1.421724915E9] : true,true"}
+		,{"string" :
+		"(1.422235803E9,1.422322203E9] : true,true"}
+		,{"string" :
+		"(1.423192457E9,1.423278857E9] : true,true"}
+		,{"string" :
+		"(1.426827504E9,1.426995708E9] : true,true"}
+		,{"string" :
+		"(1.427237568E9,1.427323968E9] : true,true"}
+		,{"string" :
+		"(1.427461658E9,1.427570238E9] : true,true"}
+		,{"string" :
+		"(1.428823195E9,1.428909595E9] : true,true"}
+		,{"string" :
+		"(1.429059079E9,1.429145479E9] : true,true"}
+		,{"string" :
+		"(1.429169767E9,1.42930661E9] : true,true"}
+		,{"string" :
+		"(1.429395316E9,1.429481716E9] : true,true"}
+		,{"string" :
+		"(1.429746968E9,1.429960249E9] : true,true"}
+		,{"string" :
+		"(1.430034883E9,1.430121283E9] : true,true"}
+		,{"string" :
+		"(1.431154272E9,1.431240672E9] : true,true"}
+		,{"string" :
+		"(1.433722594E9,1.433811088E9] : true,true"}
+		,{"string" :
+		"(1.43500846E9,1.43509486E9] : true,true"}
+		,{"string" :
+		"(1.436500355E9,1.436586755E9] : true,true"}
+		,{"string" :
+		"(1.437079527E9,1.437165927E9] : true,true"}
+		,{"string" :
+		"(1.439287763E9,1.439374163E9] : true,true"}
+		,{"string" :
+		"(1.440038772E9,1.440306722E9] : true,true"}
+		,{"string" :
+		"(1.44063029E9,1.44071971E9] : true,true"}
+		,{"string" :
+		"(1.440918985E9,1.441005385E9] : true,true"}
+		,{"string" :
+		"(1.441957637E9,1.442044037E9] : true,true"}
+		,{"string" :
+		"(1.442265975E9,1.442365921E9] : true,true"}
+		,{"string" :
+		"(1.44246869E9,1.44255509E9] : true,true"}
+		,{"string" :
+		"(1.44263296E9,1.44271936E9] : true,true"}
+		,{"string" :
+		"(1.443930568E9,1.44409241E9] : true,true"}
+		,{"string" :
+		"(1.445043709E9,1.445130109E9] : true,true"}
+		,{"string" :
+		"(1.445221562E9,1.445307962E9] : true,true"}
+		,{"string" :
+		"(1.445404491E9,1.445574598E9] : true,true"}
+	]},
+	{"id" : "14e",
+	"source" : "connachtrugby",
+	"target" : "leinsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.413502226E9,1.413588626E9] : true,true"}
+		,{"string" :
+		"(1.418867507E9,1.418953907E9] : true,true"}
+		,{"string" :
+		"(1.418963357E9,1.419058417E9] : true,true"}
+		,{"string" :
+		"(1.421110852E9,1.421197252E9] : true,true"}
+		,{"string" :
+		"(1.421200387E9,1.421286787E9] : true,true"}
+		,{"string" :
+		"(1.424314951E9,1.424401351E9] : true,true"}
+		,{"string" :
+		"(1.427697675E9,1.427784075E9] : true,true"}
+		,{"string" :
+		"(1.42804531E9,1.42813171E9] : true,true"}
+		,{"string" :
+		"(1.428535788E9,1.428622188E9] : true,true"}
+		,{"string" :
+		"(1.429169727E9,1.429256127E9] : true,true"}
+		,{"string" :
+		"(1.429399136E9,1.429485536E9] : true,true"}
+		,{"string" :
+		"(1.432677839E9,1.432764239E9] : true,true"}
+		,{"string" :
+		"(1.437103425E9,1.437189825E9] : true,true"}
+		,{"string" :
+		"(1.440541385E9,1.440627785E9] : true,true"}
+		,{"string" :
+		"(1.441250592E9,1.441342136E9] : true,true"}
+		,{"string" :
+		"(1.441359731E9,1.441522485E9] : true,true"}
+		,{"string" :
+		"(1.44246679E9,1.44255319E9] : true,true"}
+		,{"string" :
+		"(1.44288976E9,1.44297616E9] : true,true"}
+		,{"string" :
+		"(1.443652796E9,1.443739196E9] : true,true"}
+		,{"string" :
+		"(1.444201312E9,1.444287712E9] : true,true"}
+		,{"string" :
+		"(1.444542516E9,1.444628916E9] : true,true"}
+		,{"string" :
+		"(1.444688346E9,1.444774746E9] : true,true"}
+	]},
+	{"id" : "58e",
+	"source" : "edinburghrugby",
+	"target" : "leinsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.428822372E9,1.428908772E9] : true,true"}
+		,{"string" :
+		"(1.430457005E9,1.430561224E9] : true,true"}
+		,{"string" :
+		"(1.43131072E9,1.431400421E9] : true,true"}
+		,{"string" :
+		"(1.43140123E9,1.431490642E9] : true,true"}
+		,{"string" :
+		"(1.431507956E9,1.431594356E9] : true,true"}
+		,{"string" :
+		"(1.431640063E9,1.431837853E9] : true,true"}
+		,{"string" :
+		"(1.437102512E9,1.437189118E9] : true,true"}
+		,{"string" :
+		"(1.440120229E9,1.440206629E9] : true,true"}
+		,{"string" :
+		"(1.440537846E9,1.440675616E9] : true,true"}
+		,{"string" :
+		"(1.440752912E9,1.440839312E9] : true,true"}
+		,{"string" :
+		"(1.441000678E9,1.44114726E9] : true,true"}
+		,{"string" :
+		"(1.441181944E9,1.441522307E9] : true,true"}
+		,{"string" :
+		"(1.441572699E9,1.441659099E9] : true,true"}
+	]},
+	{"id" : "46e",
+	"source" : "edinburghrugby",
+	"target" : "ospreys",
+	"presence" : [
+		{"string" :
+		"(1.423567695E9,1.423963573E9] : true,true"}
+		,{"string" :
+		"(1.424079995E9,1.424166395E9] : true,true"}
+		,{"string" :
+		"(1.424226514E9,1.424312951E9] : true,true"}
+		,{"string" :
+		"(1.437102025E9,1.437188425E9] : true,true"}
+		,{"string" :
+		"(1.44343454E9,1.44357485E9] : true,true"}
+		,{"string" :
+		"(1.443583589E9,1.443858412E9] : true,true"}
+	]},
+	{"id" : "34e",
+	"source" : "connachtrugby",
+	"target" : "edinburghrugby",
+	"presence" : [
+		{"string" :
+		"(1.420787594E9,1.420944192E9] : true,true"}
+		,{"string" :
+		"(1.421040379E9,1.421126779E9] : true,true"}
+		,{"string" :
+		"(1.434504298E9,1.434590698E9] : true,true"}
+		,{"string" :
+		"(1.437102718E9,1.437189118E9] : true,true"}
+	]},
+	{"id" : "22e",
+	"source" : "zebrerugby",
+	"target" : "connachtrugby",
+	"presence" : [
+		{"string" :
+		"(1.415576635E9,1.415663035E9] : true,true"}
+		,{"string" :
+		"(1.416111892E9,1.416272159E9] : true,true"}
+		,{"string" :
+		"(1.416273285E9,1.416359685E9] : true,true"}
+		,{"string" :
+		"(1.416430529E9,1.416650351E9] : true,true"}
+		,{"string" :
+		"(1.418430442E9,1.418516842E9] : true,true"}
+		,{"string" :
+		"(1.427846948E9,1.427945214E9] : true,true"}
+		,{"string" :
+		"(1.430702621E9,1.430882939E9] : true,true"}
+		,{"string" :
+		"(1.430962903E9,1.431131131E9] : true,true"}
+		,{"string" :
+		"(1.43113859E9,1.431243569E9] : true,true"}
+		,{"string" :
+		"(1.432415601E9,1.432534629E9] : true,true"}
+		,{"string" :
+		"(1.433624205E9,1.433710605E9] : true,true"}
+		,{"string" :
+		"(1.439084181E9,1.439171347E9] : true,true"}
+		,{"string" :
+		"(1.443854845E9,1.443941245E9] : true,true"}
+		,{"string" :
+		"(1.444622695E9,1.444791277E9] : true,true"}
+		,{"string" :
+		"(1.444857443E9,1.445076545E9] : true,true"}
+		,{"string" :
+		"(1.44520032E9,1.44528672E9] : true,true"}
+	]},
+	{"id" : "66e",
+	"source" : "glasgowwarriors",
+	"target" : "dragonsrugby",
+	"presence" : [
+		{"string" :
+		"(1.444338096E9,1.444424496E9] : true,true"}
+		,{"string" :
+		"(1.444778127E9,1.445066736E9] : true,true"}
+		,{"string" :
+		"(1.445297028E9,1.445383428E9] : true,true"}
+	]},
+	{"id" : "10e",
+	"source" : "benettonrugby",
+	"target" : "ulsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.411696671E9,1.411783071E9] : true,true"}
+		,{"string" :
+		"(1.420399022E9,1.420485422E9] : true,true"}
+		,{"string" :
+		"(1.420506103E9,1.420592503E9] : true,true"}
+		,{"string" :
+		"(1.42093461E9,1.42102101E9] : true,true"}
+		,{"string" :
+		"(1.422231615E9,1.422322525E9] : true,true"}
+		,{"string" :
+		"(1.422916095E9,1.423002495E9] : true,true"}
+		,{"string" :
+		"(1.423530499E9,1.423616899E9] : true,true"}
+		,{"string" :
+		"(1.423695715E9,1.423907944E9] : true,true"}
+		,{"string" :
+		"(1.430033189E9,1.430119589E9] : true,true"}
+		,{"string" :
+		"(1.442894902E9,1.442981302E9] : true,true"}
+		,{"string" :
+		"(1.443657677E9,1.44386291E9] : true,true"}
+		,{"string" :
+		"(1.444114185E9,1.444200585E9] : true,true"}
+	]},
+	{"id" : "54e",
+	"source" : "leinsterrugby",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.427252945E9,1.427531468E9] : true,true"}
+		,{"string" :
+		"(1.431850674E9,1.431937074E9] : true,true"}
+		,{"string" :
+		"(1.432974167E9,1.433060602E9] : true,true"}
+		,{"string" :
+		"(1.437557288E9,1.437643688E9] : true,true"}
+		,{"string" :
+		"(1.438135927E9,1.438222327E9] : true,true"}
+		,{"string" :
+		"(1.439287763E9,1.439374163E9] : true,true"}
+		,{"string" :
+		"(1.445157951E9,1.445244351E9] : true,true"}
+		,{"string" :
+		"(1.445312267E9,1.445398667E9] : true,true"}
+		,{"string" :
+		"(1.445412312E9,1.445594296E9] : true,true"}
+	]},
+	{"id" : "42e",
+	"source" : "dragonsrugby",
+	"target" : "edinburghrugby",
+	"presence" : [
+		{"string" :
+		"(1.422098553E9,1.422249893E9] : true,true"}
+		,{"string" :
+		"(1.426030599E9,1.426116999E9] : true,true"}
+		,{"string" :
+		"(1.427847099E9,1.4280096E9] : true,true"}
+		,{"string" :
+		"(1.428219874E9,1.428306425E9] : true,true"}
+		,{"string" :
+		"(1.428358148E9,1.428728733E9] : true,true"}
+		,{"string" :
+		"(1.428821253E9,1.429399337E9] : true,true"}
+		,{"string" :
+		"(1.430098047E9,1.430184447E9] : true,true"}
+		,{"string" :
+		"(1.430873879E9,1.431031596E9] : true,true"}
+		,{"string" :
+		"(1.431040579E9,1.431146049E9] : true,true"}
+	]},
+	{"id" : "30e",
+	"source" : "benettonrugby",
+	"target" : "edinburghrugby",
+	"presence" : [
+		{"string" :
+		"(1.418691509E9,1.418777909E9] : true,true"}
+		,{"string" :
+		"(1.418861178E9,1.418948285E9] : true,true"}
+		,{"string" :
+		"(1.424732169E9,1.424818632E9] : true,true"}
+		,{"string" :
+		"(1.425349037E9,1.425435437E9] : true,true"}
+		,{"string" :
+		"(1.425599926E9,1.425686326E9] : true,true"}
+		,{"string" :
+		"(1.425706901E9,1.425797463E9] : true,true"}
+		,{"string" :
+		"(1.437102718E9,1.437189118E9] : true,true"}
+		,{"string" :
+		"(1.441778284E9,1.44212396E9] : true,true"}
+	]},
+	{"id" : "62e",
+	"source" : "ospreys",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.429761468E9,1.430047422E9] : true,true"}
+		,{"string" :
+		"(1.431056734E9,1.431143134E9] : true,true"}
+		,{"string" :
+		"(1.431231263E9,1.431318827E9] : true,true"}
+		,{"string" :
+		"(1.432971158E9,1.433057558E9] : true,true"}
+		,{"string" :
+		"(1.436530102E9,1.436640373E9] : true,true"}
+		,{"string" :
+		"(1.437102281E9,1.437253566E9] : true,true"}
+		,{"string" :
+		"(1.438763536E9,1.438849936E9] : true,true"}
+		,{"string" :
+		"(1.439277045E9,1.439363445E9] : true,true"}
+		,{"string" :
+		"(1.439614994E9,1.439703128E9] : true,true"}
+		,{"string" :
+		"(1.440373637E9,1.440500211E9] : true,true"}
+		,{"string" :
+		"(1.441178701E9,1.441269818E9] : true,true"}
+		,{"string" :
+		"(1.441666747E9,1.441753148E9] : true,true"}
+		,{"string" :
+		"(1.441783092E9,1.441955865E9] : true,true"}
+		,{"string" :
+		"(1.444962071E9,1.445048482E9] : true,true"}
+		,{"string" :
+		"(1.445136032E9,1.445222432E9] : true,true"}
+	]},
+	{"id" : "50e",
+	"source" : "munsterrugby",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.424494419E9,1.424580819E9] : true,true"}
+		,{"string" :
+		"(1.425071742E9,1.42520217E9] : true,true"}
+		,{"string" :
+		"(1.432287339E9,1.432373739E9] : true,true"}
+		,{"string" :
+		"(1.432696862E9,1.433060861E9] : true,true"}
+		,{"string" :
+		"(1.440368632E9,1.440455032E9] : true,true"}
+		,{"string" :
+		"(1.443166059E9,1.443252459E9] : true,true"}
+		,{"string" :
+		"(1.443398288E9,1.443484688E9] : true,true"}
+		,{"string" :
+		"(1.443658043E9,1.443864961E9] : true,true"}
+	]},
+	{"id" : "8e",
+	"source" : "zebrerugby",
+	"target" : "munsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.410833337E9,1.410919737E9] : true,true"}
+		,{"string" :
+		"(1.410923279E9,1.411100906E9] : true,true"}
+		,{"string" :
+		"(1.411106913E9,1.411205001E9] : true,true"}
+		,{"string" :
+		"(1.411331306E9,1.4114401E9] : true,true"}
+		,{"string" :
+		"(1.414129484E9,1.414215884E9] : true,true"}
+		,{"string" :
+		"(1.414557972E9,1.414644372E9] : true,true"}
+		,{"string" :
+		"(1.420412835E9,1.420499235E9] : true,true"}
+		,{"string" :
+		"(1.420508807E9,1.42066559E9] : true,true"}
+		,{"string" :
+		"(1.42069395E9,1.42095753E9] : true,true"}
+		,{"string" :
+		"(1.421011613E9,1.421120165E9] : true,true"}
+		,{"string" :
+		"(1.432415394E9,1.432501794E9] : true,true"}
+		,{"string" :
+		"(1.432959803E9,1.433046203E9] : true,true"}
+		,{"string" :
+		"(1.439081073E9,1.439168114E9] : true,true"}
+	]},
+	{"id" : "4e",
+	"source" : "zebrerugby",
+	"target" : "ulsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.410236633E9,1.410323484E9] : true,true"}
+		,{"string" :
+		"(1.410326034E9,1.410602073E9] : true,true"}
+		,{"string" :
+		"(1.410733764E9,1.410820427E9] : true,true"}
+		,{"string" :
+		"(1.41101369E9,1.41110009E9] : true,true"}
+		,{"string" :
+		"(1.411118784E9,1.411252203E9] : true,true"}
+		,{"string" :
+		"(1.411437424E9,1.411621863E9] : true,true"}
+		,{"string" :
+		"(1.411622484E9,1.412025398E9] : true,true"}
+		,{"string" :
+		"(1.412041197E9,1.412127597E9] : true,true"}
+		,{"string" :
+		"(1.422230406E9,1.422316806E9] : true,true"}
+		,{"string" :
+		"(1.422917441E9,1.423003841E9] : true,true"}
+		,{"string" :
+		"(1.432281468E9,1.432367868E9] : true,true"}
+		,{"string" :
+		"(1.432415539E9,1.432501939E9] : true,true"}
+		,{"string" :
+		"(1.439324665E9,1.43941187E9] : true,true"}
+		,{"string" :
+		"(1.440376042E9,1.440462442E9] : true,true"}
+	]},
+	{"id" : "19e",
+	"source" : "zebrerugby",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.414361886E9,1.414448286E9] : true,true"}
+		,{"string" :
+		"(1.414465846E9,1.414556106E9] : true,true"}
+		,{"string" :
+		"(1.414642344E9,1.414916454E9] : true,true"}
+		,{"string" :
+		"(1.41496474E9,1.41505114E9] : true,true"}
+		,{"string" :
+		"(1.420249606E9,1.420336006E9] : true,true"}
+		,{"string" :
+		"(1.427761874E9,1.427848274E9] : true,true"}
+		,{"string" :
+		"(1.427916588E9,1.428002988E9] : true,true"}
+		,{"string" :
+		"(1.428034436E9,1.428120836E9] : true,true"}
+		,{"string" :
+		"(1.428268986E9,1.428355386E9] : true,true"}
+		,{"string" :
+		"(1.42836432E9,1.428529728E9] : true,true"}
+		,{"string" :
+		"(1.42853893E9,1.428710937E9] : true,true"}
+		,{"string" :
+		"(1.428718987E9,1.428819392E9] : true,true"}
+		,{"string" :
+		"(1.428877558E9,1.428969204E9] : true,true"}
+		,{"string" :
+		"(1.432368007E9,1.432454407E9] : true,true"}
+		,{"string" :
+		"(1.437103955E9,1.437190355E9] : true,true"}
+		,{"string" :
+		"(1.439082243E9,1.43916962E9] : true,true"}
+		,{"string" :
+		"(1.440386446E9,1.440472846E9] : true,true"}
+		,{"string" :
+		"(1.44211831E9,1.44220471E9] : true,true"}
+		,{"string" :
+		"(1.442966078E9,1.443052478E9] : true,true"}
+		,{"string" :
+		"(1.443307041E9,1.443393441E9] : true,true"}
+		,{"string" :
+		"(1.443420293E9,1.443570109E9] : true,true"}
+		,{"string" :
+		"(1.443755698E9,1.443842098E9] : true,true"}
+		,{"string" :
+		"(1.443902287E9,1.444084453E9] : true,true"}
+		,{"string" :
+		"(1.444086169E9,1.444172569E9] : true,true"}
+	]},
+	{"id" : "39e",
+	"source" : "cardiff_blues",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.421822117E9,1.421908517E9] : true,true"}
+		,{"string" :
+		"(1.423027818E9,1.423131064E9] : true,true"}
+		,{"string" :
+		"(1.427573472E9,1.427659872E9] : true,true"}
+		,{"string" :
+		"(1.427772127E9,1.428015545E9] : true,true"}
+		,{"string" :
+		"(1.428097975E9,1.428184375E9] : true,true"}
+		,{"string" :
+		"(1.428444307E9,1.428545229E9] : true,true"}
+		,{"string" :
+		"(1.428800539E9,1.428966664E9] : true,true"}
+		,{"string" :
+		"(1.429584724E9,1.429671124E9] : true,true"}
+		,{"string" :
+		"(1.429744685E9,1.429841907E9] : true,true"}
+		,{"string" :
+		"(1.429959659E9,1.430107215E9] : true,true"}
+		,{"string" :
+		"(1.430109251E9,1.430279283E9] : true,true"}
+		,{"string" :
+		"(1.430352597E9,1.430551531E9] : true,true"}
+		,{"string" :
+		"(1.430624484E9,1.431223204E9] : true,true"}
+		,{"string" :
+		"(1.431230369E9,1.43138793E9] : true,true"}
+		,{"string" :
+		"(1.431472271E9,1.431558675E9] : true,true"}
+		,{"string" :
+		"(1.437127467E9,1.437253566E9] : true,true"}
+		,{"string" :
+		"(1.437365526E9,1.437535215E9] : true,true"}
+		,{"string" :
+		"(1.439611151E9,1.439702937E9] : true,true"}
+		,{"string" :
+		"(1.439865008E9,1.439951466E9] : true,true"}
+		,{"string" :
+		"(1.439968879E9,1.44005744E9] : true,true"}
+		,{"string" :
+		"(1.440460925E9,1.440547327E9] : true,true"}
+		,{"string" :
+		"(1.440567751E9,1.440735787E9] : true,true"}
+		,{"string" :
+		"(1.440920607E9,1.441007007E9] : true,true"}
+		,{"string" :
+		"(1.445047774E9,1.445134174E9] : true,true"}
+	]},
+	{"id" : "27e",
+	"source" : "ulsterrugby",
+	"target" : "munsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.416562644E9,1.416723659E9] : true,true"}
+		,{"string" :
+		"(1.417046765E9,1.417151757E9] : true,true"}
+		,{"string" :
+		"(1.41716451E9,1.417293767E9] : true,true"}
+		,{"string" :
+		"(1.418510627E9,1.418597027E9] : true,true"}
+		,{"string" :
+		"(1.421366121E9,1.421452521E9] : true,true"}
+		,{"string" :
+		"(1.421456534E9,1.421542934E9] : true,true"}
+		,{"string" :
+		"(1.426737832E9,1.426833881E9] : true,true"}
+		,{"string" :
+		"(1.427851176E9,1.427937576E9] : true,true"}
+		,{"string" :
+		"(1.428619857E9,1.428706257E9] : true,true"}
+		,{"string" :
+		"(1.428807257E9,1.428893657E9] : true,true"}
+		,{"string" :
+		"(1.429166915E9,1.42930661E9] : true,true"}
+		,{"string" :
+		"(1.429938237E9,1.430024637E9] : true,true"}
+		,{"string" :
+		"(1.430261373E9,1.430368861E9] : true,true"}
+		,{"string" :
+		"(1.430536805E9,1.430623205E9] : true,true"}
+		,{"string" :
+		"(1.430797498E9,1.430900161E9] : true,true"}
+		,{"string" :
+		"(1.430987438E9,1.431399786E9] : true,true"}
+		,{"string" :
+		"(1.432287339E9,1.432373739E9] : true,true"}
+		,{"string" :
+		"(1.43288358E9,1.433063425E9] : true,true"}
+		,{"string" :
+		"(1.436667645E9,1.436754045E9] : true,true"}
+		,{"string" :
+		"(1.440630154E9,1.440719673E9] : true,true"}
+		,{"string" :
+		"(1.441250132E9,1.441336532E9] : true,true"}
+		,{"string" :
+		"(1.441341907E9,1.441507252E9] : true,true"}
+		,{"string" :
+		"(1.441957637E9,1.442044037E9] : true,true"}
+		,{"string" :
+		"(1.442610014E9,1.442722027E9] : true,true"}
+	]},
+	{"id" : "15e",
+	"source" : "connachtrugby",
+	"target" : "munsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.413502226E9,1.413588626E9] : true,true"}
+		,{"string" :
+		"(1.419819806E9,1.419916132E9] : true,true"}
+		,{"string" :
+		"(1.422163749E9,1.422250284E9] : true,true"}
+		,{"string" :
+		"(1.423025864E9,1.423112264E9] : true,true"}
+		,{"string" :
+		"(1.42707974E9,1.42716614E9] : true,true"}
+		,{"string" :
+		"(1.427326114E9,1.42757831E9] : true,true"}
+		,{"string" :
+		"(1.429823672E9,1.429910072E9] : true,true"}
+		,{"string" :
+		"(1.432959532E9,1.433047331E9] : true,true"}
+		,{"string" :
+		"(1.43640009E9,1.436487576E9] : true,true"}
+		,{"string" :
+		"(1.437100775E9,1.437187175E9] : true,true"}
+		,{"string" :
+		"(1.438667708E9,1.438754108E9] : true,true"}
+		,{"string" :
+		"(1.439433999E9,1.439520399E9] : true,true"}
+		,{"string" :
+		"(1.439521636E9,1.4396287E9] : true,true"}
+		,{"string" :
+		"(1.440045217E9,1.440131617E9] : true,true"}
+		,{"string" :
+		"(1.440144417E9,1.440235878E9] : true,true"}
+		,{"string" :
+		"(1.441962572E9,1.442048972E9] : true,true"}
+		,{"string" :
+		"(1.442547458E9,1.442727981E9] : true,true"}
+	]},
+	{"id" : "59e",
+	"source" : "ospreys",
+	"target" : "leinsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.428822419E9,1.428908819E9] : true,true"}
+		,{"string" :
+		"(1.441850915E9,1.441937315E9] : true,true"}
+	]},
+	{"id" : "47e",
+	"source" : "munsterrugby",
+	"target" : "cardiff_blues",
+	"presence" : [
+		{"string" :
+		"(1.42386217E9,1.423992123E9] : true,true"}
+		,{"string" :
+		"(1.443773191E9,1.443859591E9] : true,true"}
+		,{"string" :
+		"(1.444946503E9,1.445133013E9] : true,true"}
+	]},
+	{"id" : "35e",
+	"source" : "edinburghrugby",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.420796637E9,1.420883037E9] : true,true"}
+		,{"string" :
+		"(1.421449462E9,1.421539173E9] : true,true"}
+		,{"string" :
+		"(1.422011208E9,1.422097608E9] : true,true"}
+		,{"string" :
+		"(1.422161086E9,1.422247486E9] : true,true"}
+		,{"string" :
+		"(1.424079995E9,1.424166395E9] : true,true"}
+		,{"string" :
+		"(1.424421853E9,1.424508253E9] : true,true"}
+		,{"string" :
+		"(1.425707676E9,1.425794076E9] : true,true"}
+		,{"string" :
+		"(1.428357436E9,1.428443836E9] : true,true"}
+		,{"string" :
+		"(1.428454876E9,1.428541276E9] : true,true"}
+		,{"string" :
+		"(1.428624411E9,1.428795638E9] : true,true"}
+		,{"string" :
+		"(1.429004499E9,1.429090899E9] : true,true"}
+		,{"string" :
+		"(1.429097052E9,1.429183465E9] : true,true"}
+		,{"string" :
+		"(1.429216332E9,1.429342105E9] : true,true"}
+		,{"string" :
+		"(1.430375292E9,1.430462152E9] : true,true"}
+		,{"string" :
+		"(1.431052824E9,1.431144676E9] : true,true"}
+		,{"string" :
+		"(1.431745763E9,1.431843183E9] : true,true"}
+		,{"string" :
+		"(1.432167679E9,1.432387002E9] : true,true"}
+		,{"string" :
+		"(1.432582556E9,1.432668956E9] : true,true"}
+		,{"string" :
+		"(1.432867142E9,1.433060625E9] : true,true"}
+		,{"string" :
+		"(1.433462411E9,1.433548811E9] : true,true"}
+		,{"string" :
+		"(1.437102359E9,1.437188759E9] : true,true"}
+		,{"string" :
+		"(1.438135927E9,1.438222327E9] : true,true"}
+		,{"string" :
+		"(1.439891459E9,1.440029029E9] : true,true"}
+		,{"string" :
+		"(1.440111721E9,1.440198121E9] : true,true"}
+		,{"string" :
+		"(1.440805373E9,1.440891897E9] : true,true"}
+		,{"string" :
+		"(1.441248551E9,1.441334951E9] : true,true"}
+		,{"string" :
+		"(1.441350739E9,1.441437139E9] : true,true"}
+		,{"string" :
+		"(1.441772333E9,1.441858733E9] : true,true"}
+		,{"string" :
+		"(1.441957528E9,1.442043928E9] : true,true"}
+		,{"string" :
+		"(1.44205303E9,1.44213943E9] : true,true"}
+		,{"string" :
+		"(1.442892834E9,1.442982546E9] : true,true"}
+		,{"string" :
+		"(1.44321421E9,1.443309936E9] : true,true"}
+		,{"string" :
+		"(1.443761801E9,1.443861263E9] : true,true"}
+		,{"string" :
+		"(1.444772882E9,1.444859282E9] : true,true"}
+		,{"string" :
+		"(1.445032987E9,1.445119387E9] : true,true"}
+	]},
+	{"id" : "23e",
+	"source" : "benettonrugby",
+	"target" : "leinsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.41616951E9,1.41625591E9] : true,true"}
+		,{"string" :
+		"(1.416274415E9,1.416360815E9] : true,true"}
+		,{"string" :
+		"(1.416450316E9,1.41660871E9] : true,true"}
+		,{"string" :
+		"(1.416699889E9,1.416857704E9] : true,true"}
+		,{"string" :
+		"(1.427850993E9,1.427937393E9] : true,true"}
+		,{"string" :
+		"(1.430368455E9,1.430454855E9] : true,true"}
+		,{"string" :
+		"(1.430793434E9,1.430879834E9] : true,true"}
+		,{"string" :
+		"(1.430955553E9,1.431043462E9] : true,true"}
+		,{"string" :
+		"(1.431068884E9,1.431163694E9] : true,true"}
+		,{"string" :
+		"(1.431752884E9,1.431839284E9] : true,true"}
+	]},
+	{"id" : "11e",
+	"source" : "benettonrugby",
+	"target" : "connachtrugby",
+	"presence" : [
+		{"string" :
+		"(1.412024564E9,1.412114039E9] : true,true"}
+		,{"string" :
+		"(1.412632997E9,1.412729784E9] : true,true"}
+		,{"string" :
+		"(1.412811281E9,1.412993966E9] : true,true"}
+		,{"string" :
+		"(1.424738417E9,1.424824817E9] : true,true"}
+		,{"string" :
+		"(1.424988159E9,1.425082711E9] : true,true"}
+		,{"string" :
+		"(1.425186692E9,1.425276141E9] : true,true"}
+	]},
+	{"id" : "55e",
+	"source" : "ospreys",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.427546352E9,1.427632752E9] : true,true"}
+		,{"string" :
+		"(1.427848428E9,1.427934968E9] : true,true"}
+		,{"string" :
+		"(1.427942738E9,1.428029138E9] : true,true"}
+		,{"string" :
+		"(1.428377148E9,1.428463548E9] : true,true"}
+		,{"string" :
+		"(1.428666572E9,1.428890475E9] : true,true"}
+		,{"string" :
+		"(1.429077286E9,1.42916916E9] : true,true"}
+		,{"string" :
+		"(1.429700144E9,1.429864894E9] : true,true"}
+		,{"string" :
+		"(1.429960637E9,1.430087133E9] : true,true"}
+		,{"string" :
+		"(1.430209832E9,1.430296232E9] : true,true"}
+		,{"string" :
+		"(1.430372309E9,1.430545807E9] : true,true"}
+		,{"string" :
+		"(1.430680867E9,1.431205652E9] : true,true"}
+		,{"string" :
+		"(1.431860876E9,1.431947276E9] : true,true"}
+		,{"string" :
+		"(1.432372665E9,1.432459065E9] : true,true"}
+		,{"string" :
+		"(1.437102205E9,1.437188605E9] : true,true"}
+		,{"string" :
+		"(1.440832289E9,1.440918689E9] : true,true"}
+		,{"string" :
+		"(1.445219998E9,1.445306601E9] : true,true"}
+	]},
+	{"id" : "43e",
+	"source" : "munsterrugby",
+	"target" : "leinsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.422163465E9,1.422249865E9] : true,true"}
+		,{"string" :
+		"(1.422935501E9,1.423021901E9] : true,true"}
+		,{"string" :
+		"(1.425016378E9,1.425102778E9] : true,true"}
+		,{"string" :
+		"(1.428138927E9,1.428225327E9] : true,true"}
+		,{"string" :
+		"(1.429169767E9,1.429256167E9] : true,true"}
+		,{"string" :
+		"(1.429394404E9,1.42948139E9] : true,true"}
+		,{"string" :
+		"(1.432712282E9,1.432798682E9] : true,true"}
+		,{"string" :
+		"(1.432963815E9,1.433060567E9] : true,true"}
+		,{"string" :
+		"(1.437103425E9,1.437189825E9] : true,true"}
+		,{"string" :
+		"(1.438151765E9,1.43829933E9] : true,true"}
+		,{"string" :
+		"(1.441412705E9,1.441519584E9] : true,true"}
+		,{"string" :
+		"(1.441849073E9,1.441937465E9] : true,true"}
+		,{"string" :
+		"(1.441943264E9,1.442106247E9] : true,true"}
+		,{"string" :
+		"(1.444007426E9,1.444206428E9] : true,true"}
+		,{"string" :
+		"(1.444258772E9,1.444345172E9] : true,true"}
+		,{"string" :
+		"(1.444542227E9,1.444628713E9] : true,true"}
+	]},
+	{"id" : "31e",
+	"source" : "dragonsrugby",
+	"target" : "cardiff_blues",
+	"presence" : [
+		{"string" :
+		"(1.419151738E9,1.419238372E9] : true,true"}
+		,{"string" :
+		"(1.419465394E9,1.41966098E9] : true,true"}
+		,{"string" :
+		"(1.419754855E9,1.420090422E9] : true,true"}
+		,{"string" :
+		"(1.420419107E9,1.420513209E9] : true,true"}
+		,{"string" :
+		"(1.420596674E9,1.420702412E9] : true,true"}
+		,{"string" :
+		"(1.421702345E9,1.421788745E9] : true,true"}
+		,{"string" :
+		"(1.42209175E9,1.422249837E9] : true,true"}
+		,{"string" :
+		"(1.422420314E9,1.422506714E9] : true,true"}
+		,{"string" :
+		"(1.423193125E9,1.423284354E9] : true,true"}
+		,{"string" :
+		"(1.423541013E9,1.423693863E9] : true,true"}
+		,{"string" :
+		"(1.424217451E9,1.424303851E9] : true,true"}
+		,{"string" :
+		"(1.424407606E9,1.424513829E9] : true,true"}
+		,{"string" :
+		"(1.424660355E9,1.424746755E9] : true,true"}
+		,{"string" :
+		"(1.424923985E9,1.425010385E9] : true,true"}
+		,{"string" :
+		"(1.425328791E9,1.425415191E9] : true,true"}
+		,{"string" :
+		"(1.425607894E9,1.425694294E9] : true,true"}
+		,{"string" :
+		"(1.426024366E9,1.426110766E9] : true,true"}
+		,{"string" :
+		"(1.42675634E9,1.426944131E9] : true,true"}
+		,{"string" :
+		"(1.426985451E9,1.427145644E9] : true,true"}
+		,{"string" :
+		"(1.427359111E9,1.427445511E9] : true,true"}
+		,{"string" :
+		"(1.427496008E9,1.427582408E9] : true,true"}
+		,{"string" :
+		"(1.427661604E9,1.428272516E9] : true,true"}
+		,{"string" :
+		"(1.429050072E9,1.429136472E9] : true,true"}
+		,{"string" :
+		"(1.429158517E9,1.429244917E9] : true,true"}
+		,{"string" :
+		"(1.429248622E9,1.429335022E9] : true,true"}
+		,{"string" :
+		"(1.429942422E9,1.430028822E9] : true,true"}
+		,{"string" :
+		"(1.431056789E9,1.431143189E9] : true,true"}
+		,{"string" :
+		"(1.433284532E9,1.433371181E9] : true,true"}
+		,{"string" :
+		"(1.435626245E9,1.435718568E9] : true,true"}
+		,{"string" :
+		"(1.436399373E9,1.436485773E9] : true,true"}
+		,{"string" :
+		"(1.437448815E9,1.437535215E9] : true,true"}
+		,{"string" :
+		"(1.438129328E9,1.438227708E9] : true,true"}
+		,{"string" :
+		"(1.438484517E9,1.438570917E9] : true,true"}
+		,{"string" :
+		"(1.438728321E9,1.438814721E9] : true,true"}
+		,{"string" :
+		"(1.438814759E9,1.438982548E9] : true,true"}
+		,{"string" :
+		"(1.439013675E9,1.439100075E9] : true,true"}
+		,{"string" :
+		"(1.439269345E9,1.439355745E9] : true,true"}
+		,{"string" :
+		"(1.439443867E9,1.439530267E9] : true,true"}
+		,{"string" :
+		"(1.43961062E9,1.439701305E9] : true,true"}
+		,{"string" :
+		"(1.439861428E9,1.439947828E9] : true,true"}
+		,{"string" :
+		"(1.440396099E9,1.440565263E9] : true,true"}
+		,{"string" :
+		"(1.440653112E9,1.440739512E9] : true,true"}
+		,{"string" :
+		"(1.440760059E9,1.440899639E9] : true,true"}
+		,{"string" :
+		"(1.440920607E9,1.441007007E9] : true,true"}
+		,{"string" :
+		"(1.443741286E9,1.443827686E9] : true,true"}
+	]},
+	{"id" : "63e",
+	"source" : "scarlets_rugby",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.430290136E9,1.430376536E9] : true,true"}
+		,{"string" :
+		"(1.43297423E9,1.43306063E9] : true,true"}
+		,{"string" :
+		"(1.434506222E9,1.434740786E9] : true,true"}
+		,{"string" :
+		"(1.437101984E9,1.437192384E9] : true,true"}
+		,{"string" :
+		"(1.438978623E9,1.439065023E9] : true,true"}
+		,{"string" :
+		"(1.439156753E9,1.439270408E9] : true,true"}
+		,{"string" :
+		"(1.440384088E9,1.440471111E9] : true,true"}
+		,{"string" :
+		"(1.44083808E9,1.44092448E9] : true,true"}
+		,{"string" :
+		"(1.441063672E9,1.441151003E9] : true,true"}
+		,{"string" :
+		"(1.441221104E9,1.441525253E9] : true,true"}
+		,{"string" :
+		"(1.441617147E9,1.441703547E9] : true,true"}
+		,{"string" :
+		"(1.444818627E9,1.444905027E9] : true,true"}
+		,{"string" :
+		"(1.445294517E9,1.44538094E9] : true,true"}
+	]},
+	{"id" : "51e",
+	"source" : "dragonsrugby",
+	"target" : "leinsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.425265135E9,1.425351535E9] : true,true"}
+		,{"string" :
+		"(1.426030599E9,1.426116999E9] : true,true"}
+		,{"string" :
+		"(1.428358148E9,1.428452851E9] : true,true"}
+		,{"string" :
+		"(1.428459095E9,1.428614812E9] : true,true"}
+		,{"string" :
+		"(1.428624011E9,1.428746894E9] : true,true"}
+		,{"string" :
+		"(1.428793133E9,1.428912692E9] : true,true"}
+		,{"string" :
+		"(1.437358264E9,1.437444664E9] : true,true"}
+		,{"string" :
+		"(1.439287763E9,1.439374163E9] : true,true"}
+		,{"string" :
+		"(1.442208184E9,1.442294584E9] : true,true"}
+		,{"string" :
+		"(1.443406955E9,1.443493355E9] : true,true"}
+		,{"string" :
+		"(1.443512707E9,1.443599107E9] : true,true"}
+		,{"string" :
+		"(1.443740342E9,1.443933984E9] : true,true"}
+		,{"string" :
+		"(1.444088374E9,1.444174774E9] : true,true"}
+	]},
+	{"id" : "9e",
+	"source" : "benettonrugby",
+	"target" : "dragonsrugby",
+	"presence" : [
+		{"string" :
+		"(1.411437853E9,1.411524253E9] : true,true"}
+		,{"string" :
+		"(1.411696671E9,1.411783071E9] : true,true"}
+		,{"string" :
+		"(1.411875008E9,1.411966437E9] : true,true"}
+		,{"string" :
+		"(1.424427429E9,1.424513829E9] : true,true"}
+		,{"string" :
+		"(1.425868214E9,1.425954708E9] : true,true"}
+		,{"string" :
+		"(1.427164473E9,1.427251848E9] : true,true"}
+		,{"string" :
+		"(1.427408681E9,1.427495081E9] : true,true"}
+		,{"string" :
+		"(1.4275266E9,1.427617477E9] : true,true"}
+		,{"string" :
+		"(1.440375842E9,1.440462242E9] : true,true"}
+		,{"string" :
+		"(1.44427861E9,1.44436501E9] : true,true"}
+		,{"string" :
+		"(1.444615819E9,1.444702219E9] : true,true"}
+		,{"string" :
+		"(1.445312046E9,1.445398446E9] : true,true"}
+		,{"string" :
+		"(1.445552046E9,1.445638446E9] : true,true"}
+	]},
+	{"id" : "5e",
+	"source" : "benettonrugby",
+	"target" : "munsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.410245079E9,1.410331479E9] : true,true"}
+		,{"string" :
+		"(1.41039002E9,1.41047642E9] : true,true"}
+		,{"string" :
+		"(1.429578081E9,1.429664481E9] : true,true"}
+		,{"string" :
+		"(1.429913759E9,1.430025408E9] : true,true"}
+		,{"string" :
+		"(1.43450621E9,1.434594996E9] : true,true"}
+		,{"string" :
+		"(1.437101856E9,1.437188256E9] : true,true"}
+		,{"string" :
+		"(1.440721384E9,1.440807784E9] : true,true"}
+		,{"string" :
+		"(1.440901868E9,1.440988268E9] : true,true"}
+		,{"string" :
+		"(1.441001138E9,1.441091856E9] : true,true"}
+		,{"string" :
+		"(1.441100872E9,1.441187272E9] : true,true"}
+		,{"string" :
+		"(1.441332927E9,1.441579594E9] : true,true"}
+	]},
+	{"id" : "1e",
+	"source" : "zebrerugby",
+	"target" : "cardiff_blues",
+	"presence" : [
+		{"string" :
+		"(1.409539046E9,1.409710532E9] : true,true"}
+		,{"string" :
+		"(1.409812993E9,1.410040864E9] : true,true"}
+		,{"string" :
+		"(1.41004794E9,1.410224197E9] : true,true"}
+		,{"string" :
+		"(1.418430442E9,1.418516842E9] : true,true"}
+		,{"string" :
+		"(1.430698718E9,1.430785118E9] : true,true"}
+		,{"string" :
+		"(1.431388217E9,1.431553849E9] : true,true"}
+		,{"string" :
+		"(1.431557579E9,1.431928067E9] : true,true"}
+		,{"string" :
+		"(1.437103609E9,1.437200482E9] : true,true"}
+		,{"string" :
+		"(1.439085642E9,1.439180944E9] : true,true"}
+		,{"string" :
+		"(1.440814404E9,1.440900804E9] : true,true"}
+		,{"string" :
+		"(1.441077037E9,1.441170695E9] : true,true"}
+		,{"string" :
+		"(1.441257451E9,1.441600287E9] : true,true"}
+	]},
+	{"id" : "28e",
+	"source" : "connachtrugby",
+	"target" : "scarlets_rugby",
+	"presence" : [
+		{"string" :
+		"(1.416974898E9,1.417061298E9] : true,true"}
+		,{"string" :
+		"(1.417150166E9,1.417236566E9] : true,true"}
+		,{"string" :
+		"(1.417252912E9,1.417339312E9] : true,true"}
+		,{"string" :
+		"(1.423451163E9,1.423537563E9] : true,true"}
+		,{"string" :
+		"(1.423776584E9,1.423862984E9] : true,true"}
+		,{"string" :
+		"(1.423960305E9,1.424046705E9] : true,true"}
+		,{"string" :
+		"(1.428292018E9,1.428378418E9] : true,true"}
+		,{"string" :
+		"(1.428479896E9,1.428566296E9] : true,true"}
+		,{"string" :
+		"(1.444784981E9,1.444871381E9] : true,true"}
+	]},
+	{"id" : "16e",
+	"source" : "connachtrugby",
+	"target" : "ulsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.413502226E9,1.413588626E9] : true,true"}
+		,{"string" :
+		"(1.416562644E9,1.416723639E9] : true,true"}
+		,{"string" :
+		"(1.417249413E9,1.417335813E9] : true,true"}
+		,{"string" :
+		"(1.41921968E9,1.419307294E9] : true,true"}
+		,{"string" :
+		"(1.419313147E9,1.419472748E9] : true,true"}
+		,{"string" :
+		"(1.419571502E9,1.41966881E9] : true,true"}
+		,{"string" :
+		"(1.421366121E9,1.421452521E9] : true,true"}
+		,{"string" :
+		"(1.421456534E9,1.421542934E9] : true,true"}
+		,{"string" :
+		"(1.422084937E9,1.422171337E9] : true,true"}
+		,{"string" :
+		"(1.423025664E9,1.423268855E9] : true,true"}
+		,{"string" :
+		"(1.428624618E9,1.428807587E9] : true,true"}
+		,{"string" :
+		"(1.42921854E9,1.42930494E9] : true,true"}
+		,{"string" :
+		"(1.42978182E9,1.42986822E9] : true,true"}
+		,{"string" :
+		"(1.431857324E9,1.431943724E9] : true,true"}
+		,{"string" :
+		"(1.436406953E9,1.436493353E9] : true,true"}
+		,{"string" :
+		"(1.439787919E9,1.439874319E9] : true,true"}
+		,{"string" :
+		"(1.440131727E9,1.440218127E9] : true,true"}
+		,{"string" :
+		"(1.440643439E9,1.440732311E9] : true,true"}
+		,{"string" :
+		"(1.441582019E9,1.441668419E9] : true,true"}
+		,{"string" :
+		"(1.441957637E9,1.442044037E9] : true,true"}
+		,{"string" :
+		"(1.442266721E9,1.442353121E9] : true,true"}
+		,{"string" :
+		"(1.444280572E9,1.444366972E9] : true,true"}
+		,{"string" :
+		"(1.444472121E9,1.444558521E9] : true,true"}
+	]},
+	{"id" : "48e",
+	"source" : "edinburghrugby",
+	"target" : "ulsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.424209973E9,1.42451151E9] : true,true"}
+		,{"string" :
+		"(1.429662011E9,1.429748411E9] : true,true"}
+		,{"string" :
+		"(1.432288834E9,1.432375234E9] : true,true"}
+		,{"string" :
+		"(1.432582556E9,1.432668956E9] : true,true"}
+		,{"string" :
+		"(1.437102718E9,1.437189118E9] : true,true"}
+		,{"string" :
+		"(1.438040558E9,1.438126958E9] : true,true"}
+		,{"string" :
+		"(1.438562131E9,1.438648531E9] : true,true"}
+		,{"string" :
+		"(1.439698787E9,1.439785187E9] : true,true"}
+		,{"string" :
+		"(1.439957301E9,1.440043701E9] : true,true"}
+		,{"string" :
+		"(1.440284322E9,1.440452311E9] : true,true"}
+		,{"string" :
+		"(1.440551692E9,1.440835735E9] : true,true"}
+		,{"string" :
+		"(1.440918985E9,1.441005385E9] : true,true"}
+		,{"string" :
+		"(1.44106086E9,1.44114726E9] : true,true"}
+		,{"string" :
+		"(1.441328499E9,1.441414899E9] : true,true"}
+		,{"string" :
+		"(1.44451003E9,1.44459643E9] : true,true"}
+		,{"string" :
+		"(1.444617161E9,1.444799386E9] : true,true"}
+		,{"string" :
+		"(1.444867681E9,1.445139443E9] : true,true"}
+		,{"string" :
+		"(1.445222388E9,1.445308788E9] : true,true"}
+	]},
+	{"id" : "36e",
+	"source" : "cardiff_blues",
+	"target" : "ospreys",
+	"presence" : [
+		{"string" :
+		"(1.421189264E9,1.42131403E9] : true,true"}
+		,{"string" :
+		"(1.427511484E9,1.427597884E9] : true,true"}
+		,{"string" :
+		"(1.427831318E9,1.427917718E9] : true,true"}
+		,{"string" :
+		"(1.429700107E9,1.429786507E9] : true,true"}
+		,{"string" :
+		"(1.429833604E9,1.430043212E9] : true,true"}
+		,{"string" :
+		"(1.43028475E9,1.43037115E9] : true,true"}
+		,{"string" :
+		"(1.430638258E9,1.430724658E9] : true,true"}
+		,{"string" :
+		"(1.431056734E9,1.431143134E9] : true,true"}
+		,{"string" :
+		"(1.431232394E9,1.431318827E9] : true,true"}
+		,{"string" :
+		"(1.432345614E9,1.432432014E9] : true,true"}
+		,{"string" :
+		"(1.436226533E9,1.436312933E9] : true,true"}
+		,{"string" :
+		"(1.437102281E9,1.437210083E9] : true,true"}
+		,{"string" :
+		"(1.437448815E9,1.437535215E9] : true,true"}
+		,{"string" :
+		"(1.438763536E9,1.438849936E9] : true,true"}
+		,{"string" :
+		"(1.439273244E9,1.439359644E9] : true,true"}
+		,{"string" :
+		"(1.439515804E9,1.439602204E9] : true,true"}
+		,{"string" :
+		"(1.439607952E9,1.439702937E9] : true,true"}
+		,{"string" :
+		"(1.440373637E9,1.440500211E9] : true,true"}
+		,{"string" :
+		"(1.440920607E9,1.441007007E9] : true,true"}
+		,{"string" :
+		"(1.441178701E9,1.441265101E9] : true,true"}
+	]},
+	{"id" : "24e",
+	"source" : "ulsterrugby",
+	"target" : "ospreys",
+	"presence" : [
+		{"string" :
+		"(1.416368636E9,1.416528322E9] : true,true"}
+		,{"string" :
+		"(1.416539003E9,1.416653441E9] : true,true"}
+		,{"string" :
+		"(1.418947932E9,1.419034332E9] : true,true"}
+		,{"string" :
+		"(1.419052835E9,1.419145485E9] : true,true"}
+		,{"string" :
+		"(1.430784489E9,1.430870889E9] : true,true"}
+		,{"string" :
+		"(1.431860876E9,1.431947276E9] : true,true"}
+		,{"string" :
+		"(1.437101863E9,1.437190581E9] : true,true"}
+		,{"string" :
+		"(1.44074052E9,1.440835735E9] : true,true"}
+		,{"string" :
+		"(1.441192744E9,1.441449603E9] : true,true"}
+	]},
+	{"id" : "12e",
+	"source" : "zebrerugby",
+	"target" : "ospreys",
+	"presence" : [
+		{"string" :
+		"(1.412039078E9,1.412137925E9] : true,true"}
+		,{"string" :
+		"(1.412139526E9,1.412455925E9] : true,true"}
+		,{"string" :
+		"(1.412545936E9,1.412652642E9] : true,true"}
+		,{"string" :
+		"(1.414796069E9,1.414882469E9] : true,true"}
+		,{"string" :
+		"(1.420249606E9,1.420336006E9] : true,true"}
+		,{"string" :
+		"(1.422508444E9,1.422594844E9] : true,true"}
+		,{"string" :
+		"(1.426553075E9,1.426639475E9] : true,true"}
+		,{"string" :
+		"(1.42706613E9,1.427236468E9] : true,true"}
+		,{"string" :
+		"(1.427331816E9,1.427621104E9] : true,true"}
+		,{"string" :
+		"(1.427662081E9,1.427748481E9] : true,true"}
+		,{"string" :
+		"(1.432415394E9,1.432501794E9] : true,true"}
+		,{"string" :
+		"(1.437102205E9,1.437188605E9] : true,true"}
+		,{"string" :
+		"(1.439273244E9,1.439359644E9] : true,true"}
+		,{"string" :
+		"(1.440373578E9,1.440459978E9] : true,true"}
+		,{"string" :
+		"(1.445308706E9,1.445395106E9] : true,true"}
+	]},
+	{"id" : "56e",
+	"source" : "edinburghrugby",
+	"target" : "munsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.428357397E9,1.428443797E9] : true,true"}
+		,{"string" :
+		"(1.428700611E9,1.428830872E9] : true,true"}
+		,{"string" :
+		"(1.442118447E9,1.442204847E9] : true,true"}
+	]},
+	{"id" : "44e",
+	"source" : "dragonsrugby",
+	"target" : "ulsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.422915527E9,1.423001927E9] : true,true"}
+		,{"string" :
+		"(1.42526419E9,1.425430016E9] : true,true"}
+		,{"string" :
+		"(1.425527075E9,1.425686837E9] : true,true"}
+		,{"string" :
+		"(1.425762882E9,1.425888236E9] : true,true"}
+		,{"string" :
+		"(1.428823195E9,1.428909595E9] : true,true"}
+		,{"string" :
+		"(1.440376042E9,1.440462442E9] : true,true"}
+	]},
+	{"id" : "32e",
+	"source" : "cardiff_blues",
+	"target" : "leinsterrugby",
+	"presence" : [
+		{"string" :
+		"(1.420762091E9,1.420865182E9] : true,true"}
+		,{"string" :
+		"(1.420877915E9,1.421022389E9] : true,true"}
+		,{"string" :
+		"(1.439287763E9,1.439374163E9] : true,true"}
+		,{"string" :
+		"(1.441704483E9,1.442128337E9] : true,true"}
+	]},
+	{"id" : "20e",
+	"source" : "zebrerugby",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.414557972E9,1.414644372E9] : true,true"}
+		,{"string" :
+		"(1.422487238E9,1.422573638E9] : true,true"}
+		,{"string" :
+		"(1.42302621E9,1.42311261E9] : true,true"}
+		,{"string" :
+		"(1.423456868E9,1.423631656E9] : true,true"}
+		,{"string" :
+		"(1.423703057E9,1.423889955E9] : true,true"}
+		,{"string" :
+		"(1.423947132E9,1.424123474E9] : true,true"}
+		,{"string" :
+		"(1.424142994E9,1.424229394E9] : true,true"}
+		,{"string" :
+		"(1.42527315E9,1.42572027E9] : true,true"}
+		,{"string" :
+		"(1.425854895E9,1.425941295E9] : true,true"}
+		,{"string" :
+		"(1.432281468E9,1.432367868E9] : true,true"}
+		,{"string" :
+		"(1.432415539E9,1.432501939E9] : true,true"}
+		,{"string" :
+		"(1.432959803E9,1.433068103E9] : true,true"}
+		,{"string" :
+		"(1.439080229E9,1.439250136E9] : true,true"}
+	]},
+	{"id" : "64e",
+	"source" : "munsterrugby",
+	"target" : "dragonsrugby",
+	"presence" : [
+		{"string" :
+		"(1.431207962E9,1.431294362E9] : true,true"}
+		,{"string" :
+		"(1.431472893E9,1.431572128E9] : true,true"}
+		,{"string" :
+		"(1.431725041E9,1.43184342E9] : true,true"}
+	]},
+	{"id" : "52e",
+	"source" : "munsterrugby",
+	"target" : "ospreys",
+	"presence" : [
+		{"string" :
+		"(1.42567721E9,1.42578988E9] : true,true"}
+		,{"string" :
+		"(1.430784489E9,1.430870889E9] : true,true"}
+		,{"string" :
+		"(1.431402114E9,1.431488514E9] : true,true"}
+		,{"string" :
+		"(1.431751847E9,1.431838247E9] : true,true"}
+		,{"string" :
+		"(1.431918621E9,1.432005021E9] : true,true"}
+		,{"string" :
+		"(1.43202743E9,1.43216853E9] : true,true"}
+		,{"string" :
+		"(1.432250668E9,1.43246076E9] : true,true"}
+		,{"string" :
+		"(1.436926039E9,1.437012439E9] : true,true"}
+		,{"string" :
+		"(1.437101856E9,1.437188425E9] : true,true"}
+		,{"string" :
+		"(1.439273244E9,1.439359644E9] : true,true"}
+		,{"string" :
+		"(1.440022999E9,1.440109399E9] : true,true"}
+		,{"string" :
+		"(1.441244233E9,1.44150438E9] : true,true"}
+		,{"string" :
+		"(1.441789936E9,1.442224875E9] : true,true"}
+	]},
+	{"id" : "40e",
+	"source" : "cardiff_blues",
+	"target" : "connachtrugby",
+	"presence" : [
+		{"string" :
+		"(1.422091749E9,1.422178149E9] : true,true"}
+		,{"string" :
+		"(1.425263652E9,1.425432627E9] : true,true"}
+		,{"string" :
+		"(1.425513305E9,1.425710463E9] : true,true"}
+		,{"string" :
+		"(1.426028999E9,1.426115399E9] : true,true"}
+		,{"string" :
+		"(1.443391012E9,1.443477412E9] : true,true"}
+		,{"string" :
+		"(1.443584693E9,1.443671093E9] : true,true"}
+		,{"string" :
+		"(1.443744145E9,1.443832938E9] : true,true"}
+		,{"string" :
+		"(1.443834912E9,1.443934835E9] : true,true"}
+	]},
+	{"id" : "60e",
+	"source" : "ulsterrugby",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.428829597E9,1.428915997E9] : true,true"}
+		,{"string" :
+		"(1.430261946E9,1.430348346E9] : true,true"}
+		,{"string" :
+		"(1.430439811E9,1.430542198E9] : true,true"}
+		,{"string" :
+		"(1.431648343E9,1.431734743E9] : true,true"}
+		,{"string" :
+		"(1.431745642E9,1.431848836E9] : true,true"}
+		,{"string" :
+		"(1.431984209E9,1.432070609E9] : true,true"}
+		,{"string" :
+		"(1.432187173E9,1.432381213E9] : true,true"}
+		,{"string" :
+		"(1.432866675E9,1.433063425E9] : true,true"}
+		,{"string" :
+		"(1.438135927E9,1.438222327E9] : true,true"}
+		,{"string" :
+		"(1.442269354E9,1.44236587E9] : true,true"}
+	]},
+	{"id" : "6e",
+	"source" : "benettonrugby",
+	"target" : "glasgowwarriors",
+	"presence" : [
+		{"string" :
+		"(1.410743047E9,1.410829447E9] : true,true"}
+		,{"string" :
+		"(1.411358329E9,1.411514828E9] : true,true"}
+		,{"string" :
+		"(1.411883688E9,1.411970088E9] : true,true"}
+		,{"string" :
+		"(1.412044905E9,1.412131305E9] : true,true"}
+		,{"string" :
+		"(1.412294032E9,1.412380432E9] : true,true"}
+		,{"string" :
+		"(1.412462284E9,1.412560439E9] : true,true"}
+		,{"string" :
+		"(1.414459763E9,1.414546163E9] : true,true"}
+		,{"string" :
+		"(1.414743644E9,1.414833517E9] : true,true"}
+		,{"string" :
+		"(1.424995095E9,1.425081567E9] : true,true"}
+		,{"string" :
+		"(1.427238759E9,1.42732557E9] : true,true"}
+		,{"string" :
+		"(1.428536781E9,1.428623181E9] : true,true"}
+	]},
+	{"id" : "2e",
+	"source" : "benettonrugby",
+	"target" : "ospreys",
+	"presence" : [
+		{"string" :
+		"(1.409619004E9,1.409705404E9] : true,true"}
+		,{"string" :
+		"(1.40978049E9,1.409964951E9] : true,true"}
+		,{"string" :
+		"(1.410075617E9,1.410162017E9] : true,true"}
+		,{"string" :
+		"(1.412043599E9,1.412129999E9] : true,true"}
+		,{"string" :
+		"(1.413608481E9,1.413770886E9] : true,true"}
+		,{"string" :
+		"(1.418965219E9,1.419052504E9] : true,true"}
+		,{"string" :
+		"(1.420923717E9,1.421010564E9] : true,true"}
+		,{"string" :
+		"(1.42760627E9,1.427692808E9] : true,true"}
+		,{"string" :
+		"(1.428366382E9,1.428452782E9] : true,true"}
+		,{"string" :
+		"(1.42845808E9,1.428755744E9] : true,true"}
+		,{"string" :
+		"(1.433466755E9,1.433553155E9] : true,true"}
+		,{"string" :
+		"(1.437102025E9,1.437188425E9] : true,true"}
+		,{"string" :
+		"(1.443433707E9,1.443520107E9] : true,true"}
+		,{"string" :
+		"(1.443662137E9,1.443748537E9] : true,true"}
+		,{"string" :
+		"(1.44462827E9,1.44471467E9] : true,true"}
+		,{"string" :
+		"(1.444778883E9,1.444865283E9] : true,true"}
+		,{"string" :
+		"(1.444892733E9,1.445041432E9] : true,true"}
+		,{"string" :
+		"(1.445045552E9,1.445151178E9] : true,true"}
+	]},
+	{"id" : "29e",
+	"source" : "benettonrugby",
+	"target" : "cardiff_blues",
+	"presence" : [
+		{"string" :
+		"(1.417163164E9,1.417249564E9] : true,true"}
+		,{"string" :
+		"(1.423780479E9,1.423866879E9] : true,true"}
+		,{"string" :
+		"(1.423905723E9,1.423992123E9] : true,true"}
+		,{"string" :
+		"(1.424137118E9,1.424223518E9] : true,true"}
+		,{"string" :
+		"(1.424298073E9,1.424391078E9] : true,true"}
+		,{"string" :
+		"(1.424414497E9,1.424521061E9] : true,true"}
+		,{"string" :
+		"(1.427239875E9,1.427326275E9] : true,true"}
+	]},
+	{"id" : "17e",
+	"source" : "zebrerugby",
+	"target" : "dragonsrugby",
+	"presence" : [
+		{"string" :
+		"(1.414129484E9,1.414215884E9] : true,true"}
+		,{"string" :
+		"(1.414557972E9,1.414644372E9] : true,true"}
+		,{"string" :
+		"(1.418765445E9,1.418877174E9] : true,true"}
+		,{"string" :
+		"(1.418947758E9,1.419034158E9] : true,true"}
+		,{"string" :
+		"(1.419115408E9,1.419282949E9] : true,true"}
+		,{"string" :
+		"(1.424502501E9,1.424588901E9] : true,true"}
+		,{"string" :
+		"(1.424657705E9,1.424922104E9] : true,true"}
+		,{"string" :
+		"(1.424997224E9,1.425083624E9] : true,true"}
+		,{"string" :
+		"(1.425096604E9,1.425335152E9] : true,true"}
+		,{"string" :
+		"(1.425359739E9,1.425446139E9] : true,true"}
+		,{"string" :
+		"(1.431827383E9,1.431913783E9] : true,true"}
+		,{"string" :
+		"(1.439157415E9,1.439244929E9] : true,true"}
+		,{"string" :
+		"(1.440374183E9,1.440460583E9] : true,true"}
+		,{"string" :
+		"(1.441683564E9,1.442047933E9] : true,true"}
+		,{"string" :
+		"(1.442176646E9,1.442263046E9] : true,true"}
+		,{"string" :
+		"(1.442292455E9,1.442378855E9] : true,true"}
 	]}
 ]}
