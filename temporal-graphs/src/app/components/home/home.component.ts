@@ -312,13 +312,18 @@ export class HomeComponent implements AfterViewInit {
     this.graphSVG?.select(`#${id}`)
       .attr('fill', 'red');
 
+    const nodeIndex = parseInt(($event.target as Element).id.split('-')[2]);
+    const nodeId = ($event.target as Element).id.split('-')[1];
+
     const trajectoryId = `trajectory-${id.split('-')[1]}`;
     // show trajectories of the current node id else show neighboring edges
     if (this.showTrajectories) {
       this.graphSVG?.select('#trajectories-wrapper')
         .selectAll('path')
         .attr('stroke-opacity', (d: any) => {
+          // if edge isnt in the current time range hide edge
           if (d.t0 < this.start || d.t1 > this.end) return 0;
+
           if (d.id === trajectoryId) {
             return this.relativeAgeScale(d.age);
           } else {
@@ -326,20 +331,25 @@ export class HomeComponent implements AfterViewInit {
           }
         });
     } else {
-      this.graphSVG?.select('#edges-wrapper')
+      this.graphSVG?.select('#links-wrapper')
         .selectAll('line')
-        .attr('stroke', (d: any) => {
-          if (d.source.id === id || d.target.id === id) {
-            return 'black';
-          } else {
-            return 'transparent';
-          }
-        })
         .attr('stroke-opacity', (d: any) => {
-          if (d.source.id === id || d.target.id === id) {
-            return 'red';
+          // if edge isnt in the current time range hide edge
+          if (d.t0 < this.start && d.t1 > this.end) return 0;
+          
+
+          // get start and end time of node id
+          const found = this.graph?.nodes.find((node: Node) => node.id === nodeId);
+
+          if (!found) return 0;
+
+          // if found start and end time is outside of the current time range hide edge
+          if (found.time[nodeIndex] < d.t0 && found.time[nodeIndex + 1] > d.t1) return 0;
+
+          if (id.includes(d.sourceId) || id.includes(d.targetId)) {
+            return this.relativeAgeScale(d.age);
           } else {
-            return 'transparent';
+            return 0;
           }
         });
     }
@@ -349,7 +359,6 @@ export class HomeComponent implements AfterViewInit {
     // unselect and unhighlight node
     if (!$event) return;
 
-    // const id = ($event.target as Element).id;
     this.graphSVG?.select("#nodes-wrapper")
       .selectAll('circle')
       .attr('fill', 'gray');
@@ -360,10 +369,9 @@ export class HomeComponent implements AfterViewInit {
         .selectAll('path')
         .attr('stroke-opacity', 0);
     } else {
-      this.graphSVG?.select('#edges-wrapper')
+      this.graphSVG?.select('#links-wrapper')
         .selectAll('line')
-        .attr('stroke', 'gray')
-        .attr('stroke-opacity', 1);
+        .attr('stroke-opacity', 0);
     }
   }
 
@@ -387,7 +395,7 @@ export class HomeComponent implements AfterViewInit {
       });
       filteredAges.push(...ageIndices);
     });
-
+  
     this.relativeAgeScale = d3.scaleLinear().domain(d3.extent(filteredAges) as Array<number>).range([0.1, 1]);
 
     // update node opacity with new compoted scales
@@ -449,7 +457,7 @@ export class HomeComponent implements AfterViewInit {
         });
       });
     });
-    
+
     // draw nodes
     this.graphSVG?.select('#nodes-wrapper')
       .selectAll('circle')
@@ -495,7 +503,85 @@ export class HomeComponent implements AfterViewInit {
   }
 
   private drawLinks() {
+    if (!this.graph) {
+      setTimeout(() => this.drawLinks(), 1000);
+      return;
+    }
 
+    const zipped = new Array<{ id: string | number, sourceId: string | number, targetId: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }>();
+    this.graph.edges.forEach((edge: Edge) => {
+      const sourceNode = this.graph?.nodes.find((node: Node) => node.id === edge.source.id);
+      const targetNode = this.graph?.nodes.find((node: Node) => node.id === edge.target.id);
+
+
+      if (sourceNode && targetNode) {
+        // iterate over pairs of time array in edge
+        for (let i = 0; i < edge.time.length; i+=2) {
+          // return index in node time array equal to edge time
+          let sourceTimeIndex = undefined;
+          for(let j = 0; j < sourceNode.time.length - 1; j+=2) {
+            if(sourceNode.time[j] <= edge.time[i] && sourceNode.time[j + 1] >= edge.time[i]) {
+              sourceTimeIndex = j;
+              break;
+            }
+          }
+          let targetTimeIndex = undefined;
+          for(let j = 0; j < targetNode.time.length - 1; j+=2) {
+            if(targetNode.time[j] <= edge.time[i] && targetNode.time[j + 1] >= edge.time[i]) {
+              targetTimeIndex = j;
+              break;
+            }
+          }
+          if(!sourceTimeIndex || !targetTimeIndex) {
+            console.log('undefined');
+            return;
+          }
+    
+          const x0 = sourceNode.coordinates[sourceTimeIndex].x;
+          const y0 = sourceNode.coordinates[sourceTimeIndex].y;
+          const x1 = targetNode.coordinates[targetTimeIndex].x;
+          const y1 = targetNode.coordinates[targetTimeIndex].y;
+
+          zipped.push({
+            id: edge.id,
+            sourceId: edge.source.id,
+            targetId: edge.target.id,
+            t0: edge.time[i],
+            t1: edge.time[i + 1],
+            age: edge.ages[i],
+            index: i,
+            x0: x0,
+            y0: y0,
+            x1: x1,
+            y1: y1
+          });
+        }
+
+      }
+    });
+
+    // draw links between nodes
+    this.graphSVG?.select('#links-wrapper')
+      .selectAll('line')
+      .data(zipped)
+      .enter()
+      .append('line')
+      .attr('class', 'link')
+      .attr('x1', (d: { id: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
+        return this.coordinateXScale(d.x0);
+      })
+      .attr('x2', (d: { id: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
+        return this.coordinateXScale(d.x1);
+      })
+      .attr('y1', (d: { id: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
+        return this.coordinateYScale(d.y0);
+      })
+      .attr('y2', (d: { id: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
+        return this.coordinateYScale(d.y1);
+      })
+      .attr('stroke', 'black')
+      .attr('stroke-width', 2)
+      .attr('stroke-opacity', 0);
   }
 
   private drawTrajectories() {
