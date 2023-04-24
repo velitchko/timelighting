@@ -1,30 +1,74 @@
+<div class="fixed top-0 right-0 z-40">
+    <button *ngIf="!showSidebar" class="text-4xl text-black" (click)="toggleSidebar()">
+        &#9776;
+    </button>
+</div>
+
+<div class=" fixed top-0 right-0 z-50 w-[25vw] h-full bg-white border text-black ease-in-out duration-300"
+    [ngClass]="{ 'translate-x-0' : showSidebar, 'translate-x-full' : !showSidebar }">
+    <button *ngIf="showSidebar" class="text-4xl text-black fixed right-0 top-0" (click)="toggleSidebar()">
+        &times;
+    </button>
+    <div class="p-10">
+        <h3 class="text-xl font-semibold text-black">
+            Select nodes to persistently highlight:
+        </h3>
+        <!-- ngFor loop to create tailwindcss check box for each nodeid in nodeids -->
+        <div class="">
+            <div *ngFor="let nodeId of nodeIds">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" class="form-checkbox" [checked]="nodeId.checked"
+                        (change)="toggleNode(nodeId.id)">
+                    <span class="ml-2">{{nodeId.id}}</span>
+                </label>
+            </div>
+        </div>
+        <div class="fixed bottom-10 right-10">
+            <button class="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10"
+                (click)="clearNodeIds(); toggleSidebar()">
+                Clear
+            </button>
+            <button
+                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10"
+                (click)="saveNodeIds(); toggleSidebar()">
+                Save
+            </button>
+        </div>
+    </div>
+</div>
+
 <div id="graph-container" #graphContainer></div>
 <div id="timeline-container" #timelineContainer></div>
 
 <div class="inline-flex rounded-md shadow-sm z-100 absolute m-2" role="group">
-            <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
-                (click)="toggleGroup('nodes')"
-                [ngClass]="{ 'text-white bg-blue-600'  : showNodes, 'text-gray-900 bg-white' : !showNodes}">
-                Nodes
-            </button>
-            <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
-                (click)="toggleGroup('densities')"
-                [ngClass]="{ 'text-white bg-blue-600'  : showDensities, 'text-gray-900 bg-white' : !showDensities}">
-                Density
-            </button>
-            <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
-                (click)="toggleGroup('labels')"
-                [ngClass]="{ 'text-white bg-blue-600'  : showLabels, 'text-gray-900 bg-white' : !showLabels}">
-                Labels
-            </button>
-            <button class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
-                (click)="toggleMouseOver()"
-                [ngClass]="{ 'text-white bg-blue-600'  : showTrajectories, 'text-gray-900 bg-white' : !showTrajectories}">
-                Trajectories
-            </button>
-            <button class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10" 
-                (click)="toggleMouseOver()"
-                [ngClass]="{ 'text-white bg-blue-600'  : !showTrajectories, 'text-gray-900 bg-white' : showTrajectories}">
-                Edges
-            </button>
+    <button
+        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10"
+        (click)="toggleGroup('nodes')"
+        [ngClass]="{ 'text-white bg-blue-600'  : showNodes, 'text-gray-900 bg-white' : !showNodes}">
+        Nodes
+    </button>
+    <button
+        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10"
+        (click)="toggleGroup('densities')"
+        [ngClass]="{ 'text-white bg-blue-600'  : showDensities, 'text-gray-900 bg-white' : !showDensities}">
+        Density
+    </button>
+    <button
+        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10"
+        (click)="toggleGroup('labels')"
+        [ngClass]="{ 'text-white bg-blue-600'  : showLabels, 'text-gray-900 bg-white' : !showLabels}">
+        Labels
+    </button>
+    <button
+        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10"
+        (click)="toggleMouseOver()"
+        [ngClass]="{ 'text-white bg-blue-600'  : showTrajectories, 'text-gray-900 bg-white' : !showTrajectories}">
+        Trajectories
+    </button>
+    <button
+        class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10"
+        (click)="toggleMouseOver()"
+        [ngClass]="{ 'text-white bg-blue-600'  : !showTrajectories, 'text-gray-900 bg-white' : showTrajectories}">
+        Edges
+    </button>
 </div>

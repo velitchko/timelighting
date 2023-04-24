@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, AfterContentInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import * as d3 from 'd3';
 import Graph from '../../types/graph.type';
@@ -12,7 +12,7 @@ import * as _ from 'lodash';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements AfterContentInit {
   private graph: Graph | null;
 
   private graphWidth: number;
@@ -54,8 +54,10 @@ export class HomeComponent implements AfterViewInit {
   protected showNodes: boolean = true;
   protected showDensities: boolean = true;
   protected showLabels: boolean = true;
-
   protected showTrajectories: boolean = true;
+  protected showSidebar: boolean = false;
+  protected selectedNodeIds: Array<string | number> = [];
+  protected nodeIds: Array<{ id: string | number, checked: boolean }> = [];
 
   private start: number = 0;
   private end: number = 0;
@@ -111,7 +113,7 @@ export class HomeComponent implements AfterViewInit {
     this.graphZoom = d3.zoom<SVGSVGElement, unknown>();
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     this.graphService.getGraph().subscribe((data: Graph) => {
       this.graph = data;
 
@@ -123,6 +125,24 @@ export class HomeComponent implements AfterViewInit {
       this.drawAreaChart();
       // this.drawTimeline();
     });
+  }
+
+  protected saveNodeIds() {
+    this.selectedNodeIds = this.nodeIds.filter((node: { id: string | number, checked: boolean }) => node.checked).map((node: { id: string | number, checked: boolean }) => node.id);
+  }
+
+  protected toggleNode(id: string | number) {
+    // toggle checked flag
+    this.nodeIds.find((node: { id: string | number, checked: boolean }) => node.id === id)!.checked = !this.nodeIds.find((node: { id: string | number, checked: boolean }) => node.id === id)!.checked;
+  }
+
+  protected clearNodeIds() {
+    this.selectedNodeIds = [];
+    this.nodeIds.forEach((node: { id: string | number, checked: boolean }) => node.checked = false);
+  }
+
+  protected toggleSidebar() {
+    this.showSidebar = !this.showSidebar;
   }
 
   private toggleVisibility(group: string, show: boolean) {
@@ -156,6 +176,9 @@ export class HomeComponent implements AfterViewInit {
     if (!this.graph) {
       return;
     }
+    // get all unique node ids
+    this.nodeIds = this.graph.nodes.map(node => { return { id: node.id, checked: false }; });
+
     this.graphSVG = d3.select(this.graphContainer?.nativeElement).append('svg');
 
     this.graphWidth = this.graphContainer?.nativeElement.offsetWidth;
@@ -533,7 +556,6 @@ export class HomeComponent implements AfterViewInit {
             }
           }
           if(!sourceTimeIndex || !targetTimeIndex) {
-            console.log('undefined');
             return;
           }
     
