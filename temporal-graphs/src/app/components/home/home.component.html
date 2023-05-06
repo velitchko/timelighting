@@ -14,12 +14,16 @@
             Select nodes to persistently highlight:
         </h3>
         <!-- ngFor loop to create tailwindcss check box for each nodeid in nodeids -->
-        <div class="">
+        <div class="overflow-y-scroll scroll-auto max-h-[80vh] mt-2">
             <div *ngFor="let nodeId of nodeIds">
                 <label class="inline-flex items-center">
-                    <input type="checkbox" class="form-checkbox" [checked]="nodeId.checked"
+                    <div class="w-[100px] h-2 bg-blue-400">
+                        <div class="h-2 bg-blue-600" [style.width.%]="nodeId.distance"></div>
+                    </div>
+                    <input type="checkbox" class="form-checkbox ml-2" [checked]="nodeId.checked"
                         (change)="toggleNode(nodeId.id)">
-                    <span class="ml-2">{{nodeId.id}}</span>
+                    <!-- div where width is defined by nodeId.distance -->
+                    <span class="ml-2">{{nodeId.id}} ({{nodeId.distance}})</span>
                 </label>
             </div>
         </div>
@@ -36,7 +40,7 @@
         </div>
     </div>
 </div>
-
+<!-- TODO: Toggle for frequency of edges or amount of nodes present in the area chart-->
 <div id="graph-container" #graphContainer></div>
 <div id="timeline-container" #timelineContainer></div>
 
@@ -71,4 +75,13 @@
         [ngClass]="{ 'text-white bg-blue-600'  : !showTrajectories, 'text-gray-900 bg-white' : showTrajectories}">
         Edges
     </button>
+    <label for="resampleFrequency" class="ml-4 font-semibold mt-1">Resample Frequency</label>
+    <input type="number" id="resampleFrequency" name="resampleFrequency" min="1" max="100" [value]="resampleFrequency" (change)="resample($event)"
+        class="w-1/8 text-center border-blue-300 ml-2 rounded-md focus:border-blue-700">
+    <!-- TAILWINDCSS RANGE SLIDER BOUND TO BANDWIDTH CALLS FUNCTION ON CHANGE -->
+    <label for="bandwidth" class="ml-4 font-semibold mt-1">Bandwidth ({{bandwidth}})</label>
+    <input type="range" id="bandwidth" name="bandwidth" min="10" max="100" [value]="bandwidth" (change)="updateBandwidth($event)"
+        class="w-1/8 text-center border-blue-300 ml-2 rounded-md focus:border-blue-700">
+    
 </div>
+<div id="tooltip" class="absolute top-0 right-0 p-2 w-auto h-12 font-medium bg-transparent"></div>

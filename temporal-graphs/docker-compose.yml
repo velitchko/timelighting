@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  temporal-graphs:
+    image: node:18
+    container_name: temporal-graphs
+    environment:
+      - NODE_OPTIONS=--max-old-space-size=8192
+    ports:
+      - 4200:4200
+    restart: 'unless-stopped'
+    volumes:
+      - ./:/app
+    build:
+      context: ./

@@ -30,7 +30,8 @@ export class GraphService {
     // iterate over nodes
     data.graphnodes.forEach((node: any) => {
       // iterate over each nodes position array
-      const id = node.id;
+      // remove commas, brackets, periouds from id
+      const id = `${node.id}`.replace(/[.,\s]/g, '');
 
       node.position.forEach((position: any) => {
 

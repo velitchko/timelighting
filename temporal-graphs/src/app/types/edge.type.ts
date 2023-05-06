@@ -1,7 +1,7 @@
 import Node from './node.type';
 
 type Edge = {
-    id: string | number;
+    id: string;
     source: Node;
     target: Node;
     time: Array<number>;
