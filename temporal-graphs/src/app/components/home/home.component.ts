@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import * as d3 from 'd3';
 import Graph from '../../types/graph.type';
 import Node from '../../types/node.type';
-import Edge from '../../types/edge.type';
+import Edge  from '../../types/edge.type';
 import Trajectory from '../../types/trajectories';
 import { GraphService } from '../../services/graph.service';
 import * as _ from 'lodash';
@@ -132,7 +132,7 @@ export class HomeComponent implements AfterContentInit {
       this.setup();
        // resample nodes, trajectories and edges
       this.resampleNodes(this.start, this.end);
-      this.resampleTrajectories(this.start, this.end);
+      // this.resampleTrajectories(this.start, this.end);
       this.resampleEdges(this.start, this.end);
       // draw graph
       this.drawLinks();
@@ -147,14 +147,14 @@ export class HomeComponent implements AfterContentInit {
     this.selectedNodeIds = this.nodeIds.filter((node: { id: string, checked: boolean }) => node.checked).map((node: { id: string, checked: boolean }) => node.id);
   }
 
-  protected toggleNode(id: string | number) {
+  protected toggleNode(id: string) {
     // toggle checked flag
-    this.nodeIds.find((node: { id: string | number, checked: boolean }) => node.id === id)!.checked = !this.nodeIds.find((node: { id: string | number, checked: boolean }) => node.id === id)!.checked;
+    this.nodeIds.find((node: { id: string, checked: boolean }) => node.id === id)!.checked = !this.nodeIds.find((node: { id: string, checked: boolean }) => node.id === id)!.checked;
   }
 
   protected clearNodeIds() {
     this.selectedNodeIds = [];
-    this.nodeIds.forEach((node: { id: string | number, checked: boolean }) => node.checked = false);
+    this.nodeIds.forEach((node: { id: string, checked: boolean }) => node.checked = false);
   }
 
   protected toggleSidebar() {
@@ -186,10 +186,6 @@ export class HomeComponent implements AfterContentInit {
 
   public toggleMouseOver() {
     this.showTrajectories = !this.showTrajectories;
-  }
-
-  public updateSliderValue($event: Event) {
-
   }
 
   private setup() {
@@ -365,13 +361,15 @@ export class HomeComponent implements AfterContentInit {
     // resample nodes, trajectories and edges
     this.resampleNodes(this.start, this.end);
     // this.resampleTrajectories(this.start, this.end);
-    // this.resampleEdges(this.start, this.end);
+    this.resampleEdges(this.start, this.end);
 
     // update graph
     // this.updateGraph(this.start, this.end);
     this.drawNodes();
     // update density
     this.drawDensity();
+    // update links 
+    this.drawLinks();
   }
 
   protected updateBandwidth($event: Event) {
@@ -417,7 +415,7 @@ export class HomeComponent implements AfterContentInit {
         .selectAll('line')
         .attr('stroke-opacity', (d: any) => {
           // if edge isnt in the current time range hide edge
-          if (d.t0 < this.start && d.t1 > this.end) return 0;
+          if (d.t < this.start && d.t > this.end) return 0;
 
 
           // get start and end time of node id
@@ -425,8 +423,8 @@ export class HomeComponent implements AfterContentInit {
 
           if (!found) return 0;
 
-          // if found start and end time is outside of the current time range hide edge
-          if (found.time[nodeIndex] < d.t0 && found.time[nodeIndex + 1] > d.t1) return 0;
+          // // if found start and end time is outside of the current time range hide edge
+          // if (found.time[nodeIndex] < d.t0 && found.time[nodeIndex + 1] > d.t1) return 0;
 
           if (id.includes(d.sourceId) || id.includes(d.targetId)) {
             return this.relativeAgeScale(d.age);
@@ -445,31 +443,34 @@ export class HomeComponent implements AfterContentInit {
     }
 
     // resample nodes
-    const filteredTimesAndCoordinates = new Array<{ id: string, times: Array<number>, coordinates: Array<{ x: number, y: number }>}>();
+    const filteredTimesAndCoordinates = new Array<{ id: string, times: Array<number>, coordinates: Array<{ x: number, y: number }>, ages: Array<number>}>();
     // get nodes in current time frame
     this.graph.nodes.forEach((node: Node) => {
+
       node.time.forEach((time: number, index: number) => {
         if (time >= start && time <= end) {
           // check if node is already in filteredTimesAndCoordinates
-          const found = filteredTimesAndCoordinates.find((filteredNode: { id: string, times: Array<number>, coordinates: Array<{ x: number, y: number }>}) => filteredNode.id === node.id);
-
+          const found = filteredTimesAndCoordinates.find((filteredNode: { id: string, times: Array<number>, coordinates: Array<{ x: number, y: number }>, ages: Array<number>}) => filteredNode.id === node.id);
+          
           if (found) {
             found.times.push(time);
             found.coordinates.push(node.coordinates[index]);
+            found.ages.push(node.ages[index]);
           } else {
             filteredTimesAndCoordinates.push({
               id: node.id,
               times: [time],
-              coordinates: [node.coordinates[index]]
+              coordinates: [node.coordinates[index]],
+              ages: [node.ages[index]]
             });
           }
         }
       });
     });
-
+    
     // create this.resampleFrequency nodes between each pair of times and coordinates of filtered nodes
     const resampledNodes = new Array<Node>();
-    filteredTimesAndCoordinates.forEach((node : { id: string, times: Array<number>, coordinates: Array<{ x: number, y: number }>}) => {
+    filteredTimesAndCoordinates.forEach((node : { id: string, times: Array<number>, coordinates: Array<{ x: number, y: number }>, ages: Array<number>}) => {
       for (let i = 0; i < node.times.length - 1; i++) {
         const t0 = node.times[i];
         const t1 = node.times[i + 1];
@@ -480,11 +481,15 @@ export class HomeComponent implements AfterContentInit {
         const y0 = node.coordinates[i].y;
         const y1 = node.coordinates[i + 1].y;
 
-        for (let j = 0; j < this.resampleFrequency; j++) {
+        const age0 = node.ages[i];
+        const age1 = node.ages[i + 1];
+
+        for (let j = 0; j <= this.resampleFrequency; j++) {
           // resample using this.lerp
           const t = this.lerp(t0, t1, j / this.resampleFrequency);
           const x = this.lerp(x0, x1, j / this.resampleFrequency);
           const y = this.lerp(y0, y1, j / this.resampleFrequency);
+          const age = this.lerp(age0, age1, j / this.resampleFrequency);
 
           // check if node is already in resampledNodes
           const found = resampledNodes.find((resampledNode: Node) => resampledNode.id === node.id);
@@ -492,17 +497,21 @@ export class HomeComponent implements AfterContentInit {
           if (found) {
             found.time.push(t);
             found.coordinates.push({ x, y });
+            if(found.ages) found.ages.push(age);
           } else {
             resampledNodes.push({
               id: node.id,
               label: node.id,
               time: [t],
-              coordinates: [{ x, y }]
+              coordinates: [{ x, y }],
+              ages: [age]
             });
           }
         }
       }
     });
+    
+
     // sum up count of times in this.graph.nodes
     let count = 0;
     this.graph.nodes.forEach((node: Node) => {
@@ -525,7 +534,6 @@ export class HomeComponent implements AfterContentInit {
     }
     // swap nodes
     this.graph.nodes = resampledNodes;
-
   }
 
   private resampleTrajectories(start: number, end: number) {
@@ -534,6 +542,77 @@ export class HomeComponent implements AfterContentInit {
 
   private resampleEdges(start: number, end: number) {
     // resample edges
+    if(!this.graph) return;
+
+    // match edges to nodes
+    const matchedEdges = new Array<Edge>();
+
+    this.graph.edges.forEach((edge: Edge) => {
+      // find times of source and target within start and end
+      edge.time.forEach((time: number, i: number) => {
+
+        if(time >= start && time <= end) {
+          // check if edge is already in matchedEdges
+          const found = matchedEdges.find((matchedEdge: Edge) => matchedEdge.source.id === edge.source.id && matchedEdge.target.id === edge.target.id);
+
+          // find source and target from this.graph.nodes
+          const s = this.graph?.nodes.find((node: Node) => node.id === edge.source.id);
+          const t = this.graph?.nodes.find((node: Node) => node.id === edge.target.id);
+
+          if(!s || !t) return;
+
+          // check for nearest source and target time 
+          let sTime = s.time[0];
+          let tTime = t.time[0];
+          let sIndex = 0;
+          let tIndex = 0;
+
+          s.time.forEach((sT: number, i: number) => {
+            if(Math.abs(sT - time) < Math.abs(sTime - time)) {
+              sTime = sT;
+              sIndex = i;
+            }
+          });
+
+          t.time.forEach((tT: number, i: number) => {
+            if(Math.abs(tT - time) < Math.abs(tTime - time)) {
+              tTime = tT;
+              tIndex = i;
+            }
+          });
+
+          if(found) {
+            found.time.push(time);
+            found.ages.push(edge.ages[i]);
+            found.coordinates.push({
+              x0: s.coordinates[sIndex].x,
+              y0: s.coordinates[sIndex].y,
+              x1: t.coordinates[tIndex].x,
+              y1: t.coordinates[tIndex].y
+            });
+          } else {
+            matchedEdges.push({
+              id: edge.id,
+              source: edge.source,
+              target: edge.target,
+              time: [time],
+              ages: [edge.ages[i]],
+              coordinates: [{
+                x0: s.coordinates[sIndex].x,
+                y0: s.coordinates[sIndex].y,
+                x1: t.coordinates[tIndex].x,
+                y1: t.coordinates[tIndex].y
+              }]
+            });
+          }
+        } 
+      });
+    });
+
+    console.log(`matched ${this.graph.edges.length} edges to ${matchedEdges.length} edges`);
+    console.log(matchedEdges);
+
+    this.graph.edges = matchedEdges;
   }
 
   private nodeMouseOut($event: MouseEvent) {
@@ -574,65 +653,6 @@ export class HomeComponent implements AfterContentInit {
 
     this.graphSVG?.select('#graph-wrapper').attr('transform', `${$event.transform}`);
   }
-
-  // private updateGraph(start: number, end: number) {
-  //   if (!this.graph) return;
-
-  //   // filter times out of nodes
-  //   const filteredAges = new Array<number>();
-  //   const ageIndices = new Array<number>();
-  //   this.graph.nodes.forEach((node: Node) => {
-  //     node.time.forEach((time: number, index: number) => {
-  //       if (time >= start && time <= end) {
-  //         ageIndices.push(node.ages ? node.ages[index] : -1);
-  //       }
-  //     });
-  //     filteredAges.push(...ageIndices);
-  //   });
-
-  //   this.relativeAgeScale = d3.scaleLinear().domain(d3.extent(filteredAges) as Array<number>).range([0.1, 1]);
-
-  //   // update node opacity with new compoted scales
-  //   this.graphSVG?.select('#nodes-wrapper')
-  //     .selectAll('circle')
-  //     .data(this.graph.nodes)
-  //     .enter()
-  //     .append('circle')
-  //     .attr('cx', (d: any) => d.coordinates[0].x)
-  //     .attr('cy', (d: any) => d.coordinates[0].y)
-  //     .attr('r', 5)
-  //     .attr('fill', (d: any) => {
-  //       const distance = this.distances.find((distance: { id: string, distance: number }) => {
-  //         return d.id.includes(distance.id.split('-')[1])
-  //       });
-
-  //       return distance ? this.distanceColorScale(distance.distance) : 'gray';
-  //     })
-  //     .attr('opacity', (d: any) => {
-  //       if (d.time < start || d.time > end) return 0;
-
-  //       return this.relativeAgeScale(d.age);
-  //     });
-
-  //   // update label opacity
-  //   this.graphSVG?.select('#labels-wrapper')
-  //     .selectAll('text')
-  //     .attr('opacity', (d: any) => {
-  //       if (d.time < start || d.time > end) return 0;
-
-  //       return this.relativeAgeScale(d.age);
-  //     });
-
-    // update trajectory opacity
-    // this.graphSVG?.select('#trajectories-wrapper')
-    //   .selectAll('path')
-    //   .attr('stroke-opacity', (d: any) => {
-    //     console.log(d.t0, d.t1, start, end)
-    //     if (d.t0 <= start && d.t1 >= end) return 0;
-
-    //     return this.relativeAgeScale(d.age);
-    //   });
-  // }
 
   private calculateDistances(start?: number, end?: number) {
     if (!this.graph) return;
@@ -738,7 +758,7 @@ export class HomeComponent implements AfterContentInit {
       });
     });
 
-    // draw density
+    // draw nodes
     const nodes = this.graphSVG?.select('#nodes-wrapper')
 
     if (!nodes) return;
@@ -752,14 +772,8 @@ export class HomeComponent implements AfterContentInit {
       .attr('cy', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => this.coordinateYScale(d.y))
       .attr('r', 8)
       .attr('fill', 'gray')
-      .attr('fill-opacity', 0.5)
-      // .attr('stroke', 'black')
-      // .attr('stroke-width', 2)
-      // .attr('stroke-opacity', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => {
-      //   return this.relativeAgeScale(d.age);
-      // })
-      .attr('opacity', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => {
-        return this.relativeAgeScale(d.age);
+      .attr('fill-opacity', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => {
+          return this.relativeAgeScale(d.age);
       })
       .attr('id', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => `node-${d.id}-${d.index}`)
       .on('mouseover', this.nodeMouseOver.bind(this))
@@ -768,7 +782,7 @@ export class HomeComponent implements AfterContentInit {
     nodes.exit().remove();
 
     // filter out last occurrence of each node from graph nodes
-    const lastOccurrences = new Array<{ id: string | number, x: number, y: number, time: number, age: number }>();
+    const lastOccurrences = new Array<{ id: string, x: number, y: number, time: number, age: number }>();
     this.graph.nodes.forEach((node: Node) => {
       const lastOccurrence = node.coordinates[node.coordinates.length - 1];
       const lastTime = node.time[node.time.length - 1];
@@ -790,10 +804,10 @@ export class HomeComponent implements AfterContentInit {
       .append('text')
       .attr('class', 'node-label')
       .attr('pointer-events', 'none')
-      .text((d: { id: string | number, x: number, y: number, time: number, age: number }) => `node-${d.id}`)
-      .attr('x', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateXScale(d.x))
-      .attr('y', (d: { id: string | number, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y))
-      .attr('opacity', (d: { id: string | number, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); });
+      .text((d: { id: string, x: number, y: number, time: number, age: number }) => `node-${d.id}`)
+      .attr('x', (d: { id: string, x: number, y: number, time: number, age: number }) => this.coordinateXScale(d.x))
+      .attr('y', (d: { id: string, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y))
+      .attr('opacity', (d: { id: string, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); });
   }
 
   private drawLinks() {
@@ -802,80 +816,53 @@ export class HomeComponent implements AfterContentInit {
       return;
     }
 
-    const zipped = new Array<{ id: string | number, sourceId: string | number, targetId: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }>();
+    const zipped = new Array<{ id: string, sourceId: string, targetId: string, t: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }>();
 
     this.graph.edges.forEach((edge: Edge) => {
-
-      const sourceNode = this.graph?.nodes.find((node: Node) => node.id === edge.source.id);
-      const targetNode = this.graph?.nodes.find((node: Node) => node.id === edge.target.id);
-
-      if (sourceNode && targetNode) {
-        // iterate over pairs of time array in edge
-        for (let i = 0; i < edge.time.length; i += 2) {
-          // return index in node time array equal to edge time
-          let sourceTimeIndex = undefined;
-          for (let j = 0; j < sourceNode.time.length - 1; j += 2) {
-            if (sourceNode.time[j] <= edge.time[i] && sourceNode.time[j + 1] >= edge.time[i]) {
-              sourceTimeIndex = j;
-              break;
-            }
-          }
-          let targetTimeIndex = undefined;
-          for (let j = 0; j < targetNode.time.length - 1; j += 2) {
-            if (targetNode.time[j] <= edge.time[i] && targetNode.time[j + 1] >= edge.time[i]) {
-              targetTimeIndex = j;
-              break;
-            }
-          }
-          if (!sourceTimeIndex || !targetTimeIndex) {
-            return;
-          }
-
-          const x0 = sourceNode.coordinates[sourceTimeIndex].x;
-          const y0 = sourceNode.coordinates[sourceTimeIndex].y;
-          const x1 = targetNode.coordinates[targetTimeIndex].x;
-          const y1 = targetNode.coordinates[targetTimeIndex].y;
-
+      edge.coordinates.forEach((coordinate: { x0: number; y0: number; x1: number; y1: number }, i: number) => {
           zipped.push({
             id: edge.id,
             sourceId: edge.source.id,
             targetId: edge.target.id,
-            t0: edge.time[i],
-            t1: edge.time[i + 1],
+            t: edge.time[i],
             age: edge.ages[i],
             index: i,
-            x0: x0,
-            y0: y0,
-            x1: x1,
-            y1: y1
+            x0: coordinate.x0,
+            y0: coordinate.y0,
+            x1: coordinate.x1,
+            y1: coordinate.y1
           });
-        }
-
-      }
+      });
     });
 
     // draw links between nodes
-    this.graphSVG?.select('#links-wrapper')
+    // draw density
+    const edges = this.graphSVG?.select('#links-wrapper')
+
+    if (!edges) return;
+    
+    edges
       .selectAll('line')
       .data(zipped)
-      .enter()
-      .append('line')
+      .join('line')
       .attr('class', 'link')
-      .attr('x1', (d: { id: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
+      .attr('x1', (d: { id: string, t: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
         return this.coordinateXScale(d.x0);
       })
-      .attr('x2', (d: { id: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
+      .attr('x2', (d: { id: string, t: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
         return this.coordinateXScale(d.x1);
       })
-      .attr('y1', (d: { id: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
+      .attr('y1', (d: { id: string, t: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
         return this.coordinateYScale(d.y0);
       })
-      .attr('y2', (d: { id: string | number, t0: number, t1: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
+      .attr('y2', (d: { id: string, t: number, age: number, index: number, x0: number, y0: number, x1: number, y1: number }) => {
         return this.coordinateYScale(d.y1);
       })
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
       .attr('stroke-opacity', 0);
+
+    edges.exit().remove();
   }
 
   private drawTrajectories() {
@@ -919,7 +906,7 @@ export class HomeComponent implements AfterContentInit {
     };
 
     // zip time and coordinates
-    const zipped = new Array<{ id: string | number, x: number, y: number, time: number, age: number }>();
+    const zipped = new Array<{ id: string, x: number, y: number, time: number, age: number }>();
 
     this.graph.nodes.forEach((node: Node) => {
       node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
@@ -934,15 +921,15 @@ export class HomeComponent implements AfterContentInit {
       });
     });
 
-    const densityData = d3.contourDensity<{ id: string | number, x: number, y: number, time: number, age: number }>()
-      .x((d: { id: string | number, x: number, y: number, time: number, age: number }) => this.densityXScale(d.x))
-      .y((d: { id: string | number, x: number, y: number, time: number, age: number }) => this.densityYScale(d.y))
+    const densityData = d3.contourDensity<{ id: string, x: number, y: number, time: number, age: number }>()
+      .x((d: { id: string, x: number, y: number, time: number, age: number }) => this.densityXScale(d.x))
+      .y((d: { id: string, x: number, y: number, time: number, age: number }) => this.densityYScale(d.y))
       .size([
         (this.graphWidth - (this.graphMargin.left + this.graphMargin.right)),
         (this.graphHeight - (this.graphMargin.top + this.graphMargin.bottom))
       ])
       .bandwidth(this.bandwidth)
-      .weight((d: { id: string | number, x: number, y: number, time: number, age: number }) => {
+      .weight((d: { id: string, x: number, y: number, time: number, age: number }) => {
         return this.relativeAgeScale(d.age);
         // return 1;
       })
@@ -983,8 +970,11 @@ export class HomeComponent implements AfterContentInit {
     if ($event) this.resampleFrequency = ($event.target as any).value;
 
     this.resampleNodes(this.start, this.end);
-    
+    this.resampleEdges(this.start, this.end);
+
     this.drawNodes();
+    this.drawDensity();
+    this.drawLinks();
   }
 
   private drawAreaChart() {

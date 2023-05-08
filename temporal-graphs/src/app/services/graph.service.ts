@@ -93,6 +93,7 @@ export class GraphService {
         source: source,
         target: target,
         time: [],
+        coordinates: [],
         ages: [0]
       };
 
@@ -112,7 +113,6 @@ export class GraphService {
 
       this.graph.edges.push(newEdge);
     });
-
     this.graph.edges.forEach((edge: Edge) => {
       // calculate differences between each times and add to array
       for (let i = 0; i < edge.time.length - 1; i++) {
