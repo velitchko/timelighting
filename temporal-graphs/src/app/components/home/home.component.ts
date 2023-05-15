@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import * as d3 from 'd3';
 import Graph from '../../types/graph.type';
 import Node from '../../types/node.type';
-import Edge  from '../../types/edge.type';
+import Edge from '../../types/edge.type';
 import Trajectory from '../../types/trajectories';
 import { GraphService } from '../../services/graph.service';
 import * as _ from 'lodash';
@@ -65,11 +65,13 @@ export class HomeComponent implements AfterContentInit {
   protected nodeIds: Array<{ id: string, checked: boolean, distance: number }> = [];
   protected resampleFrequency: number = 10;
   protected bandwidth: number = 20;
+  protected colorNodesByDistance: boolean = false;
 
   private start: number = 0;
   private end: number = 0;
   private distances: Array<{ id: string, distance: number }> = [];
   private trajectories: Array<Trajectory> = [];
+  private initGuidance: boolean = true;
 
   constructor(private graphService: GraphService, private route: ActivatedRoute, private cdref: ChangeDetectorRef) {
 
@@ -130,21 +132,42 @@ export class HomeComponent implements AfterContentInit {
 
       // setup svgs and scales
       this.setup();
-       // resample nodes, trajectories and edges
+      // resample nodes, trajectories and edges
       this.resampleNodes(this.start, this.end);
       // this.resampleTrajectories(this.start, this.end);
       this.resampleEdges(this.start, this.end);
+
+
       // draw graph
-      this.drawLinks();
+      // enable guidance 
+      // this.graphGuidance();
+
       this.drawTrajectories();
+      this.drawLinks();
       this.drawNodes();
       this.drawDensity();
       this.drawAreaChart();
+
+      this.timelineGuidance();
     });
+  }
+
+  private update() {
+    this.calculateDistances(this.start, this.end);
+
+    this.resampleNodes(this.start, this.end);
+    this.resampleEdges(this.start, this.end);
+
+    this.drawNodes();
+    this.drawLinks();
+    this.drawTrajectories();
+    this.drawDensity();
   }
 
   protected saveNodeIds() {
     this.selectedNodeIds = this.nodeIds.filter((node: { id: string, checked: boolean }) => node.checked).map((node: { id: string, checked: boolean }) => node.id);
+    this.update();
+    this.timelineGuidance();
   }
 
   protected toggleNode(id: string) {
@@ -155,6 +178,7 @@ export class HomeComponent implements AfterContentInit {
   protected clearNodeIds() {
     this.selectedNodeIds = [];
     this.nodeIds.forEach((node: { id: string, checked: boolean }) => node.checked = false);
+    this.update();
   }
 
   protected toggleSidebar() {
@@ -257,7 +281,11 @@ export class HomeComponent implements AfterContentInit {
       .append('g')
       .attr('id', 'timeline-wrapper');
 
-    this.timeBrush.extent([[this.graphMargin.left, this.graphMargin.top], [this.timelineWidth - this.graphMargin.right, this.timelineHeight - (this.graphMargin.top + this.graphMargin.bottom)]])
+    this.timelineSVG.select('#timeline-wrapper')
+      .append('g')
+      .attr('id', 'time-guidance-wrapper');
+
+    this.timeBrush.extent([[this.graphMargin.left, 10 + this.graphMargin.top], [this.timelineWidth - this.graphMargin.right, this.timelineHeight - (this.graphMargin.top + this.graphMargin.bottom)]])
       .on('end', this.brushed.bind(this));
 
     const coords = _.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.coordinates));
@@ -307,9 +335,9 @@ export class HomeComponent implements AfterContentInit {
     const nodeTimeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.time)));
     const edgeTimeExtent = d3.extent(_.flattenDeep(_.map(this.graph.edges, (edge: Edge) => edge.time)));
 
-    this.start = <number>nodeTimeExtent[0];
-    this.end = <number>nodeTimeExtent[1];
-
+    this.start = Math.min(<number>nodeTimeExtent[0], <number>edgeTimeExtent[0]);
+    this.end = Math.max(<number>nodeTimeExtent[1], <number>edgeTimeExtent[1]);
+  
     this.areaChartXScale.domain(nodeTimeExtent as Array<number>).range([
       0 + this.graphMargin.left,
       this.timelineWidth - this.graphMargin.right
@@ -373,13 +401,43 @@ export class HomeComponent implements AfterContentInit {
   }
 
   protected updateBandwidth($event: Event) {
+    $event.preventDefault();
     this.bandwidth = parseInt(($event.target as HTMLInputElement).value);
     this.drawDensity();
+  }
+
+  protected updateNodeColoring($event: Event) {
+    $event.preventDefault();
+    this.colorNodesByDistance = !this.colorNodesByDistance;
+
+    this.graphSVG?.select("#nodes-wrapper")
+      .selectAll('circle')
+      .attr('fill', (d: any) => {
+        const persistent = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => n.id === d.id);
+
+        if (persistent?.checked) {
+          // if nodeId is in nodeIds (persistently selected)
+          // if found and time is within start/end 
+          if ((d.time >= this.start && d.time <= this.end) && persistent.checked) return 'red';
+          if ((d.time < this.start && d.time > this.end) && persistent.checked) return 'blue';
+
+
+          return 'gray';
+        } else {
+          const distance = this.distances.find((distance: { id: string, distance: number }) => {
+            return d.id.includes(distance.id.split('-')[1])
+          });
+
+          return distance && this.colorNodesByDistance ? this.distanceColorScale(distance.distance) : 'gray';
+        }
+      });
   }
 
   private nodeMouseOver($event: MouseEvent) {
     // select and highlight node
     if (!$event) return;
+
+    $event.preventDefault();
 
     const id = ($event.target as Element).id;
     this.graphSVG?.select(`#${id}`)
@@ -436,30 +494,31 @@ export class HomeComponent implements AfterContentInit {
   }
 
   private resampleNodes(start: number, end: number) {
-    if(!this.graph) return;
+    if (!this.graph) return;
 
-    if(this.originalGraph) { 
+    if (this.originalGraph) {
       this.graph = this.originalGraph;
     }
 
     // resample nodes
-    const filteredTimesAndCoordinates = new Array<{ id: string, times: Array<number>, coordinates: Array<{ x: number, y: number }>, ages: Array<number>}>();
+    const filteredTimesAndCoordinates = new Array<Node>();
     // get nodes in current time frame
     this.graph.nodes.forEach((node: Node) => {
-
       node.time.forEach((time: number, index: number) => {
-        if (time >= start && time <= end) {
+        const isPersistent = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => n.id === node.id);
+        if ((time >= start && time <= end) || (isPersistent && isPersistent.checked)) {
           // check if node is already in filteredTimesAndCoordinates
-          const found = filteredTimesAndCoordinates.find((filteredNode: { id: string, times: Array<number>, coordinates: Array<{ x: number, y: number }>, ages: Array<number>}) => filteredNode.id === node.id);
-          
+          const found = filteredTimesAndCoordinates.find((filteredNode: Node) => filteredNode.id === node.id);
+
           if (found) {
-            found.times.push(time);
+            found.time.push(time);
             found.coordinates.push(node.coordinates[index]);
             found.ages.push(node.ages[index]);
           } else {
             filteredTimesAndCoordinates.push({
               id: node.id,
-              times: [time],
+              label: node.label,
+              time: [time],
               coordinates: [node.coordinates[index]],
               ages: [node.ages[index]]
             });
@@ -467,13 +526,13 @@ export class HomeComponent implements AfterContentInit {
         }
       });
     });
-    
+
     // create this.resampleFrequency nodes between each pair of times and coordinates of filtered nodes
     const resampledNodes = new Array<Node>();
-    filteredTimesAndCoordinates.forEach((node : { id: string, times: Array<number>, coordinates: Array<{ x: number, y: number }>, ages: Array<number>}) => {
-      for (let i = 0; i < node.times.length - 1; i++) {
-        const t0 = node.times[i];
-        const t1 = node.times[i + 1];
+    filteredTimesAndCoordinates.forEach((node: Node) => {
+      for (let i = 0; i < node.time.length - 1; i++) {
+        const t0 = node.time[i];
+        const t1 = node.time[i + 1];
 
         const x0 = node.coordinates[i].x;
         const x1 = node.coordinates[i + 1].x;
@@ -497,20 +556,20 @@ export class HomeComponent implements AfterContentInit {
           if (found) {
             found.time.push(t);
             found.coordinates.push({ x, y });
-            if(found.ages) found.ages.push(age);
+            if (found.ages) found.ages.push(age);
           } else {
             resampledNodes.push({
               id: node.id,
               label: node.id,
               time: [t],
               coordinates: [{ x, y }],
-              ages: [age]
+              ages: [age],
             });
           }
         }
       }
     });
-    
+
 
     // sum up count of times in this.graph.nodes
     let count = 0;
@@ -542,7 +601,7 @@ export class HomeComponent implements AfterContentInit {
 
   private resampleEdges(start: number, end: number) {
     // resample edges
-    if(!this.graph) return;
+    if (!this.graph) return;
 
     // match edges to nodes
     const matchedEdges = new Array<Edge>();
@@ -551,7 +610,7 @@ export class HomeComponent implements AfterContentInit {
       // find times of source and target within start and end
       edge.time.forEach((time: number, i: number) => {
 
-        if(time >= start && time <= end) {
+        if (time >= start && time <= end) {
           // check if edge is already in matchedEdges
           const found = matchedEdges.find((matchedEdge: Edge) => matchedEdge.source.id === edge.source.id && matchedEdge.target.id === edge.target.id);
 
@@ -559,7 +618,7 @@ export class HomeComponent implements AfterContentInit {
           const s = this.graph?.nodes.find((node: Node) => node.id === edge.source.id);
           const t = this.graph?.nodes.find((node: Node) => node.id === edge.target.id);
 
-          if(!s || !t) return;
+          if (!s || !t) return;
 
           // check for nearest source and target time 
           let sTime = s.time[0];
@@ -568,20 +627,20 @@ export class HomeComponent implements AfterContentInit {
           let tIndex = 0;
 
           s.time.forEach((sT: number, i: number) => {
-            if(Math.abs(sT - time) < Math.abs(sTime - time)) {
+            if (Math.abs(sT - time) < Math.abs(sTime - time)) {
               sTime = sT;
               sIndex = i;
             }
           });
 
           t.time.forEach((tT: number, i: number) => {
-            if(Math.abs(tT - time) < Math.abs(tTime - time)) {
+            if (Math.abs(tT - time) < Math.abs(tTime - time)) {
               tTime = tT;
               tIndex = i;
             }
           });
 
-          if(found) {
+          if (found) {
             found.time.push(time);
             found.ages.push(edge.ages[i]);
             found.coordinates.push({
@@ -605,12 +664,11 @@ export class HomeComponent implements AfterContentInit {
               }]
             });
           }
-        } 
+        }
       });
     });
 
     console.log(`matched ${this.graph.edges.length} edges to ${matchedEdges.length} edges`);
-    console.log(matchedEdges);
 
     this.graph.edges = matchedEdges;
   }
@@ -618,6 +676,8 @@ export class HomeComponent implements AfterContentInit {
   private nodeMouseOut($event: MouseEvent) {
     // unselect and unhighlight node
     if (!$event) return;
+
+    $event.preventDefault();
 
     // set div tooltip position visibility and content
     d3.select('#tooltip')
@@ -629,11 +689,27 @@ export class HomeComponent implements AfterContentInit {
     this.graphSVG?.select("#nodes-wrapper")
       .selectAll('circle')
       .attr('fill', (d: any) => {
-        const distance = this.distances.find((distance: { id: string, distance: number }) => {
-          return d.id.includes(distance.id.split('-')[1])
-        });
+        if (this.colorNodesByDistance) {
+          const distance = this.distances.find((distance: { id: string, distance: number }) => {
+            return d.id.includes(distance.id.split('-')[1])
+          });
 
-        return distance ? this.distanceColorScale(distance.distance) : 'gray';
+          return distance ? this.distanceColorScale(distance.distance) : 'gray';
+        } else {
+          // if nodeId is in nodeIds (persistently selected)
+          const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
+            return n.id === d.id;
+          });
+
+          if (found) {
+            // if found and time is within start/end 
+            if ((d.time >= this.start && d.time <= this.end) && found.checked) return 'red';
+            if ((d.time < this.start && d.time > this.end) && found.checked) return 'blue';
+          }
+
+
+          return 'gray';
+        }
       });
 
     // hide trajectories of the current node id else hide neighboring edges
@@ -650,6 +726,8 @@ export class HomeComponent implements AfterContentInit {
 
   private zoomGraph($event: d3.D3ZoomEvent<SVGSVGElement, unknown>) {
     if (!$event.transform) return;
+
+    ($event as any).preventDefault();
 
     this.graphSVG?.select('#graph-wrapper').attr('transform', `${$event.transform}`);
   }
@@ -715,7 +793,7 @@ export class HomeComponent implements AfterContentInit {
     });
 
     distances.sort((a: { id: string, distance: number }, b: { id: string, distance: number }) => {
-      return b.distance - a.distance;
+      return a.distance - b.distance;
     });
 
     this.distances = distances;
@@ -731,6 +809,14 @@ export class HomeComponent implements AfterContentInit {
       const distB = distances.find((d: { id: string, distance: number }) => d.id.split('-')[1] === b.id)?.distance || 0;
       return distB - distA;
     });
+
+    if (this.initGuidance) {
+      this.initGuidance = !this.initGuidance;
+      // grab top 3 and enable
+      for (let i = 0; i < 3; i++) {
+        this.nodeIds[i].checked = true;
+      }
+    }
   }
 
   // draw intermediary nodes at sample rate
@@ -771,9 +857,24 @@ export class HomeComponent implements AfterContentInit {
       .attr('cx', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => this.coordinateXScale(d.x))
       .attr('cy', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => this.coordinateYScale(d.y))
       .attr('r', 8)
-      .attr('fill', 'gray')
+      .attr('fill', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => {
+        // if nodeId is in nodeIds (persistently selected)
+        const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
+          return n.id === d.id;
+        });
+
+        if (found) {
+          // if found and time is within start/end 
+          if ((d.time >= this.start && d.time <= this.end) && found.checked) return 'red';
+          // 50% red is kinda pinkish
+          return found.checked ? '#ffbfbf' : 'gray';
+        }
+
+
+        return 'gray';
+      })
       .attr('fill-opacity', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => {
-          return this.relativeAgeScale(d.age);
+        return this.relativeAgeScale(d.age);
       })
       .attr('id', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => `node-${d.id}-${d.index}`)
       .on('mouseover', this.nodeMouseOver.bind(this))
@@ -786,28 +887,33 @@ export class HomeComponent implements AfterContentInit {
     this.graph.nodes.forEach((node: Node) => {
       const lastOccurrence = node.coordinates[node.coordinates.length - 1];
       const lastTime = node.time[node.time.length - 1];
-      const lastAge = node.age;
+      const lastAge = node.ages[node.ages.length - 1];
 
       lastOccurrences.push({
         id: node.id,
         x: lastOccurrence.x,
         y: lastOccurrence.y,
         time: lastTime,
-        age: lastAge || 0
+        age: lastAge
       });
     });
 
-    this.graphSVG?.select('#labels-wrapper')
+    const labels = this.graphSVG?.select('#labels-wrapper')
+
+    if (!labels) return;
+
+    labels
       .selectAll('text')
       .data(lastOccurrences)
-      .enter()
-      .append('text')
+      .join('text')
       .attr('class', 'node-label')
       .attr('pointer-events', 'none')
       .text((d: { id: string, x: number, y: number, time: number, age: number }) => `node-${d.id}`)
       .attr('x', (d: { id: string, x: number, y: number, time: number, age: number }) => this.coordinateXScale(d.x))
       .attr('y', (d: { id: string, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y))
       .attr('opacity', (d: { id: string, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); });
+
+    labels.exit().remove();
   }
 
   private drawLinks() {
@@ -820,18 +926,18 @@ export class HomeComponent implements AfterContentInit {
 
     this.graph.edges.forEach((edge: Edge) => {
       edge.coordinates.forEach((coordinate: { x0: number; y0: number; x1: number; y1: number }, i: number) => {
-          zipped.push({
-            id: edge.id,
-            sourceId: edge.source.id,
-            targetId: edge.target.id,
-            t: edge.time[i],
-            age: edge.ages[i],
-            index: i,
-            x0: coordinate.x0,
-            y0: coordinate.y0,
-            x1: coordinate.x1,
-            y1: coordinate.y1
-          });
+        zipped.push({
+          id: edge.id,
+          sourceId: edge.source.id,
+          targetId: edge.target.id,
+          t: edge.time[i],
+          age: edge.ages[i],
+          index: i,
+          x0: coordinate.x0,
+          y0: coordinate.y0,
+          x1: coordinate.x1,
+          y1: coordinate.y1
+        });
       });
     });
 
@@ -840,7 +946,7 @@ export class HomeComponent implements AfterContentInit {
     const edges = this.graphSVG?.select('#links-wrapper')
 
     if (!edges) return;
-    
+
     edges
       .selectAll('line')
       .data(zipped)
@@ -878,11 +984,14 @@ export class HomeComponent implements AfterContentInit {
     this.distanceColorScale.domain((distanceExtent as Array<number>));
 
     // draw trajectories between pairs of nodes
-    this.graphSVG?.select('#trajectories-wrapper')
+    const trajectories = this.graphSVG?.select('#trajectories-wrapper');
+
+    if (!trajectories) return;
+
+    trajectories
       .selectAll('path')
       .data(this.trajectories)
-      .enter()
-      .append('path')
+      .join('path')
       .attr('class', 'trajectory')
       .attr('d', (d: { x0: number, y0: number, x1: number, y1: number, id: string }) => {
         return d3.line()([
@@ -894,12 +1003,18 @@ export class HomeComponent implements AfterContentInit {
       .attr('stroke', 'black')
       .attr('stroke-width', 3)
       .attr('fill', 'none')
-      .attr('stroke-opacity', 0);
+      .attr('stroke-opacity', (d: { x0: number, y0: number, x1: number, y1: number, id: string }) => {
+        const nodeId = d.id.split('-')[1];
+
+        return this.nodeIds.find((n: any) => n.id === nodeId)?.checked ? 1 : 0;
+      });
+
+    trajectories.exit().remove();
   }
 
   private drawDensity() {
     // check if graph is loaded
-    if (!this.graph) {
+    if (!this.originalGraph) {
       // try again in 1 second
       setTimeout(() => this.drawDensity(), 1000);
       return;
@@ -908,9 +1023,11 @@ export class HomeComponent implements AfterContentInit {
     // zip time and coordinates
     const zipped = new Array<{ id: string, x: number, y: number, time: number, age: number }>();
 
-    this.graph.nodes.forEach((node: Node) => {
+    this.originalGraph.nodes.forEach((node: Node) => {
+
       node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
         if ((this.start && this.end) && (node.time[index] < this.start || node.time[index] > this.end)) return;
+
         zipped.push({
           id: node.id,
           x: coordinate.x,
@@ -997,7 +1114,7 @@ export class HomeComponent implements AfterContentInit {
       pointTimes.push(i);
     }
 
-    if(!pointTimes.includes(this.end)) pointTimes.push(this.end);
+    if (!pointTimes.includes(this.end)) pointTimes.push(this.end);
 
     this.graph.nodes.forEach((node: Node) => {
       for (let i = 0; i < node.time.length - 1; i++) {
@@ -1065,7 +1182,7 @@ export class HomeComponent implements AfterContentInit {
 
     // find max count from edgeData and nodeData
     const maxCount = Math.max(d3.max(edgeData, d => d.count) || 0, d3.max(nodeData, d => d.count) || 0);
-    
+
     // update areaChartYScale domain
     this.areaChartYScale.domain([0, maxCount]);
 
@@ -1078,6 +1195,7 @@ export class HomeComponent implements AfterContentInit {
 
     this.timelineSVG?.select('#timeline-wrapper')
       .append('g')
+      .attr('id', 'brush')
       .call(this.timeBrush)
       .call(this.timeBrush.move, [this.graphMargin.left, this.timelineWidth - this.graphMargin.right]);
 
@@ -1162,5 +1280,124 @@ export class HomeComponent implements AfterContentInit {
       .attr('stroke', 'blue')
       .attr('stroke-width', 1)
       .attr('stroke-opacity', 0.5);
+  }
+
+  private graphGuidance() {
+    // reset checked
+
+    // grab top 3 and enable
+    for (let i = 0; i < 3; i++) {
+      this.nodeIds[i].checked = true;
+    }
+  }
+
+  private selectBrushWindow(newSelectionRange: Array<number>) {
+    this.timelineSVG?.select('#brush')
+      .call(<any>this.timeBrush.move, newSelectionRange);
+
+    this.update();
+  }
+
+  private timelineGuidance() {
+    if (!this.graph) {
+      setTimeout(() => this.timelineGuidance(), 1000);
+    }
+    // find some regions 
+    const regions = new Array<{ startX: number, endX: number }>();
+    const foundNodes = new Array<Node>();
+    // go through persistently selected / highlighted nodes and check if all 3 exist in the current start - end interval
+    this.nodeIds.forEach((n: { id: string, checked: boolean, distance: number }) => {
+      // find the node in the graph.nodes
+      if (!n.checked) return;
+
+      const found = this.originalGraph?.nodes.find((node: Node) => node.id === n.id);
+      if (found) foundNodes.push(found);
+    });
+
+    const intervals = new Array<{ id: string, start: number, end: number }>();
+
+    foundNodes.forEach((node: Node) => {
+      for(let i = 0; i < node.time.length - 1; i++) {
+        const start = node.time[i];
+        const end = node.time[i + 1];
+        intervals.push({ id: node.id, start, end });
+      }
+    });
+
+    console.log(foundNodes);
+
+    const intervalMap = new Map<string, Set<string>>();
+    intervals.forEach((interval: { id: string, start: number, end: number }) => {
+      // find interval in map where start > interval.start && end < interval.end
+
+      let added = false;
+      for (const [key, value] of intervalMap) {
+        // split key into start and end
+        const [start, end] = key.split('-');
+        if (interval.start >= parseFloat(start) && interval.end <= parseFloat(end)) {
+          value.add(interval.id);
+          added = true;
+        }
+      }
+
+      if( added ) return;
+
+      const intervalId = `${interval.start}-${interval.end}`;
+      const set = new Set<string>();
+      set.add(interval.id);
+      intervalMap.set(intervalId, set);
+    });
+
+    // get the intervals that have all n nodes
+    intervalMap.forEach((value: Set<string>, key: string) => {
+      if (value.size === foundNodes.length) {
+        const [start, end] = key.split('-');
+        regions.push({ startX: parseFloat(start), endX: parseFloat(end) });
+      }
+    });
+
+    if(regions.length === 0) return;
+    console.log(regions);
+
+    const guidance = this.timelineSVG?.select('#time-guidance-wrapper');
+
+    if (!guidance) return;
+
+    guidance
+      .selectAll('rect')
+      .data(regions)
+      .join('rect')
+      .attr('class', 'guidelines')
+      .attr('stroke', 'black')
+      .attr('x', (d: { startX: number, endX: number }) => this.areaChartXScale(d.startX))
+      .attr('width', (d: { startX: number, endX: number }) => this.areaChartXScale(d.endX) - this.areaChartXScale(d.startX))
+      .attr('y', 20)
+      .attr('height', this.timelineHeight - 40)
+      .attr('fill', 'orange')
+      .attr('fill-opacity', 0.1);
+
+    guidance
+      .selectAll('text')
+      .data(regions)
+      .join('text')
+      .attr('class', 'guidelines-labels')
+      .attr('x', (d: { startX: number, endX: number }) => this.areaChartXScale(d.startX))
+      .attr('y', 20)
+      .style('font-size', '20px')
+      .style('font-weight', '400')
+      .style('cursor', 'pointer')
+      .text('\u24D8')
+      .on('click', ($event: Event) => {
+        if(!$event) return;
+
+        $event.preventDefault();
+        
+        const selection = ($event.target as any).__data__;
+
+        this.start = selection.startX;
+        this.end = selection.endX;
+
+        this.selectBrushWindow([this.areaChartXScale(selection.startX), this.areaChartXScale(selection.endX)]);
+      });
   }
 }

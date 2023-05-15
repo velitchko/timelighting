@@ -31,7 +31,7 @@ export class GraphService {
     data.graphnodes.forEach((node: any) => {
       // iterate over each nodes position array
       // remove commas, brackets, periouds from id
-      const id = `${node.id}`.replace(/[.,\s]/g, '');
+      const id = `${node.id}`.replace(/[.,'`"\s]/g, '');
 
       node.position.forEach((position: any) => {
 
@@ -83,8 +83,11 @@ export class GraphService {
 
     // parse edges
     data.graphedges.forEach((edge: any) => {
-      const source = this.graph.nodes.find((node: Node) => node.id === edge.source);
-      const target = this.graph.nodes.find((node: Node) => node.id === edge.target);
+      const edgeSource = `${edge.source}`.replace(/[.,'`"\s]/g, '');
+      const edgeTarget = `${edge.target}`.replace(/[.,'`"\s]/g, '');
+
+      const source = this.graph.nodes.find((node: Node) => node.id === edgeSource);
+      const target = this.graph.nodes.find((node: Node) => node.id === edgeTarget);
 
       if(!source || !target) return;
 
@@ -119,6 +122,8 @@ export class GraphService {
         edge.ages.push(edge.time[i + 1] - edge.time[0]);
       }
     });
+
+    console.log(this.graph);
   }
 
   // return graph as observable
