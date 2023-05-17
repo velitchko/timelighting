@@ -727,8 +727,6 @@ export class HomeComponent implements AfterContentInit {
   private zoomGraph($event: d3.D3ZoomEvent<SVGSVGElement, unknown>) {
     if (!$event.transform) return;
 
-    ($event as any).preventDefault();
-
     this.graphSVG?.select('#graph-wrapper').attr('transform', `${$event.transform}`);
   }
 
@@ -1391,7 +1389,7 @@ export class HomeComponent implements AfterContentInit {
         if(!$event) return;
 
         $event.preventDefault();
-        
+
         const selection = ($event.target as any).__data__;
 
         this.start = selection.startX;
