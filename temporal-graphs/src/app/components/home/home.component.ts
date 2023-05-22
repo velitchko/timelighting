@@ -31,6 +31,9 @@ export class HomeComponent implements AfterContentInit {
   @ViewChild('timelineContainer', { static: true }) timelineContainer: ElementRef | null;
   private timelineSVG: d3.Selection<SVGSVGElement, unknown, null, any> | null;
 
+  @ViewChild('colorScaleContainer', { static: true }) colorScaleContainer: ElementRef | null;
+  private colorScaleSVG: d3.Selection<SVGSVGElement, unknown, null, any> | null;
+
   private coordinateXScale: d3.ScaleLinear<number, number>;
   private coordinateYScale: d3.ScaleLinear<number, number>;
 
@@ -105,6 +108,9 @@ export class HomeComponent implements AfterContentInit {
     this.timelineContainer = null;
     this.timelineSVG = null;
 
+    this.colorScaleContainer = null;
+    this.colorScaleSVG = null;
+
     this.coordinateXScale = d3.scaleLinear();
     this.coordinateYScale = d3.scaleLinear();
 
@@ -134,6 +140,9 @@ export class HomeComponent implements AfterContentInit {
 
       // setup svgs and scales
       this.setup();
+      // draw legend
+      this.drawColorLegend();
+
       // resample nodes, trajectories and edges
       this.resampleNodes(this.start, this.end);
       // this.resampleTrajectories(this.start, this.end);
@@ -245,18 +254,13 @@ export class HomeComponent implements AfterContentInit {
       .attr('id', 'links-wrapper')
       .attr('transform', `translate(
         ${this.graphWidth / 2}, ${this.graphHeight / 2})
-      `);
+      `)
+      .attr('pointer-events', 'none');
 
     this.graphSVG.select('#graph-wrapper')
       .append('g')
-      .attr('id', 'trajectories-wrapper')
-      .attr('transform', `translate(
-        ${this.graphWidth / 2}, ${this.graphHeight / 2})
-      `);
-
-    this.graphSVG.select('#graph-wrapper')
-      .append('g')
-      .attr('id', 'densities-wrapper');
+      .attr('id', 'densities-wrapper')
+      .attr('pointer-events', 'none');
 
     this.graphSVG.select('#graph-wrapper')
       .append('g')
@@ -267,10 +271,19 @@ export class HomeComponent implements AfterContentInit {
 
     this.graphSVG.select('#graph-wrapper')
       .append('g')
+      .attr('id', 'trajectories-wrapper')
+      .attr('transform', `translate(
+        ${this.graphWidth / 2}, ${this.graphHeight / 2})
+      `)
+      .attr('pointer-events', 'none');
+
+    this.graphSVG.select('#graph-wrapper')
+      .append('g')
       .attr('id', 'labels-wrapper')
       .attr('transform', `translate(
         ${this.graphWidth / 2}, ${this.graphHeight / 2})
-      `);
+      `)
+      .attr('pointer-events', 'none');
 
     this.graphSVG?.call(this.graphZoom);
 
@@ -341,7 +354,7 @@ export class HomeComponent implements AfterContentInit {
 
     this.start = Math.min(<number>nodeTimeExtent[0], <number>edgeTimeExtent[0]);
     this.end = Math.max(<number>nodeTimeExtent[1], <number>edgeTimeExtent[1]);
-  
+
     this.originalStart = this.start;
     this.originalEnd = this.end;
 
@@ -363,6 +376,12 @@ export class HomeComponent implements AfterContentInit {
 
     this.colorScaleNodes.domain(this.graph.nodes.map((node: Node) => node.id) as Array<string>);
 
+    this.colorScaleSVG = d3.select(this.colorScaleContainer?.nativeElement).append('svg');
+
+    this.colorScaleSVG
+      .attr('width', '200px')
+      .attr('height', '40px');
+
     this.timeScale = d3.scaleLinear().domain(nodeTimeExtent as Array<number>).range([
       0 + this.graphMargin.left,
       this.timelineWidth - this.graphMargin.right
@@ -375,6 +394,50 @@ export class HomeComponent implements AfterContentInit {
     const relativeAgeExtent = d3.extent(_.flattenDeep(_.map(this.graph.nodes, (node: Node) => node.ages ? node.ages : 0)));
 
     this.relativeAgeScale = d3.scaleLinear().domain(relativeAgeExtent as Array<number>).range([0.1, 1]);
+  }
+
+  private drawColorLegend() {
+    if (!this.colorScaleSVG) return;
+
+    // append color scale to colorScaleSVG
+    this.colorScaleSVG
+      .append('g')
+      .attr('class', 'colorScale')
+
+    const defs = this.colorScaleSVG.append('defs');
+
+    const linearGradient = defs.append('linearGradient')
+      .attr('id', 'linear-gradient');
+
+    linearGradient.selectAll('stop')
+      .data((this.distanceColorScale as any).ticks().map((t: string, i: number, n: any) => ({ offset: `${100 * i / n.length}%`, color: this.distanceColorScale(+t) })))
+      .enter().append('stop')
+      .attr('offset', (d: any) => d.offset)
+      .attr('stop-color', (d: any) => d.color);
+
+    this.colorScaleSVG.append('g')
+      .append('rect')
+      .attr('width', '200px')
+      .attr('height', '20px')
+      .attr('transform', 'translate(0, 5)')
+      .style('fill', 'url(#linear-gradient)');
+
+    // append text to colorScaleSVG
+    this.colorScaleSVG.append('g')
+      .append('text')
+      .attr('x', '0')
+      .attr('y', '35')
+      .text('Low')
+      .style('font-size', '12px')
+      .style('fill', 'black');
+
+      this.colorScaleSVG.append('g')
+      .append('text')
+      .attr('x', '175')
+      .attr('y', '35')
+      .text('High')
+      .style('font-size', '12px')
+      .style('fill', 'black');
   }
 
   private brushed($event: d3.D3BrushEvent<unknown>) {
@@ -420,21 +483,21 @@ export class HomeComponent implements AfterContentInit {
     this.graphSVG?.select("#nodes-wrapper")
       .selectAll('circle')
       .attr('fill', (d: any) => {
-       // if nodeId is in nodeIds (persistently selected)
-      const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
-        return n.id === d.id;
-      });
+        // if nodeId is in nodeIds (persistently selected)
+        const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
+          return n.id === d.id;
+        });
 
-      if (found?.checked) {
-        if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ffdcdc';
+        if (found?.checked) {
+          if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ffdcdc';
 
-        // if found and time is within start/end 
-        if ((d.time >= this.start && d.time <= this.end)) {
-          return 'red';
+          // if found and time is within start/end 
+          if ((d.time >= this.start && d.time <= this.end)) {
+            return 'red';
+          } else {
+            return '#ffdcdc';
+          }
         } else {
-          return '#ffdcdc';
-        }
-      } else {
           const distance = this.distances.find((distance: { id: string, distance: number }) => {
             return d.id.includes(distance.id.split('-')[1])
           });
@@ -475,6 +538,19 @@ export class HomeComponent implements AfterContentInit {
       this.graphSVG?.select('#trajectories-wrapper')
         .selectAll('path')
         .attr('stroke-opacity', (d: any) => {
+          // get node id from d.id 
+          const found = this.graph?.nodes.find((node: Node) => node.id === nodeId);
+
+          // check if found is in nodeIds
+          const foundNode = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
+            return n.id === found?.id;
+          });
+
+          // if foundNode exists and is checked 
+          if (foundNode?.checked && d.id === trajectoryId) {
+            return this.relativeAgeScale(d.age);
+          }
+
           // if edge isnt in the current time range hide edge
           if (d.t0 < this.start || d.t1 > this.end) return 0;
 
@@ -483,7 +559,8 @@ export class HomeComponent implements AfterContentInit {
           } else {
             return 0;
           }
-        });
+        })
+        .raise();
     } else {
       this.graphSVG?.select('#links-wrapper')
         .selectAll('line')
@@ -756,7 +833,22 @@ export class HomeComponent implements AfterContentInit {
     if (this.showTrajectories) {
       this.graphSVG?.select('#trajectories-wrapper')
         .selectAll('path')
-        .attr('stroke-opacity', 0);
+        .attr('stroke-opacity', (d: any) => {
+          // get node id from path id
+          const id = d.id.split('-')[1];
+
+          // check if node is persistently highlighted
+          const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
+            return n.id === id;
+          });
+
+          // if found.checked set opacity of only the mouseovered trajectory
+          if (found?.checked) {
+            return this.relativeAgeScale(d.age);
+          }
+
+          return 0;
+        });
     } else {
       this.graphSVG?.select('#links-wrapper')
         .selectAll('line')
@@ -1067,8 +1159,8 @@ export class HomeComponent implements AfterContentInit {
 
       node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
         if (!(this.start && this.end)) return;
-        
-        if(node.time[index] < this.start || node.time[index] > this.end) return;
+
+        if (node.time[index] < this.start || node.time[index] > this.end) return;
 
         zipped.push({
           id: node.id,
@@ -1354,7 +1446,7 @@ export class HomeComponent implements AfterContentInit {
     const intervals = new Array<{ id: string, start: number, end: number }>();
 
     foundNodes.forEach((node: Node) => {
-      for(let i = 0; i < node.time.length - 1; i++) {
+      for (let i = 0; i < node.time.length - 1; i++) {
         const start = node.time[i];
         const end = node.time[i + 1];
         intervals.push({ id: node.id, start, end });
@@ -1375,7 +1467,7 @@ export class HomeComponent implements AfterContentInit {
         }
       }
 
-      if( added ) return;
+      if (added) return;
 
       const intervalId = `${interval.start}-${interval.end}`;
       const set = new Set<string>();
@@ -1391,13 +1483,13 @@ export class HomeComponent implements AfterContentInit {
       }
     });
 
-    if(regions.length === 0) {
+    if (regions.length === 0) {
       // clear guidance
       const guidance = this.timelineSVG?.select('#time-guidance-wrapper');
-      
+
       guidance?.selectAll('rect').remove();
       // clear icons 
-    
+
       guidance?.selectAll('text').remove();
 
       return;
@@ -1406,7 +1498,7 @@ export class HomeComponent implements AfterContentInit {
     // merge regions that are close to each other
     const mergedRegions = new Array<{ startX: number, endX: number }>();
     let currentRegion = regions[0];
-    for(let i = 1; i <= regions.length - 1; i++) {
+    for (let i = 1; i <= regions.length - 1; i++) {
       const region = regions[i];
       if (region.startX - currentRegion.endX < 0.1) {
         currentRegion.endX = region.endX;
@@ -1448,7 +1540,7 @@ export class HomeComponent implements AfterContentInit {
       .style('cursor', 'pointer')
       .text('\u24D8')
       .on('click', ($event: Event) => {
-        if(!$event) return;
+        if (!$event) return;
 
         $event.preventDefault();
 

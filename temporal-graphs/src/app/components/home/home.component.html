@@ -87,5 +87,8 @@
     <label for="nodecoloring" class="ml-4 font-semibold mt-1">Color Nodes By Distance</label>
     <input type="checkbox" id="nodecoloring" name="nodecoloring" [checked]="colorNodesByDistance" (change)="updateNodeColoring($event)"
     class="w-1/8 text-center border-blue-300 ml-2 rounded-md focus:border-blue-700">
+
+    <div id="color-legend" #colorScaleContainer class="ml-4">
+    </div>
 </div>
 <div id="tooltip" class="absolute top-0 right-0 p-2 w-auto h-12 font-medium bg-transparent"></div>
