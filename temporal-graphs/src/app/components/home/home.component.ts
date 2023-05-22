@@ -69,6 +69,8 @@ export class HomeComponent implements AfterContentInit {
 
   private start: number = 0;
   private end: number = 0;
+  private originalStart: number = 0;
+  private originalEnd: number = 0;
   private distances: Array<{ id: string, distance: number }> = [];
   private trajectories: Array<Trajectory> = [];
   private initGuidance: boolean = true;
@@ -162,6 +164,8 @@ export class HomeComponent implements AfterContentInit {
     this.drawLinks();
     this.drawTrajectories();
     this.drawDensity();
+
+    this.timelineGuidance();
   }
 
   protected saveNodeIds() {
@@ -338,6 +342,9 @@ export class HomeComponent implements AfterContentInit {
     this.start = Math.min(<number>nodeTimeExtent[0], <number>edgeTimeExtent[0]);
     this.end = Math.max(<number>nodeTimeExtent[1], <number>edgeTimeExtent[1]);
   
+    this.originalStart = this.start;
+    this.originalEnd = this.end;
+
     this.areaChartXScale.domain(nodeTimeExtent as Array<number>).range([
       0 + this.graphMargin.left,
       this.timelineWidth - this.graphMargin.right
@@ -413,17 +420,21 @@ export class HomeComponent implements AfterContentInit {
     this.graphSVG?.select("#nodes-wrapper")
       .selectAll('circle')
       .attr('fill', (d: any) => {
-        const persistent = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => n.id === d.id);
+       // if nodeId is in nodeIds (persistently selected)
+      const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
+        return n.id === d.id;
+      });
 
-        if (persistent?.checked) {
-          // if nodeId is in nodeIds (persistently selected)
-          // if found and time is within start/end 
-          if ((d.time >= this.start && d.time <= this.end) && persistent.checked) return 'red';
-          if ((d.time < this.start && d.time > this.end) && persistent.checked) return 'blue';
+      if (found?.checked) {
+        if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ffdcdc';
 
-
-          return 'gray';
+        // if found and time is within start/end 
+        if ((d.time >= this.start && d.time <= this.end)) {
+          return 'red';
         } else {
+          return '#ffdcdc';
+        }
+      } else {
           const distance = this.distances.find((distance: { id: string, distance: number }) => {
             return d.id.includes(distance.id.split('-')[1])
           });
@@ -441,7 +452,12 @@ export class HomeComponent implements AfterContentInit {
 
     const id = ($event.target as Element).id;
     this.graphSVG?.select(`#${id}`)
-      .attr('fill', 'red');
+      .attr('fill', '#FFF01F')
+      .attr('stroke', '#000000')
+      .attr('stroke-width', '2px')
+      .attr('stroke-opacity', '1')
+      .attr('fill-opacity', '1')
+      .raise();
 
     // set div tooltip position visibility and content
     d3.select('#tooltip')?.style('left', `${$event.pageX + 5}px`)
@@ -690,6 +706,22 @@ export class HomeComponent implements AfterContentInit {
       .selectAll('circle')
       .attr('fill', (d: any) => {
         if (this.colorNodesByDistance) {
+          // see if node is persistently highlighted 
+          const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
+            return n.id === d.id;
+          });
+
+          if (found?.checked) {
+            if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ffdcdc';
+
+            // if found and time is within start/end
+            if ((d.time >= this.start && d.time <= this.end)) {
+              return 'red';
+            } else {
+              return '#ffdcdc';
+            }
+          }
+
           const distance = this.distances.find((distance: { id: string, distance: number }) => {
             return d.id.includes(distance.id.split('-')[1])
           });
@@ -702,15 +734,23 @@ export class HomeComponent implements AfterContentInit {
           });
 
           if (found) {
+            if ((this.start === this.originalStart && this.end === this.originalEnd) && found.checked) return '#ffdcdc';
+
             // if found and time is within start/end 
             if ((d.time >= this.start && d.time <= this.end) && found.checked) return 'red';
-            if ((d.time < this.start && d.time > this.end) && found.checked) return 'blue';
+            // 50% red is kinda pinkish
+            // return 'gray';
+            return found.checked ? '#ffdcdc' : 'gray';
           }
 
 
           return 'gray';
         }
-      });
+      })
+      .attr('stroke', 'none')
+      .attr('fill-opacity', (d: any) => {
+        return this.relativeAgeScale(d.age);
+      })
 
     // hide trajectories of the current node id else hide neighboring edges
     if (this.showTrajectories) {
@@ -862,16 +902,19 @@ export class HomeComponent implements AfterContentInit {
         });
 
         if (found) {
+          // if found and time is the extent of the graph
+          if ((this.start === this.originalStart && this.end === this.originalEnd) && found.checked) return '#ffdcdc';
+
           // if found and time is within start/end 
           if ((d.time >= this.start && d.time <= this.end) && found.checked) return 'red';
           // 50% red is kinda pinkish
-          return found.checked ? '#ffbfbf' : 'gray';
+          // return 'gray';
+          return found.checked ? '#ffdcdc' : 'gray';
         }
-
-
         return 'gray';
       })
       .attr('fill-opacity', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => {
+        console.log(d.age, this.relativeAgeScale(d.age));
         return this.relativeAgeScale(d.age);
       })
       .attr('id', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => `node-${d.id}-${d.index}`)
@@ -1024,7 +1067,9 @@ export class HomeComponent implements AfterContentInit {
     this.originalGraph.nodes.forEach((node: Node) => {
 
       node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
-        if ((this.start && this.end) && (node.time[index] < this.start || node.time[index] > this.end)) return;
+        if (!(this.start && this.end)) return;
+        
+        if(node.time[index] < this.start || node.time[index] > this.end) return;
 
         zipped.push({
           id: node.id,
@@ -1084,12 +1129,7 @@ export class HomeComponent implements AfterContentInit {
 
     if ($event) this.resampleFrequency = ($event.target as any).value;
 
-    this.resampleNodes(this.start, this.end);
-    this.resampleEdges(this.start, this.end);
-
-    this.drawNodes();
-    this.drawDensity();
-    this.drawLinks();
+    this.update();
   }
 
   private drawAreaChart() {
@@ -1308,7 +1348,7 @@ export class HomeComponent implements AfterContentInit {
       // find the node in the graph.nodes
       if (!n.checked) return;
 
-      const found = this.originalGraph?.nodes.find((node: Node) => node.id === n.id);
+      const found = this.graph?.nodes.find((node: Node) => node.id === n.id);
       if (found) foundNodes.push(found);
     });
 
@@ -1321,8 +1361,6 @@ export class HomeComponent implements AfterContentInit {
         intervals.push({ id: node.id, start, end });
       }
     });
-
-    console.log(foundNodes);
 
     const intervalMap = new Map<string, Set<string>>();
     intervals.forEach((interval: { id: string, start: number, end: number }) => {
@@ -1357,13 +1395,29 @@ export class HomeComponent implements AfterContentInit {
     if(regions.length === 0) return;
     console.log(regions);
 
+    // merge regions that are close to each other
+    const mergedRegions = new Array<{ startX: number, endX: number }>();
+    let currentRegion = regions[0];
+    for(let i = 1; i <= regions.length - 1; i++) {
+      const region = regions[i];
+      if (region.startX - currentRegion.endX < 0.1) {
+        currentRegion.endX = region.endX;
+      } else {
+        mergedRegions.push(currentRegion);
+        currentRegion = region;
+      }
+    }
+    mergedRegions.push(currentRegion);
+
+    console.log(mergedRegions);
+
     const guidance = this.timelineSVG?.select('#time-guidance-wrapper');
 
     if (!guidance) return;
 
     guidance
       .selectAll('rect')
-      .data(regions)
+      .data(mergedRegions)
       .join('rect')
       .attr('class', 'guidelines')
       .attr('stroke', 'black')
@@ -1376,7 +1430,7 @@ export class HomeComponent implements AfterContentInit {
 
     guidance
       .selectAll('text')
-      .data(regions)
+      .data(mergedRegions)
       .join('text')
       .attr('class', 'guidelines-labels')
       .attr('x', (d: { startX: number, endX: number }) => this.areaChartXScale(d.startX))
