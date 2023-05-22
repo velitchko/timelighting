@@ -914,7 +914,6 @@ export class HomeComponent implements AfterContentInit {
         return 'gray';
       })
       .attr('fill-opacity', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => {
-        console.log(d.age, this.relativeAgeScale(d.age));
         return this.relativeAgeScale(d.age);
       })
       .attr('id', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => `node-${d.id}-${d.index}`)
@@ -1392,8 +1391,17 @@ export class HomeComponent implements AfterContentInit {
       }
     });
 
-    if(regions.length === 0) return;
-    console.log(regions);
+    if(regions.length === 0) {
+      // clear guidance
+      const guidance = this.timelineSVG?.select('#time-guidance-wrapper');
+      
+      guidance?.selectAll('rect').remove();
+      // clear icons 
+    
+      guidance?.selectAll('text').remove();
+
+      return;
+    }
 
     // merge regions that are close to each other
     const mergedRegions = new Array<{ startX: number, endX: number }>();
