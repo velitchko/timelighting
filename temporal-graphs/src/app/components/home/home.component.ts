@@ -42,10 +42,12 @@ export class HomeComponent implements AfterContentInit {
 
   private areaChartXScale: d3.ScaleLinear<number, number>;
   private areaChartYScale: d3.ScaleLinear<number, number>;
+  public movementScale: d3.ScaleLinear<number, number>;
 
   // continous viridis color scale
   private colorScale: d3.ScaleSequential<string>;
   private distanceColorScale: d3.ScaleSequential<string>;
+
 
   private timeScale: d3.ScaleLinear<number, number>;
 
@@ -120,8 +122,11 @@ export class HomeComponent implements AfterContentInit {
     this.areaChartXScale = d3.scaleLinear();
     this.areaChartYScale = d3.scaleLinear();
 
-    this.colorScale = d3.scaleSequential(d3.interpolateViridis);
-    this.distanceColorScale = d3.scaleSequential(d3.interpolateCool);
+    this.colorScale = d3.scaleSequential(d3.interpolateCividis);
+    //this.distanceColorScale = d3.scaleSequential(d3.interpolateCool);
+    this.distanceColorScale = d3.scaleSequential(d3.interpolateWarm);
+    
+    this.movementScale = d3.scaleLinear().range([0,100]);
 
     this.timeScale = d3.scaleLinear();
 
@@ -1067,7 +1072,10 @@ export class HomeComponent implements AfterContentInit {
       .text((d: { id: string, x: number, y: number, time: number, age: number }) => `node-${d.id}`)
       .attr('x', (d: { id: string, x: number, y: number, time: number, age: number }) => this.coordinateXScale(d.x))
       .attr('y', (d: { id: string, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y))
-      .attr('opacity', (d: { id: string, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); });
+      .attr('opacity', (d: { id: string, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); })
+      .attr('stroke', 'white')
+      .attr('stroke-width', '1px')
+      .attr('paint-order', 'stroke');
 
     labels.exit().remove();
   }
@@ -1138,6 +1146,7 @@ export class HomeComponent implements AfterContentInit {
     const distanceExtent = d3.extent(this.distances, (d: { id: string, distance: number }) => d.distance);
 
     this.distanceColorScale.domain((distanceExtent as Array<number>));
+    this.movementScale.domain((distanceExtent as Array<number>))
 
     // draw trajectories between pairs of nodes
     const trajectories = this.graphSVG?.select('#trajectories-wrapper');
@@ -1227,7 +1236,7 @@ export class HomeComponent implements AfterContentInit {
       .attr('fill', (d: any) => this.colorScale(d.value))
       .attr('opacity', (d: any) => {
         // return 1;
-        return d.value * 1000;
+        return d.value * 700;
       });
 
     density.exit().remove();

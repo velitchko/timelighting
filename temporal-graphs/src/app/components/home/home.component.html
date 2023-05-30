@@ -17,8 +17,8 @@
         <div class="overflow-y-scroll scroll-auto max-h-[80vh] mt-2">
             <div *ngFor="let nodeId of nodeIds">
                 <label class="inline-flex items-center">
-                    <div class="w-[100px] h-2 bg-blue-400">
-                        <div class="h-2 bg-blue-600" [style.width.%]="nodeId.distance"></div>
+                    <div class="w-[100px] h-2 bg-blue-100">
+                        <div class="h-2 bg-blue-600" [style.width.%]="this.movementScale(nodeId.distance)"></div>
                     </div>
                     <input type="checkbox" class="form-checkbox ml-2" [checked]="nodeId.checked"
                         (change)="toggleNode(nodeId.id)">
