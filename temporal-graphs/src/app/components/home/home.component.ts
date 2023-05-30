@@ -496,6 +496,7 @@ export class HomeComponent implements AfterContentInit {
             return 'red';
           } else {
             return '#ffdcdc';
+            //return 'url(#diagonal-stripe-1)';
           }
         } else {
           const distance = this.distances.find((distance: { id: string, distance: number }) => {
@@ -531,8 +532,24 @@ export class HomeComponent implements AfterContentInit {
 
     const nodeIndex = parseInt(($event.target as Element).id.split('-')[2]);
     const nodeId = ($event.target as Element).id.split('-')[1];
-
+    let time = this.graph?.nodes.find((node: Node) => node.id === nodeId)?.time[nodeIndex - 1];
+    if(time === undefined)
+      time = 0;
     const trajectoryId = `trajectory-${id.split('-')[1]}`;
+
+    // draw time needle on top of area chart
+    this.timelineSVG?.select('#area-wrapper')
+    .append('line')
+    .attr("x1",  this.areaChartXScale(time))
+    .attr("y1", 0 + this.graphMargin.top + this.graphMargin.bottom)
+    .attr("x2", this.areaChartXScale(time))  
+    .attr("y2", this.timelineHeight - (this.graphMargin.bottom + this.graphMargin.top))
+    .attr('id', 'time-needle')
+    .attr('fill', 'none')
+    .attr('stroke', 'yellow')
+    .attr('stroke-width', 2)
+    .attr('stroke-opacity', 0.8);
+
     // show trajectories of the current node id else show neighboring edges
     if (this.showTrajectories) {
       this.graphSVG?.select('#trajectories-wrapper')
@@ -607,13 +624,15 @@ export class HomeComponent implements AfterContentInit {
             found.time.push(time);
             found.coordinates.push(node.coordinates[index]);
             found.ages.push(node.ages[index]);
+            found.resampled.push(node.resampled[index]);
           } else {
             filteredTimesAndCoordinates.push({
               id: node.id,
               label: node.label,
               time: [time],
               coordinates: [node.coordinates[index]],
-              ages: [node.ages[index]]
+              ages: [node.ages[index]],
+              resampled: [node.resampled[index]]
             });
           }
         }
@@ -649,6 +668,7 @@ export class HomeComponent implements AfterContentInit {
           if (found) {
             found.time.push(t);
             found.coordinates.push({ x, y });
+            found.resampled.push(j == 0 ? false : true);
             if (found.ages) found.ages.push(age);
           } else {
             resampledNodes.push({
@@ -657,6 +677,7 @@ export class HomeComponent implements AfterContentInit {
               time: [t],
               coordinates: [{ x, y }],
               ages: [age],
+              resampled: [j == 0 ? false : true]
             });
           }
         }
@@ -795,7 +816,7 @@ export class HomeComponent implements AfterContentInit {
             if ((d.time >= this.start && d.time <= this.end)) {
               return 'red';
             } else {
-              return '#ffdcdc';
+              return '#ffdcdc' /*'url(#diagonal-stripe-1)'*/;
             }
           }
 
@@ -810,21 +831,19 @@ export class HomeComponent implements AfterContentInit {
             return n.id === d.id;
           });
 
-          if (found) {
+          if (found?.checked) {
             if ((this.start === this.originalStart && this.end === this.originalEnd) && found.checked) return '#ffdcdc';
 
             // if found and time is within start/end 
             if ((d.time >= this.start && d.time <= this.end) && found.checked) return 'red';
             // 50% red is kinda pinkish
             // return 'gray';
-            return found.checked ? '#ffdcdc' : 'gray';
-          }
-
-
+            return '#ffdcdc' /*'url(#diagonal-stripe-1)'*/;
+          }else 
           return 'gray';
         }
       })
-      .attr('stroke', 'none')
+      .attr('stroke', (d: any) => d.resampled ? 'none' : 'orange')
       .attr('fill-opacity', (d: any) => {
         return this.relativeAgeScale(d.age);
       })
@@ -854,6 +873,9 @@ export class HomeComponent implements AfterContentInit {
         .selectAll('line')
         .attr('stroke-opacity', 0);
     }
+
+    this.timelineSVG?.select('#area-wrapper #time-needle')
+    .remove();
   }
 
   private zoomGraph($event: d3.D3ZoomEvent<SVGSVGElement, unknown>) {
@@ -959,7 +981,7 @@ export class HomeComponent implements AfterContentInit {
     };
 
     // zip time and coordinates
-    const zipped = new Array<{ id: string, x: number, y: number, time: number, age: number, index: number }>();
+    const zipped = new Array<{ id: string, x: number, y: number, time: number, age: number, index: number, resampled: boolean }>();
     this.graph.nodes.forEach((node: Node) => {
 
       node.coordinates.forEach((coordinate: { x: number, y: number }, index: number) => {
@@ -969,7 +991,8 @@ export class HomeComponent implements AfterContentInit {
           y: coordinate.y,
           time: node.time[index],
           age: node.ages ? node.ages[index] : 0,
-          index: index + 1
+          index: index + 1,
+          resampled: node.resampled[index]
         });
       });
     });
@@ -986,7 +1009,7 @@ export class HomeComponent implements AfterContentInit {
       .attr('class', 'node')
       .attr('cx', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => this.coordinateXScale(d.x))
       .attr('cy', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => this.coordinateYScale(d.y))
-      .attr('r', 8)
+      .attr('r',  (d: { id: string, x: number, y: number, time: number, age: number, index: number, resampled: boolean }) => d.resampled ? 7 : 11)
       .attr('fill', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => {
         // if nodeId is in nodeIds (persistently selected)
         const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
@@ -1001,7 +1024,7 @@ export class HomeComponent implements AfterContentInit {
           if ((d.time >= this.start && d.time <= this.end) && found.checked) return 'red';
           // 50% red is kinda pinkish
           // return 'gray';
-          return found.checked ? '#ffdcdc' : 'gray';
+          return found.checked ? '#ffdcdc' /*'url(#diagonal-stripe-1)'*/ : 'gray';
         }
         return 'gray';
       })
@@ -1009,6 +1032,7 @@ export class HomeComponent implements AfterContentInit {
         return this.relativeAgeScale(d.age);
       })
       .attr('id', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => `node-${d.id}-${d.index}`)
+      .attr('stroke', (d: { resampled: boolean }) => d.resampled ? 'none' : 'orange')
       .on('mouseover', this.nodeMouseOver.bind(this))
       .on('mouseout', this.nodeMouseOut.bind(this))
 
@@ -1409,6 +1433,7 @@ export class HomeComponent implements AfterContentInit {
       .attr('stroke', 'blue')
       .attr('stroke-width', 1)
       .attr('stroke-opacity', 0.5);
+
   }
 
   private graphGuidance() {

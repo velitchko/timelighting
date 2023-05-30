@@ -53,6 +53,9 @@ export class GraphService {
 
           found.time.push(+times[0]);
           found.time.push(+times[1]);
+
+          found.resampled.push(false);
+          found.resampled.push(false);
         }
         // else create new node
         else {
@@ -62,7 +65,8 @@ export class GraphService {
             time: [+times[0], +times[1]],
             coordinates: [{ x: +coords[0], y: +coords[1] }, { x: +coords[2], y: +coords[3] }],
             age: 0,
-            ages: [0]
+            ages: [0],
+            resampled: [false, false]
           };
           this.graph.nodes.push(newNode);
         }
