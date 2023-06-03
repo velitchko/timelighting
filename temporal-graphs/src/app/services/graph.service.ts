@@ -21,8 +21,13 @@ export class GraphService {
 
   // load data from json file
   public loadData(dataset?: string): void {
+    this.graph = {
+      nodes: [],
+      edges: []
+    };
+    
     const data = DATASETS[dataset ? dataset : 'vandebunte'];
-    this.parseData(data);
+    this.parseData(data.src);
   }
 
   // parse data from json file

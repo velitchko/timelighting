@@ -1,12 +1,33 @@
-<div class="fixed top-0 right-0 z-40">
-    <button *ngIf="!showSidebar" class="text-4xl text-black" (click)="toggleSidebar()">
+<div class="fixed top-4 right-4 z-40 bg-blue-600 rounded-lg px-2 border-gray-200">
+    <button *ngIf="!showSidebar" class="text-3xl text-white border-gray-200" (click)="toggleSidebar()">
         &#9776;
     </button>
 </div>
-
-<div class=" fixed top-0 right-0 z-50 w-[25vw] h-full bg-white border text-black ease-in-out duration-300"
+<!-- TAILWINDCSS DROPDOWN FOR DATASETS -->
+<div class="fixed top-4 right-20 z-40">
+    <button (click)="toggleDropdown($event)"
+        class="w-48 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10"
+        type="button">
+        Select Dataset
+    </button>
+    <!-- Dropdown menu -->
+    <div id="dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+        [ngClass]="showDropdown ? 'block' : 'hidden'">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+            <li *ngFor="let dataset of datasets">
+                <a
+                    (click)="reload(dataset.label)"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {{ dataset.displayName }}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="fixed top-0 right-0 z-50 w-[25vw] h-full bg-white border text-black ease-in-out duration-300"
     [ngClass]="{ 'translate-x-0' : showSidebar, 'translate-x-full' : !showSidebar }">
-    <button *ngIf="showSidebar" class="text-4xl text-black fixed right-0 top-0" (click)="toggleSidebar()">
+    <button *ngIf="showSidebar" class="text-4xl text-black fixed right-4 top-4" 
+    (click)="toggleSidebar()">
         &times;
     </button>
     <div class="p-10">
@@ -28,7 +49,8 @@
             </div>
         </div>
         <div class="fixed bottom-10 right-10">
-            <button class="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10"
+            <button
+                class="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10"
                 (click)="clearNodeIds(); toggleSidebar()">
                 Clear
             </button>
@@ -44,7 +66,7 @@
 <div id="graph-container" #graphContainer></div>
 <div id="timeline-container" #timelineContainer></div>
 
-<div class="inline-flex rounded-md shadow-sm z-100 absolute m-2" role="group">
+<div class="inline-flex rounded-md shadow-sm z-100 absolute m-2 z-40" role="group">
     <button
         class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10"
         (click)="toggleGroup('nodes')"
@@ -76,17 +98,19 @@
         Edges
     </button>
     <label for="resampleFrequency" class="ml-4 font-semibold mt-1">Resample Frequency</label>
-    <input type="number" id="resampleFrequency" name="resampleFrequency" min="1" max="100" [value]="resampleFrequency" (change)="resample($event)"
-        class="w-1/8 text-center border-blue-300 ml-2 rounded-md focus:border-blue-700">
+    <input type="number" id="resampleFrequency" name="resampleFrequency" min="1" max="100" [value]="resampleFrequency"
+        (change)="resample($event)" class="w-1/8 text-center border-blue-300 ml-2 rounded-md focus:border-blue-700">
     <!-- TAILWINDCSS RANGE SLIDER BOUND TO BANDWIDTH CALLS FUNCTION ON CHANGE -->
     <label for="bandwidth" class="ml-4 font-semibold mt-1">Bandwidth ({{bandwidth}})</label>
-    <input type="range" id="bandwidth" name="bandwidth" min="10" max="100" [value]="bandwidth" (change)="updateBandwidth($event)"
+    <input type="range" id="bandwidth" name="bandwidth" min="10" max="100" [value]="bandwidth"
+        (change)="updateBandwidth($event)"
         class="w-1/8 text-center border-blue-300 ml-2 rounded-md focus:border-blue-700">
-    
+
     <!-- TAILWINDCSS CHECKBOX -->
     <label for="nodecoloring" class="ml-4 font-semibold mt-1">Color Nodes By Mobility</label>
-    <input type="checkbox" id="nodecoloring" name="nodecoloring" [checked]="colorNodesByDistance" (change)="updateNodeColoring($event)"
-    class="w-1/8 text-center border-blue-300 ml-2 rounded-md focus:border-blue-700">
+    <input type="checkbox" id="nodecoloring" name="nodecoloring" [checked]="colorNodesByDistance"
+        (change)="updateNodeColoring($event)"
+        class="w-1/8 text-center border-blue-300 ml-2 rounded-md focus:border-blue-700">
 
     <div id="color-legend" #colorScaleContainer class="ml-4">
     </div>
