@@ -3,7 +3,7 @@ import * as rugby from '../../assets/rugby.json';
 import * as newcomb from '../../assets/newcomb.json';
 import * as dialogs from '../../assets/pride.json';
 import * as infovis from '../../assets/infovis.json';
-
+import * as infovis_s from '../../assets/infovis_s.json';
 
 export const DATASETS: any = {
     vandebunte: {
@@ -30,5 +30,10 @@ export const DATASETS: any = {
         src: infovis,
         label: 'infovis',
         displayName: 'Infovis'
+    },
+    infovis_s: {
+        src: infovis_s,
+        label: 'infovis_s',
+        displayName: 'Infovis_s'
     }
 };
