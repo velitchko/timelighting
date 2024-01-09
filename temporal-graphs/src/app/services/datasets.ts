@@ -4,6 +4,9 @@ import * as newcomb from '../../assets/newcomb.json';
 import * as dialogs from '../../assets/pride.json';
 import * as infovis from '../../assets/infovis.json';
 import * as infovis_s from '../../assets/infovis_s.json';
+import * as infovis_t from '../../assets/infovis_t.json';
+import * as reality from '../../assets/reality.json';
+
 
 export const DATASETS: any = {
     vandebunte: {
@@ -35,5 +38,17 @@ export const DATASETS: any = {
         src: infovis_s,
         label: 'infovis_s',
         displayName: 'Infovis_s'
+    }
+    ,
+    infovis_t: {
+        src: infovis_t,
+        label: 'infovis_t',
+        displayName: 'Infovis_t'
+    }
+    ,    
+    reality: {
+        src: reality,
+        label: 'reality',
+        displayName: 'reality_mining'
     }
 };
