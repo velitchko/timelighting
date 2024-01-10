@@ -42,18 +42,6 @@ export const DATASETS: any = {
     reality: {
         src: reality,
         label: 'reality',
-        displayName: 'Reality Mining'
-    }
-    ,
-    infovis_t: {
-        src: infovis_t,
-        label: 'infovis_t',
-        displayName: 'Infovis_t'
-    }
-    ,    
-    reality: {
-        src: reality,
-        label: 'reality',
         displayName: 'reality_mining'
     }
     ,
@@ -61,11 +49,5 @@ export const DATASETS: any = {
         src: infovis_t,
         label: 'infovis_t',
         displayName: 'Infovis_t'
-    }
-    ,    
-    reality: {
-        src: reality,
-        label: 'reality',
-        displayName: 'reality_mining'
     }
 };
