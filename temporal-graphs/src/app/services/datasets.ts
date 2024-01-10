@@ -38,17 +38,16 @@ export const DATASETS: any = {
         src: infovis_s,
         label: 'infovis_s',
         displayName: 'Infovis_s'
+    },
+    reality: {
+        src: reality,
+        label: 'reality',
+        displayName: 'reality_mining'
     }
     ,
     infovis_t: {
         src: infovis_t,
         label: 'infovis_t',
         displayName: 'Infovis_t'
-    }
-    ,    
-    reality: {
-        src: reality,
-        label: 'reality',
-        displayName: 'reality_mining'
     }
 };
