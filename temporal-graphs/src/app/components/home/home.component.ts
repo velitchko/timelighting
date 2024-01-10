@@ -164,7 +164,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
       this.drawLinks();
       this.drawNodes();
       this.drawDensity();
-      this.drawAreaChart();
+      this.drawAreaChart(); 
 
       this.timelineGuidance();
     });
@@ -1242,7 +1242,6 @@ export class HomeComponent implements OnInit, AfterContentInit {
     };
 
     
-    console.log('density');
     // zip time and coordinates
     const zipped = new Array<{ id: string, x: number, y: number, time: number, age: number }>();
   
@@ -1525,8 +1524,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
     if (!this.graph) {
       setTimeout(() => this.timelineGuidance(), 1000);
     }
-    // find some regions 
-    const regions = new Array<{ startX: number, endX: number }>();
+  
     const foundNodes = new Array<Node>();
     // go through persistently selected / highlighted nodes and check if all 3 exist in the current start - end interval
     this.nodeIds.forEach((n: { id: string, checked: boolean, distance: number }) => {
@@ -1537,47 +1535,68 @@ export class HomeComponent implements OnInit, AfterContentInit {
       if (found) foundNodes.push(found);
     });
 
-    const intervals = new Array<{ id: string, start: number, end: number }>();
-
+    console.log(foundNodes)
+    
+    const arrayOfNodes = new Array<Array<{start: number, end: number}>>();
     foundNodes.forEach((node: Node) => {
-      for (let i = 0; i < node.time.length - 1; i++) {
-        const start = node.time[i];
-        const end = node.time[i + 1];
-        intervals.push({ id: node.id, start, end });
+      let intervals = new Array<{start: number, end: number}>();
+      for(let i = 0; i < node.time.length - 1; i += 2) {
+        intervals.push({ start: node.time[i], end: node.time[i + 1]});
       }
+      // sort intervals by start time
+      intervals.sort((a: {start: number, end: number}, b: {start: number, end: number}) => {
+        return a.start - b.start;
+      });
+      arrayOfNodes.push(intervals);
     });
 
-    const intervalMap = new Map<string, Set<string>>();
-    intervals.forEach((interval: { id: string, start: number, end: number }) => {
-      // find interval in map where start > interval.start && end < interval.end
 
-      let added = false;
-      for (const [key, value] of intervalMap) {
-        // split key into start and end
-        const [start, end] = key.split('-');
-        if (interval.start >= parseFloat(start) && interval.end <= parseFloat(end)) {
-          value.add(interval.id);
-          added = true;
-        }
-      }
+    console.log(arrayOfNodes);
 
-      if (added) return;
-
-      const intervalId = `${interval.start}-${interval.end}`;
-      const set = new Set<string>();
-      set.add(interval.id);
-      intervalMap.set(intervalId, set);
+    const overlaps = _.intersectionWith(...(arrayOfNodes as any[]), (a: {start: number, end: number}, b: {start: number, end: number}) => {
+      // make sure either a is in b or b is in a with an epsilon of 0.1
+      return (a.start >= b.start && a.start <= b.end) || (b.start >= a.start && b.start <= a.end);
     });
+    const eps = 0.1;
+        // Sort the overlaps by start time
+    overlaps.sort((a, b) => a.start - b.start);
 
-    // get the intervals that have all n nodes
-    intervalMap.forEach((value: Set<string>, key: string) => {
-      if (value.size === foundNodes.length) {
-        const [start, end] = key.split('-');
-        regions.push({ startX: parseFloat(start), endX: parseFloat(end) });
+    // Initialize the merged overlaps with the first overlap
+    let mergedOverlaps = [overlaps[0]];
+
+    for (let i = 1; i < overlaps.length; i++) {
+      let lastOverlap = mergedOverlaps[mergedOverlaps.length - 1];
+      let currentOverlap = overlaps[i];
+
+      // If the current overlap starts within epsilon of the end of the last overlap, extend the last overlap
+      if (currentOverlap.start - lastOverlap.end <= eps) {
+        lastOverlap.end = Math.max(lastOverlap.end, currentOverlap.end);
+      } else {
+        // Otherwise, start a new overlap
+        mergedOverlaps.push(currentOverlap);
       }
-    });
+    }
 
-    if (regions.length === 0) {
+
+    console.log(mergedOverlaps);
+
+    // console.log(overlaps);
+    // const eps = 0.1;
+    // // merge overlaps that are close to each other or within each other
+    // const mergedOverlaps = new Array<{start: number, end: number}>();
+    // let currentOverlap = overlaps[0];
+    // for(let i = 1; i <= overlaps.length - 1; i++) {
+    //   const overlap = overlaps[i];
+    //   if(((overlap.start + eps) >= currentOverlap.start || (overlap.start - eps) <= currentOverlap.start)) {
+    //     currentOverlap.end = overlap.end;
+    //   } else {
+    //     mergedOverlaps.push(currentOverlap);
+    //     currentOverlap = overlap;
+    //   }
+    // }
+    // console.log(mergedOverlaps);
+
+    if (mergedOverlaps.length === 0) {
       // clear guidance
       const guidance = this.timelineSVG?.select('#time-guidance-wrapper');
 
@@ -1589,32 +1608,18 @@ export class HomeComponent implements OnInit, AfterContentInit {
       return;
     }
 
-    // merge regions that are close to each other
-    const mergedRegions = new Array<{ startX: number, endX: number }>();
-    let currentRegion = regions[0];
-    for (let i = 1; i <= regions.length - 1; i++) {
-      const region = regions[i];
-      if (region.startX - currentRegion.endX < 0.1) {
-        currentRegion.endX = region.endX;
-      } else {
-        mergedRegions.push(currentRegion);
-        currentRegion = region;
-      }
-    }
-    mergedRegions.push(currentRegion);
-
     const guidance = this.timelineSVG?.select('#time-guidance-wrapper');
 
     if (!guidance) return;
 
     guidance
       .selectAll('rect')
-      .data(mergedRegions)
+      .data(mergedOverlaps)
       .join('rect')
       .attr('class', 'guidelines')
       .attr('stroke', 'black')
-      .attr('x', (d: { startX: number, endX: number }) => this.areaChartXScale(d.startX))
-      .attr('width', (d: { startX: number, endX: number }) => this.areaChartXScale(d.endX) - this.areaChartXScale(d.startX))
+      .attr('x', (d: { start: number, end: number }) => this.areaChartXScale(d.start))
+      .attr('width', (d: { start: number, end: number }) => this.areaChartXScale(d.end) - this.areaChartXScale(d.start))
       .attr('y', 20)
       .attr('height', this.timelineHeight - 40)
       .attr('fill', 'orange')
@@ -1622,10 +1627,10 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
     guidance
       .selectAll('text')
-      .data(mergedRegions)
+      .data(mergedOverlaps)
       .join('text')
       .attr('class', 'guidelines-labels')
-      .attr('x', (d: { startX: number, endX: number }) => this.areaChartXScale(d.startX))
+      .attr('x', (d: { start: number, end: number }) => this.areaChartXScale(d.start))
       .attr('y', 20)
       .style('font-size', '20px')
       .style('font-weight', '400')
@@ -1638,10 +1643,10 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
         const selection = ($event.target as any).__data__;
 
-        this.start = selection.startX;
-        this.end = selection.endX;
-
-        this.selectBrushWindow([this.areaChartXScale(selection.startX), this.areaChartXScale(selection.endX)]);
+        this.start = selection.start;
+        this.end = selection.end;
+        
+        this.selectBrushWindow([this.areaChartXScale(selection.start), this.areaChartXScale(selection.end)]);
       });
   }
 }

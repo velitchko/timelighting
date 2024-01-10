@@ -26,7 +26,7 @@ export class GraphService {
       edges: []
     };
     
-    const data = DATASETS[dataset ? dataset : 'vandebunte'];
+    const data = DATASETS[dataset ? dataset : 'infovis_s'];
     this.parseData(data.src);
   }
 
