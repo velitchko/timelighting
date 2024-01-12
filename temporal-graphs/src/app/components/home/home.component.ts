@@ -896,7 +896,14 @@ export class HomeComponent implements OnInit, AfterContentInit {
           });
 
           if (found?.checked) {
-            if ((this.start === this.originalStart && this.end === this.originalEnd) && found.checked) return '#ffdcdc';
+            if ((this.start === this.originalStart && this.end === this.originalEnd) && found.checked) {
+              if(d.time >= this.start && d.time <= this.end) {
+                return 'red';
+              } else {
+                return '#ffdcdc';
+              }
+              // return '#ffdcdc';
+            };
 
             // if found and time is within start/end 
             if (this.start !== undefined && this.end !== undefined && (d.time >= this.start && d.time <= this.end) && found.checked) return 'red';
@@ -1110,7 +1117,10 @@ export class HomeComponent implements OnInit, AfterContentInit {
           });
 
           if (found?.checked) {
-            if ((this.start === this.originalStart && this.end === this.originalEnd) && found.checked) return '#ffdcdc';
+            if ((this.start === this.originalStart && this.end === this.originalEnd) && found.checked) {
+              if(d.time >= this.start && d.time <= this.end) return 'red';
+              return '#ffdcdc';
+            }
 
             // if found and time is within start/end 
             if (this.start !== undefined && this.end !== undefined && (d.time >= this.start && d.time <= this.end) && found.checked) return 'red';
@@ -1122,6 +1132,12 @@ export class HomeComponent implements OnInit, AfterContentInit {
         }
       })
       .attr('fill-opacity', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => {
+        const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
+          return n.id === d.id;
+        });
+        // if checked and within start - end range return 1
+        if (found?.checked && this.start !== undefined && this.end !== undefined && (d.time >= this.start && d.time <= this.end)) return 1;
+
         return this.relativeAgeScale(d.age);
       })
       .attr('id', (d: { id: string, x: number, y: number, time: number, age: number, index: number }) => `node-${d.id}-${d.index}`)
