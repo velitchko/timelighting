@@ -677,6 +677,33 @@ export class HomeComponent implements OnInit, AfterContentInit {
     // create this.resampleFrequency nodes between each pair of times and coordinates of filtered nodes
     const resampledNodes = new Array<Node>();
     filteredTimesAndCoordinates.forEach((node: Node) => {
+      // Fix for intervals of length = 1
+      if(node.time.length <= 1) {
+        // find original nodes closest end time and push it to time and coordinates array
+        const found = this.graph?.nodes.find((n: Node) => n.id === node.id);
+        if(!found) return;
+
+        node.time.push(end);
+
+        // find closest coordinate to end time from original node
+        let closest = 0;
+        let closestIndex = 0;
+        found.time.forEach((time: number, i: number) => {
+          if (Math.abs(time - end) < Math.abs(closest - end)) {
+            closest = time;
+            closestIndex = i;
+          }
+        });
+
+        // push closest coordinate to coordinates array
+        node.coordinates.push(found.coordinates[closestIndex]);
+
+        // calculate difference between first and last time
+        let age = end - node.time[0];
+        node.ages.push(age);
+        node.resampled.push(true);
+      }
+
       for (let i = 0; i < node.time.length - 1; i++) {
         const t0 = node.time[i];
         const t1 = node.time[i + 1];
