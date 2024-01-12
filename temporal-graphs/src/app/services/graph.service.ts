@@ -26,7 +26,7 @@ export class GraphService {
       edges: []
     };
     
-    const data = DATASETS[dataset ? dataset : 'infovis_s'];
+    const data = DATASETS[dataset ? dataset : 'rugby'];
     this.parseData(data.src);
   }
 
@@ -99,6 +99,9 @@ export class GraphService {
       const target = this.graph.nodes.find((node: Node) => node.id === edgeTarget);
 
       if(!source || !target) return;
+
+      // check for loop
+      if (source.id === target.id) return;
 
       const newEdge: Edge = {
         id: edge.id,
