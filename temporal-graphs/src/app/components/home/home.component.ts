@@ -561,7 +561,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
       .style('top', `${$event.pageY - 25}px`)
       .style('z-index', '100')
       .style('display', 'block')
-      .html(id);
+      .html(id.replace('node-', '').replace('__0', '').split('-')[0]);
 
     const nodeIndex = parseInt(($event.target as Element).id.split('-')[2]);
     const nodeId = ($event.target as Element).id.split('-')[1];
@@ -1130,7 +1130,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
       .join('text')
       .attr('class', 'node-label')
       .attr('pointer-events', 'none')
-      .text((d: { id: string, x: number, y: number, time: number, age: number }) => `node-${d.id}`)
+      .text((d: { id: string, x: number, y: number, time: number, age: number }) => `${d.id.replace('__0', '').split('-')[0]}`)
       .attr('x', (d: { id: string, x: number, y: number, time: number, age: number }) => this.coordinateXScale(d.x))
       .attr('y', (d: { id: string, x: number, y: number, time: number, age: number }) => this.coordinateYScale(d.y))
       .attr('opacity', (d: { id: string, x: number, y: number, time: number, age: number }) => { return this.relativeAgeScale(d.age); })
