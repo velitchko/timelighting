@@ -387,7 +387,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.originalStart = this.start;
     this.originalEnd = this.end;
 
-    this.areaChartXScale.domain(nodeTimeExtent as Array<number>).range([
+    this.areaChartXScale.domain([this.originalStart, this.originalEnd]).range([
       0 + this.graphMargin.left,
       this.timelineWidth - this.graphMargin.right
     ]);
