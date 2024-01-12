@@ -5,6 +5,7 @@ type Node = {
     coordinates: Array<{ x: number, y: number }>; // NOTE: these are pairs of [start, end] coordinates
     ages: Array<number>; // NOTE: these are pairs of [start, end] ages
     age?: number;
+    resampled: Array<boolean>
 };
 
 export default Node;
