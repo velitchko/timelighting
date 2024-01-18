@@ -1518,6 +1518,27 @@ export class HomeComponent implements OnInit, AfterContentInit {
       // update areaChartYScale domain
       this.areaChartYScale.domain([0, maxCount]);
 
+      // compare max time of nodeData and edgeData and calculate difference
+      const cutoff = [
+        this.areaChartXScale.domain()[0],
+        Math.min(d3.max(nodeData, d => d.time) || 0, d3.max(edgeData, d => d.time) || 0)
+      ];
+      
+      // update areaChartXScale domain
+      this.areaChartXScale.domain(cutoff);
+
+      // update timeSCale
+      this.timeScale.domain(cutoff);
+
+      // cutoff edges that are outside of the domain
+      const cutoffEdges = edgeData.filter((d: { time: number, count: number }) => {
+        return d.time >= cutoff[0] && d.time <= cutoff[1];
+      });
+
+      const cutoffNodes = nodeData.filter((d: { time: number, count: number }) => {
+        return d.time >= cutoff[0] && d.time <= cutoff[1];
+      });
+
       // append axis
       this.timelineSVG?.select('#timeline-wrapper')
         .append('g')
@@ -1535,24 +1556,23 @@ export class HomeComponent implements OnInit, AfterContentInit {
       this.timelineSVG?.select('#timeline-wrapper')
         .append('g')
         .attr('id', 'area-wrapper')
-      //   .append('path')
-      //   .attr('d', () => {
-      //     return d3.area<{ time: number, count: number }>()
-      //       .curve(d3.curveMonotoneX)
-      //       .x((d: { time: number, count: number }) => {
-      //         console.log(d.time, this.areaChartXScale(d.time))
-      //         return this.areaChartXScale(d.time)
-      //       })
-      //       .y0(this.areaChartYScale(0))
-      //       .y1((d: { time: number, count: number }) => {
-      //         return this.areaChartYScale(d.count)
-      //       })
-      //       .bind(this)(nodeData);
-      //   })
-      //   .attr('id', 'node-area')
-      //   .attr('fill', 'red')
-      //   .attr('fill-opacity', 0.15)
-      //   .style('pointer-events', 'none');
+        .append('path')
+        .attr('d', () => {
+          return d3.area<{ time: number, count: number }>()
+            .curve(d3.curveMonotoneX)
+            .x((d: { time: number, count: number }) => {
+              return this.areaChartXScale(d.time)
+            })
+            .y0(this.areaChartYScale(0))
+            .y1((d: { time: number, count: number }) => {
+              return this.areaChartYScale(d.count)
+            })
+            .bind(this)(cutoffNodes);
+        })
+        .attr('id', 'node-area')
+        .attr('fill', 'red')
+        .attr('fill-opacity', 0.15)
+        .style('pointer-events', 'none');
 
       // draw line on top of area chart
       this.timelineSVG?.select('#area-wrapper')
