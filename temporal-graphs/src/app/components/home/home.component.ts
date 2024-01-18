@@ -1092,10 +1092,12 @@ export class HomeComponent implements OnInit, AfterContentInit {
     });
 
 
-    const distanceExtent = d3.extent(this.distances, (d: { id: string, distance: number }) => d.distance);
+    const distMax = d3.max(this.distances, (d: { id: string, distance: number }) => d.distance);
 
-    this.distanceColorScale.domain((distanceExtent as Array<number>));
-    this.movementScale.domain((distanceExtent as Array<number>))
+    console.log(`distance extent: ${distMax}`)
+
+    this.distanceColorScale.domain([0, distMax] as Array<number>);
+    this.movementScale.domain([0, distMax] as Array<number>);
 
 
     if (this.initGuidance) {
