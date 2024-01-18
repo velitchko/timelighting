@@ -1608,26 +1608,26 @@ export class HomeComponent implements OnInit, AfterContentInit {
         .attr('stroke-width', 2)
         .attr('stroke-opacity', 0.5);
 
+
       // draw area chart
-      // this.timelineSVG?.select('#area-wrapper')
-      //   .append('path')
-      //   .attr('d', () => {
-      //     return d3.area<{ time: number, count: number }>()
-      //       .curve(d3.curveMonotoneX)
-      //       .x((d: { time: number, count: number }) => {
-      //         console.log(d.time, this.areaChartXScale(d.time))
-      //         return this.areaChartXScale(d.time)
-      //       })
-      //       .y0(this.areaChartYScale(0))
-      //       .y1((d: { time: number, count: number }) => {
-      //         return this.areaChartYScale(d.count)
-      //       })
-      //       .bind(this)(edgeData);
-      //   })
-      //   .attr('id', 'edge-area')
-      //   .attr('fill', 'blue')
-      //   .attr('fill-opacity', 0.15)
-      //   .style('pointer-events', 'none');
+      this.timelineSVG?.select('#area-wrapper')
+        .append('path')
+        .attr('d', () => {
+          return d3.area<{ time: number, count: number }>()
+            .curve(d3.curveMonotoneX)
+            .x((d: { time: number, count: number }) => {
+              return this.areaChartXScale(d.time)
+            })
+            .y0(this.areaChartYScale(0))
+            .y1((d: { time: number, count: number }) => {
+              return this.areaChartYScale(d.count)
+            })
+            .bind(this)(cutoffEdges);
+        })
+        .attr('id', 'edge-area')
+        .attr('fill', 'blue')
+        .attr('fill-opacity', 0.15)
+        .style('pointer-events', 'none');
 
       // draw line on top of area chart
       this.timelineSVG?.select('#area-wrapper')
@@ -1641,7 +1641,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
             .y((d: { time: number, count: number }) => {
               return this.areaChartYScale(d.count)
             })
-            .bind(this)(edgeData);
+            .bind(this)(cutoffEdges);
         })
         .attr('id', 'edge-line')
         .attr('fill', 'none')
