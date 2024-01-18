@@ -707,7 +707,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.graph.nodes.forEach((node: Node) => {
       node.time.forEach((time: number, index: number) => {
         const isPersistent = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => n.id === node.id);
-        if ((time >= start && time <= end) || (isPersistent && isPersistent.checked)) {
+        if ((time >= start && time <= end || isPersistent?.checked)) {
           // check if node is already in filteredTimesAndCoordinates
           const found = filteredTimesAndCoordinates.find((filteredNode: Node) => filteredNode.id === node.id);
 
