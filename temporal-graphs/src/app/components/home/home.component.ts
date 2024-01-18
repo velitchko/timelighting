@@ -156,6 +156,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
       // draw legend
       this.drawColorLegend();
 
+      this.calculateDistances(this.start, this.end);
       // resample nodes, trajectories and edges
       this.resampleNodes(this.start, this.end);
       // this.resampleTrajectories(this.start, this.end);
@@ -249,6 +250,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.graphService.getGraph().subscribe((data: Graph) => {
       this.graph = data;
       this.originalGraph = data;
+      this.initGuidance = true;
 
       this.cdref.detectChanges();
       this.init();
