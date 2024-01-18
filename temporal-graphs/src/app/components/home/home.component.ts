@@ -616,6 +616,18 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
     // draw time needle on top of area chart
     this.timelineSVG?.select('#area-wrapper')
+    .append('line')
+      .attr('x1', this.areaChartXScale(time))
+      .attr('y1', 0 + this.graphMargin.top + this.graphMargin.bottom)
+      .attr('x2', this.areaChartXScale(time))
+      .attr('y2', this.timelineHeight - (this.graphMargin.bottom + this.graphMargin.top))
+      .attr('id', 'time-needle-stroke')
+      .attr('fill', 'none')
+      .attr('stroke', 'black')
+      .attr('stroke-width', 4)
+      .attr('stroke-opacity', 1);
+
+    this.timelineSVG?.select('#area-wrapper')
       .append('line')
       .attr('x1', this.areaChartXScale(time))
       .attr('y1', 0 + this.graphMargin.top + this.graphMargin.bottom)
@@ -623,7 +635,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
       .attr('y2', this.timelineHeight - (this.graphMargin.bottom + this.graphMargin.top))
       .attr('id', 'time-needle')
       .attr('fill', 'none')
-      .attr('stroke', 'black')
+      .attr('stroke', 'yellow')
       .attr('stroke-width', 2)
       .attr('stroke-opacity', 1);
 
