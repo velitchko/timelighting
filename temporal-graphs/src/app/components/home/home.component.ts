@@ -771,9 +771,9 @@ export class HomeComponent implements OnInit, AfterContentInit {
         const y1 = node.coordinates[i + 1].y;
 
         const age0 = node.ages[i];
-        const age1 = node.ages[i + 1];
+        const age1 = node.ages[i + 1];       
 
-        for (let j = 0; j <= this.resampleFrequency; j++) {
+        for (let j = 0; j < this.resampleFrequency; j++) {
           // resample using this.lerp
           const t = this.lerp(t0, t1, j / this.resampleFrequency);
           const x = this.lerp(x0, x1, j / this.resampleFrequency);
@@ -801,6 +801,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
         }
       }
     });
+
+    console.log(resampledNodes);
 
     // sum up count of times in this.graph.nodes
     let count = 0;
@@ -1801,7 +1803,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
       .attr('stroke', 'black')
       .attr('x', (d: { start: number, end: number }) => this.areaChartXScale(d.start))
       .attr('width', (d: { start: number, end: number }) => {
-        return this.areaChartXScale(d.end) - this.areaChartXScale(d.start);
+        const end = d.end >= this.areaChartXScale.domain()[1] ? this.areaChartXScale.domain()[1] : d.end;
+        return this.areaChartXScale(end) - this.areaChartXScale(d.start);
       })
       .attr('y', 20)
       .attr('height', this.timelineHeight - 40)
