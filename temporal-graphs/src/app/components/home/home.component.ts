@@ -1614,12 +1614,43 @@ export class HomeComponent implements OnInit, AfterContentInit {
         .attr('stroke', 'blue')
         .attr('stroke-width', 2)
         .attr('stroke-opacity', 0.5);
-
-      console.log(nodeData)
-      console.log(edgeData)
-      console.log(this.areaChartXScale.domain())
     }
 
+    // add legend on top left corner of the area chart
+    const legend = this.timelineSVG?.select('#area-wrapper')
+      .append('g')
+      .attr('id', 'legend-wrapper')
+      .attr('transform', `translate(${this.graphMargin.left}, -${this.graphMargin.top})`);
+
+    legend?.append('rect')
+      .attr('x', 10)
+      .attr('y', 35)
+      .attr('width', 20)
+      .attr('height', 20)
+      .attr('fill', 'red')
+      .attr('fill-opacity', 0.15);
+
+    legend?.append('text')
+      .attr('x', 40)
+      .attr('y', 45)
+      .attr('font-size', '12px')
+      .text('Nodes');
+
+    legend?.append('rect')
+      .attr('x', 10)
+      .attr('y', 65)
+      .attr('width', 20)
+      .attr('height', 20)
+      .attr('fill', 'blue')
+      .attr('fill-opacity', 0.15);
+
+    legend?.append('text')
+      .attr('x', 40)
+      .attr('y', 75)
+      .attr('font-size', '12px')
+      .text('Edges');
+
+    legend?.lower();
   }
 
   private graphGuidance() {
