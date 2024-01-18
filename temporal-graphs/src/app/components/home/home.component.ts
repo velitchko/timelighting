@@ -1797,7 +1797,6 @@ export class HomeComponent implements OnInit, AfterContentInit {
       .attr('stroke', 'black')
       .attr('x', (d: { start: number, end: number }) => this.areaChartXScale(d.start))
       .attr('width', (d: { start: number, end: number }) => {
-        // console.log(d.end, d.start, this.areaChartXScale(d.end) - this.areaChartXScale(d.start));
         return this.areaChartXScale(d.end) - this.areaChartXScale(d.start);
       })
       .attr('y', 20)
