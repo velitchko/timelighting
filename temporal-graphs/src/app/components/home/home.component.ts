@@ -1002,6 +1002,9 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
     this.timelineSVG?.select('#area-wrapper #time-needle')
       .remove();
+
+    this.timelineSVG?.select('#area-wrapper #time-needle-stroke')
+      .remove();
   }
 
   private zoomGraph($event: d3.D3ZoomEvent<SVGSVGElement, unknown>) {
