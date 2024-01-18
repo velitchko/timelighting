@@ -1159,7 +1159,6 @@ export class HomeComponent implements OnInit, AfterContentInit {
             // if found and time is within start/end
             if (this.start !== undefined && this.end !== undefined && (d.time >= this.start && d.time <= this.end)) {
             // select this circle with d3 and add custom property to it 
-            console.log(d3.select(`#node-${d.id}-${d.index}`))
               return 'red';
             } else {
               return '#ffdcdc' /*'url(#diagonal-stripe-1)'*/;
