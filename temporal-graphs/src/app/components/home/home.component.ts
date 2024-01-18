@@ -1434,6 +1434,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
     // resample the node data according to the stride
     if (!this.graph) { console.log('no graph'); return; }
 
+    console.log('resampling' + this.resampleFrequency);
+
     if ($event) this.resampleFrequency = ($event.target as any).value;
 
     this.update();
