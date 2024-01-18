@@ -1703,6 +1703,45 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.update();
   }
 
+  private findCommonIntervals(items: Array<Array<{ start: number, end: number }>>): Array<{ start: number, end: number }> {
+    // Step 1: Flatten the array of intervals into a single array of events
+    let events = [];
+    for (let i = 0; i < items.length; i++) {
+        for (let j = 0; j < items[i].length; j++) {
+            events.push({time: items[i][j].start, type: 'start'});
+            events.push({time: items[i][j].end, type: 'end'});
+        }
+    }
+
+    // Step 2: Sort the array of events
+    events.sort((a, b) => a.time - b.time || (a.type === 'start' ? -1 : 1));
+
+    // Step 3 and 4: Iterate over the sorted array of events
+    let count = 0;
+    let result = new Array<{ start: number, end: number }>();
+    let startTime;
+    for (let i = 0; i < events.length; i++) {
+        if (events[i].type === 'start') {
+            count++;
+            if (count === items.length) {
+                startTime = events[i].time;
+            }
+        } else {
+            if (count === items.length && startTime) {
+                result.push({ start: startTime, end: events[i].time });
+            }
+            count--;
+        }
+    }
+
+    // filter out results for intervals where start and end are the same
+    result = result.filter((d: { start: number, end: number }) => {
+      return d.start !== d.end;
+    });
+
+    return result;
+}
+
   private timelineGuidance() {
     if (!this.graph) {
       setTimeout(() => this.timelineGuidance(), 1000);
@@ -1714,7 +1753,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
       // find the node in the graph.nodes
       if (!n.checked) return;
 
-      const found = this.graph?.nodes.find((node: Node) => node.id === n.id);
+      const found = this.originalGraph?.nodes.find((node: Node) => node.id === n.id);
       if (found) foundNodes.push(found);
     });
 
@@ -1724,23 +1763,16 @@ export class HomeComponent implements OnInit, AfterContentInit {
       for (let i = 0; i < node.time.length - 1; i += 2) {
         intervals.push({ start: node.time[i], end: node.time[i + 1] });
       }
-      // sort intervals by start time
-      intervals.sort((a: { start: number, end: number }, b: { start: number, end: number }) => {
-        return a.start - b.start;
-      });
       arrayOfNodes.push(intervals);
     });
 
+    const overlaps = this.findCommonIntervals(arrayOfNodes);
 
-    const overlaps = _.intersectionWith(...(arrayOfNodes as any[]), (a: { start: number, end: number }, b: { start: number, end: number }) => {
-      // make sure either a is in b or b is in a with an epsilon of 0.1
-      return (a.start >= b.start && a.start <= b.end) || (b.start >= a.start && b.start <= a.end);
+    // cutoff overlaps that are outside of the domain
+    overlaps.forEach((d: { start: number, end: number }) => {
+      if(d.end >= this.originalEnd) d.end = this.originalEnd;
     });
-    const eps = 1;
-    // Sort the overlaps by start time
-    overlaps.sort((a, b) => a.start - b.start);
-
-
+    
     if (overlaps.length === 0) {
       // clear guidance
       const guidance = this.timelineSVG?.select('#time-guidance-wrapper');
