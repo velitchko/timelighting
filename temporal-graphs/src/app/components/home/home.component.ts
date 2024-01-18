@@ -1600,7 +1600,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
             .y((d: { time: number, count: number }) => {
               return this.areaChartYScale(d.count)
             })
-            .bind(this)(nodeData);
+            .bind(this)(cutoffNodes);
         })
         .attr('id', 'node-line')
         .attr('fill', 'none')
