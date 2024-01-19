@@ -1582,7 +1582,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
         .append('g')
         .attr('id', 'brush')
         .call(this.timeBrush)
-        .call(this.timeBrush.move, [this.graphMargin.left, this.timelineWidth - this.graphMargin.right]);
+        // .call(this.timeBrush.move, [this.graphMargin.left, this.timelineWidth - this.graphMargin.right]);
 
       // draw area chart
       this.timelineSVG?.select('#timeline-wrapper')
