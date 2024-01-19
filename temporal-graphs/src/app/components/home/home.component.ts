@@ -777,7 +777,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
         const age0 = node.ages[i];
         const age1 = node.ages[i + 1];       
 
-        for (let j = 0; j < this.resampleFrequency; j++) {
+        for (let j = 0; j <= this.resampleFrequency; j++) {
           // resample using this.lerp
           const t = this.lerp(t0, t1, j / this.resampleFrequency);
           const x = this.lerp(x0, x1, j / this.resampleFrequency);
@@ -789,7 +789,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
           if (found) {
             // if we are at the last iteration push the final time and coordinates 
-            if (j === this.resampleFrequency - 1) {
+            if (j === this.resampleFrequency) {
               found.time.push(t1);
               found.coordinates.push({ x: x1, y: y1 });
               found.ages.push(age1);
@@ -837,7 +837,9 @@ export class HomeComponent implements OnInit, AfterContentInit {
       edges: this.graph.edges
     }
     // swap nodes
-    this.graph.nodes = resampledNodes;
+    if(this.resampleFrequency > 0) {
+      this.graph.nodes = resampledNodes;
+    }
   }
 
   private resampleTrajectories(start: number, end: number) {
