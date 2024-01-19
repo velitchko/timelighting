@@ -788,10 +788,18 @@ export class HomeComponent implements OnInit, AfterContentInit {
           const found = resampledNodes.find((resampledNode: Node) => resampledNode.id === node.id);
 
           if (found) {
-            found.time.push(t);
-            found.coordinates.push({ x, y });
-            found.resampled.push(j == 0 ? false : true);
-            if (found.ages) found.ages.push(age);
+            // if we are at the last iteration push the final time and coordinates 
+            if (j === this.resampleFrequency - 1) {
+              found.time.push(t1);
+              found.coordinates.push({ x: x1, y: y1 });
+              found.ages.push(age1);
+              found.resampled.push(false);
+            } else {
+              found.time.push(t);
+              found.coordinates.push({ x, y });
+              found.resampled.push(j == 0 ? false : true);
+              if (found.ages) found.ages.push(age);
+            }
           } else {
             resampledNodes.push({
               id: node.id,
