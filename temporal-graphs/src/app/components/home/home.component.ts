@@ -173,7 +173,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
 
   private update() {
-    this.calculateDistances(this.start, this.end);
+    // this.calculateDistances(this.start, this.end);
 
     this.resampleNodes(this.start, this.end);
     this.resampleEdges(this.start, this.end);
@@ -529,10 +529,10 @@ export class HomeComponent implements OnInit, AfterContentInit {
     console.log(`brushed from ${this.start} to ${this.end}`);
 
     // update distances
-    this.calculateDistances(this.start, this.end);
+    // this.calculateDistances(this.start, this.end);
 
     // update relativeAgeScale
-    this.relativeAgeScale.domain(d3.extent(_.flattenDeep(_.map(this.graph?.nodes, (node: Node) => node.ages ? node.ages : 0))) as Array<number>);
+    // this.relativeAgeScale.domain(d3.extent(_.flattenDeep(_.map(this.graph?.nodes, (node: Node) => node.ages ? node.ages : 0))) as Array<number>);
 
     // resample nodes, trajectories and edges
     this.resampleNodes(this.start, this.end);
@@ -568,7 +568,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
         });
 
         if (found?.checked) {
-          if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ffdcdc';
+          if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ff0000';
 
           // if found and time is within start/end 
           if (this.start !== undefined && this.end !== undefined && (d.time >= this.start && d.time <= this.end)) {
@@ -582,7 +582,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
             return d.id.includes(distance.id.split('-')[1])
           });
 
-          return distance && this.colorNodesByDistance ? this.distanceColorScale(distance.distance) : 'gray';
+          return this.colorNodesByDistance ? this.distanceColorScale(distance?.distance || 0) : 'gray';
         }
       });
   }
@@ -933,7 +933,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
           });
 
           if (found?.checked) {
-            if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ffdcdc';
+            if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ff0000';
 
             // if found and time is within start/end
             if (this.start !== undefined && this.end !== undefined && (d.time >= this.start && d.time <= this.end)) {
@@ -947,7 +947,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
             return d.id.includes(distance.id.split('-')[1])
           });
 
-          return distance ? this.distanceColorScale(distance.distance) : 'gray';
+          return this.distanceColorScale(distance?.distance || 0);
         } else {
           // if nodeId is in nodeIds (persistently selected)
           const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
@@ -1175,7 +1175,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
           });
 
           if (found?.checked) {
-            if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ffdcdc';
+            if ((this.start === this.originalStart && this.end === this.originalEnd)) return '#ff0000';
 
             // if found and time is within start/end
             if (this.start !== undefined && this.end !== undefined && (d.time >= this.start && d.time <= this.end)) {
@@ -1190,7 +1190,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
             return d.id.includes(distance.id.split('-')[1])
           });
 
-          return distance ? this.distanceColorScale(distance.distance) : 'gray';
+          return this.distanceColorScale(distance?.distance || 0);
         } else {
           // if nodeId is in nodeIds (persistently selected)
           const found = this.nodeIds.find((n: { id: string, checked: boolean, distance: number }) => {
