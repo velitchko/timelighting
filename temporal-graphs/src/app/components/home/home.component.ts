@@ -606,8 +606,10 @@ export class HomeComponent implements OnInit, AfterContentInit {
     d3.select('#tooltip')?.style('left', `${$event.pageX + 5}px`)
       .style('top', `${$event.pageY - 25}px`)
       .style('z-index', '100')
-      .style('display', 'block')
-      .html(id.replace('node-', '').replace('__0', '').split('-')[0]);
+      .style('display', 'inline-block')
+      .style('opacity', '.7')
+      .style('font-weight', 'bold')
+      .html(`<mark>${id.replace('node-', '').replace('__0', '').split('-')[0]}</mark>`);
 
     const nodeIndex = parseInt(($event.target as Element).id.split('-')[2]);
     const nodeId = ($event.target as Element).id.split('-')[1];
