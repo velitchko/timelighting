@@ -1,5 +1,8 @@
 # TimeLighting
 
+## Demonstration Video
+[![TimeLighting Demonstration](https://img.youtube.com/vi/GqBbqNR07rA/0.jpg)](https://youtu.be/GqBbqNR07rA)
+
 ## Necessary Dependencies
 This project requires [NodeJS](https://nodejs.org/en) and the [Angular CLI](https://github.com/angular/angular-cli) installed.
 
