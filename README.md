@@ -16,7 +16,116 @@ After installing NodeJS you can install the Angular CLI using the following code
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4 and [NodeJS](https://nodejs.org/en) version 20.
 
-## Getting Started
+# Getting Started
+
+## Linux & MacOS
+### Bash script (*Nix Distributions & MacOS).
+
+Copy and save the following script as ```timelighting.sh```
+
+```bash
+#!/bin/bash
+
+# Check for Node.js 
+if ! node -v > /dev/null 2>&1; then
+    echo "Node.js is not installed. Please install it first."
+    exit 1
+else 
+    echo "Node.js is installed. Version $(node -v)"
+fi
+
+# Check for Angular CLI
+if ! ng version > /dev/null 2>&1; then
+    echo "Angular CLI is not installed. Installing Angular CLI..."
+    npm install -g @angular/cli
+else
+    echo "Angular CLI is installed. Version $(ng version)"
+fi
+
+# Clone the repository
+if [ ! -d "temporal-graphs" ]; then
+    echo "Cloning the repository..."
+    git clone https://github.com/velitchko/timelighting.git
+fi
+
+# Navigate to the backend directory
+cd temporal-graphs || { echo "Directory not found!"; exit 1; }
+
+# Install dependencies
+echo "Installing dependencies..."
+npm install --legacy-peer-deps
+
+# Start the application
+echo "Starting the application..."
+npm run start
+```
+
+After make sure it has execution permissions and run the script.
+It will check if you have NodeJS and Angular installed and clone the repository (if it doesn't exist), install all the dependencies, and run the application.
+```bash
+chmod +x ./timelighting.sh
+sh ./timelighting.sh
+```
+
+## Windows
+### BAT Script (Windows)
+Copy and save the following script as ```timelighting.bat```
+
+```bash
+@echo off
+setlocal enabledelayedexpansion
+
+REM Check for Node.js
+where node >nul 2>nul
+if %errorlevel% neq 0 (
+    echo Node.js is not installed. Please install it first.
+    exit /b 1
+) else (
+    for /f "tokens=*" %%a in ('node -v') do set "NODE_VERSION=%%a"
+    echo Node.js is installed. Version !NODE_VERSION!
+)
+
+REM Check for Angular CLI
+where ng >nul 2>nul
+if %errorlevel% neq 0 (
+    echo Angular CLI is not installed. Installing Angular CLI...
+    npm install -g @angular/cli
+) else (
+    REM Capture Angular CLI version more carefully
+    for /f "tokens=3" %%a in ('ng version ^| findstr "Angular CLI:"') do set "NG_VERSION=%%a"
+    echo Angular CLI is installed. Version !NG_VERSION!
+)
+
+REM Clone the repository
+if not exist "temporal-graphs" (
+    echo Cloning the repository...
+    git clone https://github.com/velitchko/timelighting.git temporal-graphs
+)
+
+REM Navigate to the backend directory
+cd temporal-graphs || (
+    echo Directory not found!
+    exit /b 1
+)
+
+REM Install dependencies
+echo Installing dependencies...
+start cmd /k "npm install --legacy-peer-deps"
+
+REM Start the application
+echo Starting the application...
+start cmd /k "npm run start"
+```
+
+After that run the bat file by either double-clicking or executing it in a shell.
+It will check if you have NodeJS and Angular installed and clone the repository (if it doesn't exist), install all the dependencies, and run the application.
+```bash
+timelighting.bat
+```
+
+## Local Setup
+
+###
 Clone the repository
 ```console
 foo@bar:~$ git clone https://github.com/velitchko/timelighting.git
@@ -39,15 +148,15 @@ foo@bar:~$ npm run start
 ```
 
 ### Docker
-A step-by-sdtep guide to setup the study with Docker: 
+A step-by-sdtep guide to setup the TimeLighting with Docker: 
 
 Note: Make sure you have [Docker](https://www.docker.com/) installed.
 
-Build the backend and frontend containers:
+Build the container:
 ```console
 foo@bar:~$ docker compose build
 ```
-Start the containers:
+Start the container:
 ```console
 foo@bar:~$ docker compose up
 ```
