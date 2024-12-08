@@ -1,25 +1,68 @@
-# TemporalGraphs
+# TimeLighting
 
 ## Necessary Dependencies
 This project requires [NodeJS](https://nodejs.org/en) and the [Angular CLI](https://github.com/angular/angular-cli) installed.
 
+Alternatively, the project can be setup and deployed using Docker [Docker](https://www.docker.com/).
+
 After installing NodeJS you can install the Angular CLI using the following code `npm i -g @angular/cli`.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4 and [NodeJS](https://nodejs.org/en) version 20.
 
-## Development server
+## Getting Started
+Clone the repository
+```console
+foo@bar:~$ git clone https://github.com/velitchko/timelighting.git
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. 
-The application will automatically reload if you change any of the source files.
+### Running TimeLighting
+A step-by-step guide to setup and start running TimeLighting:
 
-## Build
+Navigate to the backend:
+```console
+foo@bar:~$ cd temporal-graphs
+```
+Install the dependencies:
+```console
+foo@bar:~$ npm install --legacy-peer-deps
+```
+Start the frontend:
+```console
+foo@bar:~$ npm run start
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-To run the build navigate to the `dist/` directory and run the `index.js` file with node `node index.js`.
+### Docker
+A step-by-sdtep guide to setup the study with Docker: 
 
-## Docker
-There is also a Dockerfile and Docker Compose specification in the project. 
-This requires Docker to be installed on the host system.
+Note: Make sure you have [Docker](https://www.docker.com/) installed.
 
-To build and deploy the Docker container run the following command `docker-compose up --build -d`.
-The application should be available at `http://localhost:4200/`.
+Build the backend and frontend containers:
+```console
+foo@bar:~$ docker compose build
+```
+Start the containers:
+```console
+foo@bar:~$ docker compose up
+```
+
+## Authors
+
+<table>
+<tr>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href="https://github.com/velitchko">
+            <img src=https://github.com/velitchko.png width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt="Velitchko Filipov"/>
+            <br />
+            <sub style="font-size:14px"><b>@velitchko</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/EngAAlex>
+            <img src=https://github.com/EngAAlex.png width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt="Alessio Arleo"/>
+            <br />
+            <sub style="font-size:14px"><b>@henry-ehlers</b></sub>
+        </a>
+    </td>
+</tr>
+</table>
+
