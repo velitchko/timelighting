@@ -2,7 +2,27 @@
 
 TimeLighting is a visual analytics tool designed to explore and analyze temporal (event-based) networks by projecting their node trajectories and edge surfaces from a 3D space-time cube to a 2D visualization. Built with D3.js, the tool addresses challenges in temporal graph visualization, such as precision loss and poor task performance in traditional slicing or animation-based techniques. TimeLighting provides interactive features to highlight node trajectories, visualize node "aging", and guide users by identifying interesting time intervals and network elements for deeper investigation. Its user-friendly interface enables researchers and analysts to identify temporal patterns and extract insights efficiently.
 
-Pre-print: [Arxiv]()
+Paper (early access): [IEEE Xplore](https://ieeexplore.ieee.org/document/10787140)
+
+Cite as:
+```console
+@article{timelighting2024,
+  author={Filipov, Velitchko and Ceneda, Davide and Archambault, Daniel and Arleo, Alessio},
+  journal={IEEE Transactions on Visualization and Computer Graphics}, 
+  title={TimeLighting: Guided Exploration of 2D Temporal Network Projections}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-13},
+  keywords={Human-centered computing–Visualization–Graph drawings;Empirical studies in visualization},
+  doi={10.1109/TVCG.2024.3514858}
+}
+```
+
+> V. Filipov, D. Ceneda, D. Archambault and A. Arleo, "TimeLighting: Guided Exploration of 2D Temporal Network Projections," in IEEE Transactions on Visualization and Computer Graphics, doi: 10.1109/TVCG.2024.3514858.
+keywords: {Human-centered computing–Visualization–Graph drawings;Empirical studies in visualization},
+
+
 
 ## Demonstration Video
 [![TimeLighting Demonstration](https://img.youtube.com/vi/GqBbqNR07rA/0.jpg)](https://youtu.be/GqBbqNR07rA)
