@@ -22,8 +22,7 @@ Cite as:
 }
 ```
 
-> V. Filipov, D. Ceneda, D. Archambault and A. Arleo, "TimeLighting: Guided Exploration of 2D Temporal Network Projections," in IEEE Transactions on Visualization and Computer Graphics, doi: 10.1109/TVCG.2024.3514858.
-keywords: {Human-centered computing–Visualization–Graph drawings;Empirical studies in visualization},
+> V. Filipov, D. Ceneda, D. Archambault and A. Arleo, "TimeLighting: Guided Exploration of 2D Temporal Network Projections," in IEEE Transactions on Visualization and Computer Graphics (2024), doi: 10.1109/TVCG.2024.3514858.
 
 
 
