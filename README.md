@@ -147,8 +147,7 @@ timelighting.bat
 
 ## Local Setup
 
-###
-Clone the repository
+### Clone the repository
 ```console
 foo@bar:~$ git clone https://github.com/velitchko/timelighting.git
 ```
@@ -198,7 +197,7 @@ foo@bar:~$ docker compose up
         <a href=https://github.com/EngAAlex>
             <img src=https://github.com/EngAAlex.png width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt="Alessio Arleo"/>
             <br />
-            <sub style="font-size:14px"><b>@henry-ehlers</b></sub>
+            <sub style="font-size:14px"><b>@EngAAlex</b></sub>
         </a>
     </td>
 </tr>
