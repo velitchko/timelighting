@@ -1,14 +1,17 @@
 version: '3.8'
 services:
   temporal-graphs:
-    image: node:18
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: temporal-graphs:dev        # optional tag for the built image
     container_name: temporal-graphs
+    ports:
+      - "4200:4200"
     environment:
       - NODE_OPTIONS=--max-old-space-size=8192
-    ports:
-      - 4200:4200
-    restart: 'unless-stopped'
-    volumes:
-      - ./:/app
-    build:
-      context: ./
+    # remove the source bind mount if you want the fully built image to run
+    # If you DO want live editing with a bind mount, add:
+    # volumes:
+    #   - ./:/app
+    #   - /app/node_modules
